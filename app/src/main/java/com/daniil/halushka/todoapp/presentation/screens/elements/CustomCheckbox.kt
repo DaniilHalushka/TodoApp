@@ -1,71 +1,78 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.constants.Constants
 
 @Composable
 fun CustomCheckbox(
     isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    priority: String
+    modifier: Modifier = Modifier,
+    size: Float = 24f,
+    checkedColor: Color = Color.Green,
+    uncheckedColor: Color = Color.White,
+    onValueChange: (Boolean) -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .size(24.dp)
-            .border(1.dp, color = MaterialTheme.colorScheme.primaryContainer)
-            .background(getCheckboxColor(isChecked = isChecked, priority = priority))
-            .clickable { onCheckedChange(!isChecked) },
-        contentAlignment = Alignment.Center
+    val checkboxColor: Color by animateColorAsState(if (isChecked) checkedColor else uncheckedColor,
+        label = ""
+    )
+    val density = LocalDensity.current
+    val duration = 200
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .heightIn(48.dp) // height of 48dp to comply with minimum touch target size
+            .toggleable(
+                value = isChecked,
+                role = Role.Checkbox,
+                onValueChange = onValueChange
+            )
     ) {
-        when {
-            isChecked -> {
+        Box(
+            modifier = Modifier
+                .size(size.dp)
+                .background(color = checkboxColor, shape = RoundedCornerShape(4.dp))
+                .border(width = 1.5.dp, color = checkedColor, shape = RoundedCornerShape(4.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isChecked,
+                enter = slideInHorizontally(animationSpec = tween(duration)) {
+                    with(density) { (size * -0.5).dp.roundToPx() }
+                } + expandHorizontally(
+                    expandFrom = Alignment.Start,
+                    animationSpec = tween(duration)
+                ),
+                exit = fadeOut()
+            ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_done_checkbox),
-                    contentDescription = stringResource(
-                        R.string.done_todo
-                    )
+                    Icons.Default.Check,
+                    contentDescription = null,
+                    tint = uncheckedColor
                 )
             }
-
-            priority == Constants.URGENT_PRIORITY -> Icon(
-                painter = painterResource(id = R.drawable.ic_urgent_undone_checkbox),
-                contentDescription = stringResource(
-                    R.string.important_undone_todo
-                )
-            )
-
-            else -> Icon(
-                painter = painterResource(id = R.drawable.ic_normal_undone_checkbox),
-                contentDescription = stringResource(
-                    R.string.normal_undone_todo
-                )
-            )
         }
-    }
-}
-
-@Composable
-fun getCheckboxColor(
-    isChecked: Boolean,
-    priority: String
-): Color {
-    return when {
-        isChecked -> Color.Green
-        priority == Constants.URGENT_PRIORITY -> Color.Red
-        else -> Color.Gray
     }
 }
