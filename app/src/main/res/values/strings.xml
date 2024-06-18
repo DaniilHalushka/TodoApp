@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="done_todo">Done todo</string>
+    <string name="important_undone_todo">Important undone todo</string>
+    <string name="normal_undone_todo">Normal undone todo</string>
+    <string name="todo_priority">Priority: %1$s</string>
 </resources>
