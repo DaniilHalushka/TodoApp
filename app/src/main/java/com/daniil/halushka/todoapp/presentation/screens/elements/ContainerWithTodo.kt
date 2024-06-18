@@ -63,6 +63,7 @@ fun TodoInColumn(
         verticalAlignment = Alignment.CenterVertically
     ) {
         CustomCheckbox(
+            priority = todoItem.priority,
             isChecked = checked,
             onValueChange = { checked = it },
             modifier = Modifier.padding(12.dp)

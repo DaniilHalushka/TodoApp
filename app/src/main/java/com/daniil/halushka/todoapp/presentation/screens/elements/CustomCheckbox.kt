@@ -24,26 +24,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.daniil.halushka.todoapp.constants.Constants
 
 @Composable
 fun CustomCheckbox(
     isChecked: Boolean,
+    priority: String,
     modifier: Modifier = Modifier,
     size: Float = 24f,
     checkedColor: Color = Color.Green,
     uncheckedColor: Color = Color.White,
     onValueChange: (Boolean) -> Unit
 ) {
-    val checkboxColor: Color by animateColorAsState(if (isChecked) checkedColor else uncheckedColor,
+    val priorityColor: Color = when {
+        isChecked -> Color.Green
+        priority == Constants.URGENT_PRIORITY -> Color.Red
+        else -> Color.Gray
+    }
+
+    val checkboxColor: Color by animateColorAsState(
+        if (isChecked) checkedColor else uncheckedColor,
         label = ""
     )
+
     val density = LocalDensity.current
     val duration = 200
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .heightIn(48.dp) // height of 48dp to comply with minimum touch target size
+            .heightIn(48.dp)
             .toggleable(
                 value = isChecked,
                 role = Role.Checkbox,
@@ -54,7 +64,7 @@ fun CustomCheckbox(
             modifier = Modifier
                 .size(size.dp)
                 .background(color = checkboxColor, shape = RoundedCornerShape(4.dp))
-                .border(width = 1.5.dp, color = checkedColor, shape = RoundedCornerShape(4.dp)),
+                .border(width = 2.5.dp, color = priorityColor, shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center
         ) {
             androidx.compose.animation.AnimatedVisibility(
