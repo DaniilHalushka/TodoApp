@@ -6,4 +6,8 @@ interface TodoRepository {
     fun getTodoList(): List<TodoItem>
 
     fun addTodoInList(todoItem: TodoItem)
+
+    fun updateTodo(updatedTodo: TodoItem)
+
+    fun deleteTodo(id: String)
 }

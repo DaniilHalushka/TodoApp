@@ -4,7 +4,7 @@ import com.daniil.halushka.todoapp.constants.Constants
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 
-class TodoRepository: TodoRepository {
+class TodoRepository : TodoRepository {
     private val todoList = mutableListOf<TodoItem>()
 
     init {
@@ -17,6 +17,17 @@ class TodoRepository: TodoRepository {
 
     override fun addTodoInList(todoItem: TodoItem) {
         todoList.add(todoItem)
+    }
+
+    override fun updateTodo(updatedTodo: TodoItem) {
+        todoList.indexOfFirst { todo -> todo.id == updatedTodo.id }
+            .takeIf { result -> result != -1 }?.let { index ->
+                todoList[index] = updatedTodo
+            }
+    }
+
+    override fun deleteTodo(id: String) {
+        todoList.removeAll { todo -> todo.id == id }
     }
 
     private fun createArtificialTodoList(): List<TodoItem> {
@@ -98,7 +109,46 @@ class TodoRepository: TodoRepository {
                 priority = Constants.LOW_PRIORITY,
                 startDate = System.currentTimeMillis(),
                 isDone = false
-            )
+            ),
+            TodoItem(
+                id = "11",
+                text = "Chill",
+                priority = Constants.URGENT_PRIORITY,
+                startDate = System.currentTimeMillis(),
+                isDone = false,
+                deadline = System.currentTimeMillis() + 10800000
+            ),
+            TodoItem(
+                id = "12",
+                text = "Work",
+                priority = Constants.LOW_PRIORITY,
+                startDate = System.currentTimeMillis(),
+                changeDate = System.currentTimeMillis(),
+                isDone = true,
+                deadline = System.currentTimeMillis() + 10800000
+            ),
+            TodoItem(
+                id = "13",
+                text = "Repeat all todo",
+                priority = Constants.USUAL_PRIORITY,
+                startDate = System.currentTimeMillis(),
+                isDone = true
+            ),
+            TodoItem(
+                id = "14",
+                text = "Plant trees",
+                priority = Constants.URGENT_PRIORITY,
+                startDate = System.currentTimeMillis(),
+                isDone = false,
+                deadline = System.currentTimeMillis() + 7200000
+            ),
+            TodoItem(
+                id = "15",
+                text = "Go to the fest",
+                priority = Constants.USUAL_PRIORITY,
+                startDate = System.currentTimeMillis(),
+                isDone = false
+            ),
         )
     }
 }
