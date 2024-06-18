@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.data.model
+package com.daniil.halushka.todoapp.data.models
 
 data class TodoItem(
     val id: String,

@@ -1,20 +1,21 @@
 package com.daniil.halushka.todoapp.data.repository
 
 import com.daniil.halushka.todoapp.constants.Constants
-import com.daniil.halushka.todoapp.data.model.TodoItem
+import com.daniil.halushka.todoapp.data.models.TodoItem
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 
-class TodoRepository {
+class TodoRepository: TodoRepository {
     private val todoList = mutableListOf<TodoItem>()
 
     init {
         todoList.addAll(createArtificialTodoList())
     }
 
-    fun getTodoList(): List<TodoItem> {
+    override fun getTodoList(): List<TodoItem> {
         return todoList
     }
 
-    fun addTodoInList(todoItem: TodoItem) {
+    override fun addTodoInList(todoItem: TodoItem) {
         todoList.add(todoItem)
     }
 
