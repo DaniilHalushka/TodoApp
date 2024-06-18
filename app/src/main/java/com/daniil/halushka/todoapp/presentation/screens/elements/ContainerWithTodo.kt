@@ -3,8 +3,10 @@ package com.daniil.halushka.todoapp.presentation.screens.elements
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
 fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit) {
@@ -68,6 +71,7 @@ fun TodoInColumn(
             onValueChange = { checked = it },
             modifier = Modifier.padding(12.dp)
         )
+        Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(
                 text = todoItem.text,
@@ -76,7 +80,7 @@ fun TodoInColumn(
             )
             Text(text = stringResource(R.string.todo_priority, todoItem.priority))
             todoItem.deadline?.let { deadline ->
-                Text(text = stringResource(R.string.deadline_is_in, deadline))
+                Text(text = stringResource(R.string.deadline_is_in, deadline.asTime()))
             }
         }
     }
