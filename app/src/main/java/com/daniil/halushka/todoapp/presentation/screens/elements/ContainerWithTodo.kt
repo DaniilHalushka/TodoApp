@@ -1,5 +1,6 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
@@ -36,7 +37,10 @@ fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit
     val itemsInContainer by remember { mutableStateOf(repository.getTodoList()) }
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(1),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+            .background(MaterialTheme.colorScheme.primary)
     ) {
         items(itemsInContainer) { item ->
             TodoInColumn(
@@ -57,14 +61,14 @@ fun TodoInColumn(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 8.dp, vertical = 2.dp),
         shape = MaterialTheme.shapes.medium,
         shadowElevation = 2.dp,
-        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
         ) {
             CustomCheckbox(
                 priority = todoItem.priority,
@@ -77,21 +81,24 @@ fun TodoInColumn(
             ) {
                 Text(
                     text = todoItem.text,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 todoItem.deadline?.let { deadline ->
                     Text(
                         text = stringResource(id = R.string.deadline_is_in, deadline.asTime()),
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
             }
-            IconButton(onClick = onEditClick) {
+            IconButton(
+                onClick = onEditClick,
+            ) {
                 Icon(
                     imageVector = Icons.Default.Info,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.information_about_task)
                 )
             }
         }
@@ -101,6 +108,9 @@ fun TodoInColumn(
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    ContainerWithTodo(repository = TodoRepository()) {
+    TodoAppTheme {
+        ContainerWithTodo(repository = TodoRepository()) {
+
+        }
     }
 }

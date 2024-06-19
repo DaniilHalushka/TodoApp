@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
@@ -15,9 +16,11 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,17 +50,25 @@ fun CustomCheckbox(
         label = ""
     )
 
+    val interactionSource = remember { MutableInteractionSource() }
+
     val density = LocalDensity.current
     val duration = 200
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .heightIn(48.dp)
+            .heightIn(24.dp)
             .toggleable(
                 value = isChecked,
                 role = Role.Checkbox,
-                onValueChange = onValueChange
+                onValueChange = onValueChange,
+                indication = rememberRipple(
+                    bounded = true,
+                    radius = size.dp / 2,
+                    color = priorityColor
+                ),
+                interactionSource = interactionSource
             )
     ) {
         Box(
