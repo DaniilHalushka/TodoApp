@@ -1,15 +1,18 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,14 +41,6 @@ fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit
         items(itemsInContainer) { item ->
             TodoInColumn(
                 todoItem = item,
-//TODO                onCheckedChange = { isChecked ->
-//                    repository.updateTodo(
-//                        item.copy(
-//                            isDone = isChecked,
-//                            changeDate = System.currentTimeMillis()
-//                        )
-//                    )
-//                },
                 onEditClick = { onEditItem(item) }
             )
         }
@@ -54,33 +50,49 @@ fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit
 @Composable
 fun TodoInColumn(
     todoItem: TodoItem,
-//TODO    onCheckedChange: (Boolean) -> Unit,
     onEditClick: () -> Unit
 ) {
     var checked by remember { mutableStateOf(todoItem.isDone) }
 
-    Row(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onEditClick),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(8.dp),
+        shape = MaterialTheme.shapes.medium,
+        shadowElevation = 2.dp,
+        color = MaterialTheme.colorScheme.surface
     ) {
-        CustomCheckbox(
-            priority = todoItem.priority,
-            isChecked = checked,
-            onValueChange = { checked = it },
-            modifier = Modifier.padding(12.dp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(
-                text = todoItem.text,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            CustomCheckbox(
+                priority = todoItem.priority,
+                isChecked = checked,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(end = 8.dp)
             )
-            Text(text = stringResource(R.string.todo_priority, todoItem.priority))
-            todoItem.deadline?.let { deadline ->
-                Text(text = stringResource(R.string.deadline_is_in, deadline.asTime()))
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = todoItem.text,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                todoItem.deadline?.let { deadline ->
+                    Text(
+                        text = stringResource(id = R.string.deadline_is_in, deadline.asTime()),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                }
+            }
+            IconButton(onClick = onEditClick) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = null
+                )
             }
         }
     }
@@ -90,7 +102,5 @@ fun TodoInColumn(
 @Composable
 fun Preview() {
     ContainerWithTodo(repository = TodoRepository()) {
-
     }
-
 }
