@@ -8,5 +8,5 @@
     <string name="information_about_task">Information about task</string>
     <string name="view_completed_todo_s">View completed todo\'s</string>
     <string name="my_tasks_todo_s">My tasks (todos)</string>
-    <string name="completed_todo_s">Completed – </string>
+    <string name="completed_todo_s">Completed – %1$s</string>
 </resources>

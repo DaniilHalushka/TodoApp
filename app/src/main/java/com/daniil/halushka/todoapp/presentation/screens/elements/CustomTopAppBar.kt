@@ -72,7 +72,7 @@ fun CustomTopAppBar(
                         Text(
                             text = stringResource(
                                 id = R.string.completed_todo_s,
-                                completedItemsCount.toString()
+                                completedItemsCount
                             ),
                             fontSize = 20.sp,
                             color = Color.Gray
