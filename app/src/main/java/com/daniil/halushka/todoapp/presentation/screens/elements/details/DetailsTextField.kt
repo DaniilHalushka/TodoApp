@@ -2,6 +2,7 @@ package com.daniil.halushka.todoapp.presentation.screens.elements.details
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ fun DetailsTextField(text: String) {
     TextField(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .heightIn(min = 128.dp),
         value = text,
         onValueChange = {/* TODO make click */},

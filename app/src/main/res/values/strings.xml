@@ -12,4 +12,5 @@
     <string name="close_details_screen">Close details screen</string>
     <string name="save_todo">Save</string>
     <string name="what_you_need_to_do">What you need to do?</string>
+    <string name="priority">Priority</string>
 </resources>
