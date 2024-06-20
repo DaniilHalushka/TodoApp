@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
 
 @Composable
-fun CustomTopBar(
+fun HomeTopBar(
     completedItemsCount: Int,
 ) {
     Box(

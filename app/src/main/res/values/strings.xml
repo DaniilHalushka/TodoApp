@@ -9,4 +9,6 @@
     <string name="view_completed_todo_s">View completed todo\'s</string>
     <string name="my_tasks_todo_s">My tasks (todos)</string>
     <string name="completed_todo_s">Completed – %1$s</string>
+    <string name="close_details_screen">Close details screen</string>
+    <string name="save_todo">Save</string>
 </resources>

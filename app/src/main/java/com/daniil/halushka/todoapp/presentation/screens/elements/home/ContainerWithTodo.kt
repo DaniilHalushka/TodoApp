@@ -37,7 +37,7 @@ fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit
     var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
 
     Column {
-        CustomTopBar(completedItemsCount = completedItemsCount)
+        HomeTopBar(completedItemsCount = completedItemsCount)
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(1),
             modifier = Modifier
@@ -48,6 +48,7 @@ fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit
             items(itemsInContainer) { item ->
                 TodoInColumn(
                     todoItem = item,
+                    /*TODO make click*/
                     onEditClick = { onEditItem(item) },
                     onCheckedChange = { isChecked ->
                         item.isDone = isChecked
@@ -107,6 +108,7 @@ fun TodoInColumn(
                 }
             }
             IconButton(
+                /*TODO make click*/
                 onClick = onEditClick,
             ) {
                 Icon(
