@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun DetailsDeadlineSwitch(
-    checked: Boolean,
+    isClicked: Boolean,
     getDeadlineDate: () -> Long?,
     onCheckedChange: (Boolean) -> Unit,
 ) {
@@ -20,13 +20,13 @@ fun DetailsDeadlineSwitch(
         modifier = Modifier.fillMaxWidth()
     ) {
         DetailsDeadlineText(
-            isClicked = checked,
+            isClicked = isClicked,
             getDeadlineDate = getDeadlineDate
 
         )
 
         DetailsCustomSwitch(
-            checked = checked,
+            checked = isClicked,
             onCheckedChange = onCheckedChange
         )
     }
