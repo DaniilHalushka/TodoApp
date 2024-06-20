@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.presentation.screens.elements
+package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween

@@ -3,9 +3,9 @@ package com.daniil.halushka.todoapp.data.repository
 import androidx.compose.runtime.mutableStateListOf
 import com.daniil.halushka.todoapp.constants.Constants
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.domain.repository.TodoRepository
+import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
 
-class TodoRepository : TodoRepository {
+class TodoRepository : TodoRepositoryInterface {
     private val todoList = mutableStateListOf(
         TodoItem(
             id = "1",
@@ -28,7 +28,7 @@ class TodoRepository : TodoRepository {
             priority = Constants.URGENT_PRIORITY,
             startDate = System.currentTimeMillis(),
             isDone = false,
-            deadline = System.currentTimeMillis() + 1234567,
+            deadline = System.currentTimeMillis() + 123456789,
             changeDate = System.currentTimeMillis()
         ),
         TodoItem(
