@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.daniil.halushka.todoapp.constants.Constants
+import com.daniil.halushka.todoapp.constants.Priority
 
 @Composable
 fun CustomCheckbox(
@@ -41,7 +41,7 @@ fun CustomCheckbox(
 ) {
     val priorityColor: Color = when {
         isChecked -> Color.Green
-        priority == Constants.URGENT_PRIORITY -> Color.Red
+        priority == Priority.URGENT_PRIORITY -> Color.Red
         else -> Color.Gray
     }
 
