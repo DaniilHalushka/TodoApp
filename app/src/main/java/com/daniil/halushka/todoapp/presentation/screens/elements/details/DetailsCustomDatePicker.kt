@@ -2,25 +2,21 @@ package com.daniil.halushka.todoapp.presentation.screens.elements.details
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,16 +104,3 @@ private fun datePickerColors() = DatePickerDefaults.colors(
     todayContentColor = MaterialTheme.colorScheme.onPrimary,
     todayDateBorderColor = MaterialTheme.colorScheme.tertiary
 )
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    TodoAppTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.primary
-        ) {
-            DetailsCustomDatePicker()
-        }
-    }
-}
