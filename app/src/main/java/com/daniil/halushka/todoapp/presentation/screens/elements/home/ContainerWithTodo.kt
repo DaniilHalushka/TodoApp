@@ -17,6 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,26 +34,37 @@ import com.daniil.halushka.todoapp.util.asTime
 @Composable
 fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit) {
     val itemsInContainer by remember { mutableStateOf(repository.getTodoList()) }
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(1),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp)
-            .background(MaterialTheme.colorScheme.primary)
-    ) {
-        items(itemsInContainer) { item ->
-            TodoInColumn(
-                todoItem = item,
-                onEditClick = { onEditItem(item) }
-            )
+    var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
+
+    Column {
+        CustomTopBar(completedItemsCount = completedItemsCount)
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(1),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .background(MaterialTheme.colorScheme.primary)
+        ) {
+            items(itemsInContainer) { item ->
+                TodoInColumn(
+                    todoItem = item,
+                    onEditClick = { onEditItem(item) },
+                    onCheckedChange = { isChecked ->
+                        item.isDone = isChecked
+                        completedItemsCount = itemsInContainer.count { it.isDone }
+                    }
+                )
+            }
         }
     }
 }
 
+
 @Composable
 fun TodoInColumn(
     todoItem: TodoItem,
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    onCheckedChange: (Boolean) -> Unit
 ) {
     var checked by remember { mutableStateOf(todoItem.isDone) }
 
@@ -71,7 +83,10 @@ fun TodoInColumn(
             CustomCheckbox(
                 priority = todoItem.priority,
                 isChecked = checked,
-                onValueChange = { checked = it },
+                onValueChange = {
+                    checked = it
+                    onCheckedChange(it)
+                },
                 modifier = Modifier.padding(end = 8.dp)
             )
             Column(
