@@ -26,10 +26,10 @@ fun DetailsCustomSwitch(
     val offset by animateDpAsState(targetValue = if (checked) 18.dp else 0.dp, label = "")
 
     val circleBackgroundColor = if (checked) MaterialTheme.colorScheme.tertiary
-        else MaterialTheme.colorScheme.surface
+    else MaterialTheme.colorScheme.surface
 
     val backgroundContainerColor = if (checked) MaterialTheme.colorScheme.tertiary
-        else MaterialTheme.colorScheme.secondaryContainer
+    else MaterialTheme.colorScheme.secondaryContainer
 
     Box(
         contentAlignment = Alignment.CenterStart

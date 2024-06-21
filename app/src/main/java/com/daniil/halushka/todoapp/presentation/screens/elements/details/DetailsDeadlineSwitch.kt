@@ -22,7 +22,6 @@ fun DetailsDeadlineSwitch(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-
     ) {
         DetailsDeadlineText(
             isClicked = isClicked,
