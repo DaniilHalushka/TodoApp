@@ -40,7 +40,7 @@ fun DetailsCustomDatePicker(
     ) {
         DatePicker(
             state = datePickerState,
-            showModeToggle = false,
+            showModeToggle = true,
             colors = datePickerColors()
         )
     }

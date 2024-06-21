@@ -26,7 +26,6 @@ fun DetailsDeadlineSwitch(
         DetailsDeadlineText(
             isClicked = isClicked,
             getDeadlineDate = getDeadlineDate
-
         )
 
         DetailsCustomSwitch(

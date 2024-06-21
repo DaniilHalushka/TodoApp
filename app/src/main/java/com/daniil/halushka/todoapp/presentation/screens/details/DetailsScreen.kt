@@ -29,29 +29,18 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 @Composable
 fun DetailsScreen(
     navigationController: NavController,
-    todoItem: TodoItem? = null,
-    getDeadlineDate: () -> Long? = { null },
+    todoItem: TodoItem? = null
 ) {
-
     //TODO add viewmodel in future
     when (navigationController.previousBackStackEntry?.destination?.route) {
         ScreenRoutes.HomeScreen.screenType -> {}
-
         ScreenRoutes.DetailsScreen.screenType -> {}
     }
 
     var dropdownClick: Boolean by remember { mutableStateOf(false) }
-
     var todoText by remember { mutableStateOf(todoItem?.text ?: "") }
-
-    //TODO will be mutable in future
-    var selectedPriority by remember {
-        mutableStateOf(
-            todoItem?.priority ?: Priority.USUAL_PRIORITY
-        )
-    }
-
-    var selectedDate by remember { mutableStateOf(getDeadlineDate()) }
+    var selectedPriority by remember { mutableStateOf(todoItem?.priority ?: Priority.USUAL_PRIORITY) }
+    var selectedDate by remember { mutableStateOf(todoItem?.deadline) }
 
     Column(
         modifier = Modifier
