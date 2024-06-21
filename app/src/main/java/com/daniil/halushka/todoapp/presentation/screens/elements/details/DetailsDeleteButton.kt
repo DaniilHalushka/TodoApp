@@ -20,21 +20,25 @@ import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsDeleteButton(
-    isClicked: Boolean,
+    isClicked: () -> Boolean,
     receiveEvent: (ItemModificationEvent) -> (() -> Unit)
 ) {
-    val color = if (isClicked) {
+    val color = if (isClicked()) {
         Color.Red
     } else {
         MaterialTheme.colorScheme.onPrimaryContainer
     }
 
-    Row(
-        modifier = Modifier
+    val activeButtonModifier = when {
+        (isClicked()) -> Modifier
             .padding(16.dp)
-            .clickable {
-                receiveEvent(ItemModificationEvent.Delete).invoke()
-            },
+            .clickable(onClick = receiveEvent(ItemModificationEvent.Delete))
+        else -> Modifier
+            .padding(16.dp)
+    }
+
+    Row(
+        modifier = activeButtonModifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

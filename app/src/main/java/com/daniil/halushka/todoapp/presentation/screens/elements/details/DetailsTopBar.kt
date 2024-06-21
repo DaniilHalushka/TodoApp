@@ -35,16 +35,16 @@ fun DetailsTopBar(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = stringResource(R.string.close_details_screen),
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable(onClick = receiveEvent(ItemModificationEvent.Exit))
+                    .clickable(onClick = receiveEvent(ItemModificationEvent.Exit)),
+                imageVector = Icons.Default.Close,
+                contentDescription = stringResource(R.string.close_details_screen),
             )
             Text(
-                text = stringResource(R.string.save_todo),
                 modifier = Modifier
                     .clickable(onClick = receiveEvent(ItemModificationEvent.Save)),
+                text = stringResource(R.string.save_todo),
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.tertiary
             )

@@ -64,7 +64,7 @@ private fun DialogButtons(
             onClick = {
                 confirmChoice(datePickerState.selectedDateMillis)
             },
-            enabled = datePickerState.selectedDateMillis != null
+            isClicked = datePickerState.selectedDateMillis != null
         )
     }
 }
@@ -74,9 +74,9 @@ private fun ActionButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    isClicked: Boolean = true
 ) {
-    val color = if (enabled) {
+    val color = if (isClicked) {
         MaterialTheme.colorScheme.tertiary
     } else {
         MaterialTheme.colorScheme.onPrimaryContainer
@@ -87,7 +87,7 @@ private fun ActionButton(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         modifier = modifier.run {
-            if (enabled) clickable(onClick = onClick) else this
+            if (isClicked) clickable(onClick = onClick) else this
         },
         color = color
     )

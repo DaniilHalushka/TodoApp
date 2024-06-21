@@ -12,6 +12,7 @@ fun DetailsDeadlineBlock(
     onDateSelect: (Long?) -> Unit
 ) {
     var isClicked by remember { mutableStateOf(false) }
+    var isDateExist by remember { mutableStateOf(false) }
 
     DetailsDeadlineSwitch(
         isClicked = isClicked,
@@ -19,12 +20,13 @@ fun DetailsDeadlineBlock(
         getDeadlineDate = getDeadlineDate
     )
 
-    if (isClicked) {
+    if (isClicked && !isDateExist) {
         DetailsCustomDatePicker(
             cancelChoice = { isClicked = false },
             confirmChoice = { date ->
                 onDateSelect(date)
                 isClicked = false
+                isDateExist = true
             }
         )
     }

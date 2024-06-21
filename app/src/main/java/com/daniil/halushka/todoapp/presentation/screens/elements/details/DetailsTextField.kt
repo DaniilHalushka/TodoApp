@@ -10,7 +10,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,9 +36,10 @@ fun DetailsTextField(
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.colors(
             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-            disabledIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
+            cursorColor = MaterialTheme.colorScheme.tertiary,
+            disabledIndicatorColor = MaterialTheme.colorScheme.primary,
+            focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
             focusedContainerColor = MaterialTheme.colorScheme.secondary,
             unfocusedContainerColor = MaterialTheme.colorScheme.secondary
         )

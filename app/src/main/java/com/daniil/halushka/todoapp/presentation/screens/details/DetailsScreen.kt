@@ -3,8 +3,10 @@ package com.daniil.halushka.todoapp.presentation.screens.details
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
@@ -24,12 +27,14 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsSeparator
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun DetailsScreen(
     repository: TodoRepository,
     todoItem: TodoItem?,
     getDeadlineDate: () -> Long?,
+    isDeleteClicked: () -> Boolean,
     receiveEvent: (ItemModificationEvent) -> (() -> Unit)
 ) {
     var dropdownClick: Boolean by remember {
@@ -79,9 +84,21 @@ fun DetailsScreen(
             DetailsSeparator()
 
             DetailsDeleteButton(
-                isClicked = false,
+                isClicked = isDeleteClicked,
                 receiveEvent = receiveEvent
             )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewEditItemUI() {
+    TodoAppTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            DetailsScreen(TodoRepository(), TodoRepository().getTodoList().component2(), { 1L }, {true}, { {} })
         }
     }
 }

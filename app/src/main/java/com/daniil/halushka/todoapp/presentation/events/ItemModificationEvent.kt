@@ -6,4 +6,6 @@ sealed class ItemModificationEvent {
     data object Exit : ItemModificationEvent()
     data class UpdateName(val newName: String) : ItemModificationEvent()
     data class UpdatePriority(val newPriority: String) : ItemModificationEvent()
+
+    //todo delete
 }
