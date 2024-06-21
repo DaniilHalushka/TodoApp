@@ -25,9 +25,7 @@ fun NavigationGraph(
             HomeScreen(
                 navigationController = navController,
                 viewModel = TodoViewModel(TodoRepository()),
-            ) {
-
-            }
+            )
         }
 
         composable(

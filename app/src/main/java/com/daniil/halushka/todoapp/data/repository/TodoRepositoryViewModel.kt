@@ -22,6 +22,7 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
         }
     }
 
+    //TODO will be used in future
     fun addTodoItem(todoItem: TodoItem) {
         viewModelScope.launch {
             repository.addTodoInList(todoItem)

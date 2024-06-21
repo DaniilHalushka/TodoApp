@@ -26,12 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
-fun ContainerWithTodo(todoList: List<TodoItem>, onEditItem: (TodoItem) -> Unit) {
+fun ContainerWithTodo(
+    navigationController: NavController,
+    todoList: List<TodoItem>
+) {
     val itemsInContainer by remember { mutableStateOf(todoList) }
     var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
 
@@ -47,8 +51,9 @@ fun ContainerWithTodo(todoList: List<TodoItem>, onEditItem: (TodoItem) -> Unit) 
             items(itemsInContainer) { item ->
                 TodoInColumn(
                     todoItem = item,
-                    /*TODO make click*/
-                    onEditClick = { onEditItem(item) },
+                    onEditClick = {
+                        navigationController.navigate("Details")
+                    },
                     onCheckedChange = { isChecked ->
                         item.isDone = isChecked
                         completedItemsCount = itemsInContainer.count { it.isDone }
@@ -107,7 +112,6 @@ fun TodoInColumn(
                 }
             }
             IconButton(
-                /*TODO make click*/
                 onClick = onEditClick,
             ) {
                 Icon(
