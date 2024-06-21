@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,7 +23,7 @@ fun HomeScreen(
     viewModel: TodoViewModel
 ) {
     val todoList by viewModel.todoList.collectAsState()
-
+    var showCompleted by remember { mutableStateOf(true) }
 
     Box(
         modifier = Modifier
@@ -28,7 +31,8 @@ fun HomeScreen(
     ) {
         ContainerWithTodo(
             navigationController = navigationController,
-            todoList = todoList
+            todoList = todoList,
+            onUpdateTodo = { updatedTodo -> viewModel.updateTodoItem(updatedTodo) }
         )
         Box(
             modifier = Modifier

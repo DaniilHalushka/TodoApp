@@ -34,7 +34,8 @@ import com.daniil.halushka.todoapp.util.asTime
 @Composable
 fun ContainerWithTodo(
     navigationController: NavController,
-    todoList: List<TodoItem>
+    todoList: List<TodoItem>,
+    onUpdateTodo: (TodoItem) -> Unit,
 ) {
     val itemsInContainer by remember { mutableStateOf(todoList) }
     var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
@@ -65,12 +66,14 @@ fun ContainerWithTodo(
                     onCheckedChange = { isChecked ->
                         item.isDone = isChecked
                         completedItemsCount = itemsInContainer.count { it.isDone }
+                        onUpdateTodo(item)
                     }
                 )
             }
         }
     }
 }
+
 
 
 @Composable

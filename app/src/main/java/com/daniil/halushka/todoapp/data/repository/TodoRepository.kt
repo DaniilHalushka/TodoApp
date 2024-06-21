@@ -12,14 +12,14 @@ class TodoRepository : TodoRepositoryInterface {
             text = "Create TodoItem",
             priority = Priority.LOW_PRIORITY,
             startDate = System.currentTimeMillis(),
-            isDone = true
+            isDone = false
         ),
         TodoItem(
             id = "2",
             text = "Create TodoRepository",
             priority = Priority.USUAL_PRIORITY,
             startDate = System.currentTimeMillis(),
-            isDone = true,
+            isDone = false,
             deadline = System.currentTimeMillis() + 3600000,
         ),
         TodoItem(
@@ -36,7 +36,7 @@ class TodoRepository : TodoRepositoryInterface {
             text = "Create todo list",
             priority = Priority.USUAL_PRIORITY,
             startDate = System.currentTimeMillis(),
-            isDone = true
+            isDone = false
         ),
         TodoItem(
             id = "5",
@@ -52,7 +52,7 @@ class TodoRepository : TodoRepositoryInterface {
             text = "Create XML files",
             priority = Priority.URGENT_PRIORITY,
             startDate = System.currentTimeMillis(),
-            isDone = true,
+            isDone = false,
             changeDate = System.currentTimeMillis()
         ),
         TodoItem(
@@ -99,7 +99,7 @@ class TodoRepository : TodoRepositoryInterface {
             priority = Priority.LOW_PRIORITY,
             startDate = System.currentTimeMillis(),
             changeDate = System.currentTimeMillis(),
-            isDone = true,
+            isDone = false,
             deadline = System.currentTimeMillis() + 10800000
         ),
         TodoItem(
@@ -107,7 +107,7 @@ class TodoRepository : TodoRepositoryInterface {
             text = "Repeat all todo",
             priority = Priority.USUAL_PRIORITY,
             startDate = System.currentTimeMillis(),
-            isDone = true
+            isDone = false
         ),
         TodoItem(
             id = "14",
