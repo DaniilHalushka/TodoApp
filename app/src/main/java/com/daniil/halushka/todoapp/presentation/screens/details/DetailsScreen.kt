@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.repository.TodoViewModel
 import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
@@ -31,11 +30,11 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 @Composable
 fun DetailsScreen(
     navigationController: NavController,
-    viewModel: TodoViewModel,
     todoItem: TodoItem? = null,
     getDeadlineDate: () -> Long? = { null },
 ) {
 
+    //TODO add viewmodel in future
     when (navigationController.previousBackStackEntry?.destination?.route) {
         ScreenRoutes.HomeScreen.screenType -> {}
 
@@ -52,8 +51,6 @@ fun DetailsScreen(
     }
 
     var selectedDate by remember { mutableStateOf(getDeadlineDate()) }
-
-    var isDeleteClicked: Boolean by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -92,7 +89,7 @@ fun DetailsScreen(
                 )
                 DetailsExpandedDropdown(
                     expanded = dropdownClick,
-                    clickToExpand = { dropdownClick = it },
+                    clickToExpand = { click -> dropdownClick = click },
                     receiveEvent = { event ->
                         {
                             when (event) {
@@ -117,18 +114,8 @@ fun DetailsScreen(
             DetailsSeparator()
 
             DetailsDeleteButton(
-                isClicked = isDeleteClicked,
-                onDeleteClick = { isDeleteClicked = !isDeleteClicked },
-                receiveEvent = { event ->
-                    {
-                        when (event) {
-                            is ItemModificationEvent.Delete -> {
-                                todoItem?.id?.let { viewModel.deleteTodoItem(it) }
-                            }
-
-                            else -> {}
-                        }
-                    }
+                clickOnNavigationItem = {
+                    navigationController.popBackStack()
                 }
             )
         }

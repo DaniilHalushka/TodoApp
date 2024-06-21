@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,14 +18,9 @@ import com.daniil.halushka.todoapp.R
 
 @Composable
 fun DetailsDeleteButton(
-    clickOnNavigationItem: () -> Unit = {},
-    isClicked: Boolean
+    clickOnNavigationItem: () -> Unit = {}
 ) {
-    val color = if (isClicked) {
-        Color.Red
-    } else {
-        MaterialTheme.colorScheme.onPrimaryContainer
-    }
+    val redColor = Color.Red
 
     val activeButtonModifier = Modifier
         .padding(16.dp)
@@ -39,12 +33,12 @@ fun DetailsDeleteButton(
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = stringResource(R.string.delete),
-            tint = color
+            tint = redColor
         )
 
         Text(
             text = stringResource(R.string.delete),
-            color = color,
+            color = redColor,
             modifier = Modifier.padding(start = 16.dp),
             fontSize = 16.sp,
         )

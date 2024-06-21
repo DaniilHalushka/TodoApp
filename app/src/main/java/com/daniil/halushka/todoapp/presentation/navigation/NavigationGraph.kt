@@ -33,10 +33,9 @@ fun NavigationGraph(
         composable(
             ScreenRoutes.DetailsScreen.screenType
         ) {
-            //todo refactor viewModel in future
+            //todo add viewModel in future
             DetailsScreen(
-                navigationController = navController,
-                viewModel = TodoViewModel(TodoRepository())
+                navigationController = navController
             )
         }
     }

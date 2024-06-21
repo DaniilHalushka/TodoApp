@@ -29,6 +29,7 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
         }
     }
 
+    //TODO will be used in future
     fun updateTodoItem(todoItem: TodoItem) {
         viewModelScope.launch {
             repository.updateTodo(todoItem)
@@ -36,6 +37,7 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
         }
     }
 
+    //TODO will be used in future
     fun deleteTodoItem(id: String) {
         viewModelScope.launch {
             repository.deleteTodo(id)
