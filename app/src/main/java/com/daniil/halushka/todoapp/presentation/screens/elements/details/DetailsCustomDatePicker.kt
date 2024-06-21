@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,16 +21,19 @@ import com.daniil.halushka.todoapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailsCustomDatePicker() {
+fun DetailsCustomDatePicker(
+    cancelChoice: () -> Unit,
+    confirmChoice: (Long?) -> Unit
+) {
     val datePickerState = rememberDatePickerState()
 
     DatePickerDialog(
-        onDismissRequest = {/* TODO make click*/},
+        onDismissRequest = cancelChoice,
         confirmButton = {
             DialogButtons(
-                onCancel = {/* TODO make click*/},
-                onDone = { /* TODO make click*/ },
-                isDoneEnabled = datePickerState.selectedDateMillis != null
+                cancelChoice = cancelChoice,
+                confirmChoice = { confirmChoice(datePickerState.selectedDateMillis) },
+                datePickerState = datePickerState
             )
         },
         colors = datePickerDialogColors()
@@ -42,22 +46,25 @@ fun DetailsCustomDatePicker() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DialogButtons(
-    onCancel: () -> Unit,
-    onDone: () -> Unit,
-    isDoneEnabled: Boolean
+    cancelChoice: () -> Unit,
+    confirmChoice: (Long?) -> Unit,
+    datePickerState: DatePickerState
 ) {
     Row(modifier = Modifier.padding(bottom = 16.dp, end = 16.dp)) {
         ActionButton(
             text = stringResource(R.string.cancel),
-            onClick = onCancel,
+            onClick = cancelChoice,
             modifier = Modifier.padding(end = 32.dp)
         )
         ActionButton(
             text = stringResource(R.string.done),
-            onClick = onDone,
-            enabled = isDoneEnabled
+            onClick = {
+                confirmChoice(datePickerState.selectedDateMillis)
+            },
+            enabled = datePickerState.selectedDateMillis != null
         )
     }
 }

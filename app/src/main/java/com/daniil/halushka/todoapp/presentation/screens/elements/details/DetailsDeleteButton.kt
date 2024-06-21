@@ -1,10 +1,12 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.details
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,15 +16,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsDeleteButton(
     isClicked: Boolean,
+    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
 ) {
-    //TODO make click
-    val color = Color.Red
+    val color = if (isClicked) {
+        Color.Red
+    } else {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    }
 
     Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable {
+                receiveEvent(ItemModificationEvent.Delete).invoke()
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

@@ -15,26 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.constants.Priority
+import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsExpandedDropdown(
     expanded: Boolean,
-    clickToExpand: (Boolean) -> Unit
+    clickToExpand: (Boolean) -> Unit,
+    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
 ) {
     DropdownMenu(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surface)
-            .shadow(0.1.dp, RoundedCornerShape(4.dp))
+            .shadow(0.05.dp, RoundedCornerShape(2.dp))
             .clip(RoundedCornerShape(4.dp))
             .widthIn(min = 192.dp),
         expanded = expanded,
-        //TODO make click
         onDismissRequest = { clickToExpand(false) },
-        offset = DpOffset.Zero
+        offset = DpOffset(x = 16.dp, y = (-8).dp)
     ) {
         listOf(
             Priority.LOW_PRIORITY,
@@ -43,7 +45,8 @@ fun DetailsExpandedDropdown(
         ).forEach { priority ->
             PriorityItemInDropdown(
                 priority = priority,
-                clickToExpand = clickToExpand
+                clickToExpand = clickToExpand,
+                receiveEvent = receiveEvent
             )
         }
     }
@@ -52,10 +55,13 @@ fun DetailsExpandedDropdown(
 @Composable
 fun PriorityItemInDropdown(
     priority: String,
-    clickToExpand: (Boolean) -> Unit
+    clickToExpand: (Boolean) -> Unit,
+    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
 ) {
-    val priorityColor: Color = when {
-        priority == Priority.URGENT_PRIORITY -> Color.Red
+    val priorityColor: Color = when (priority) {
+        Priority.URGENT_PRIORITY -> Color.Red
+        Priority.USUAL_PRIORITY -> Color.Gray
+        Priority.LOW_PRIORITY -> Color.Blue
         else -> Color.Gray
     }
 
@@ -69,11 +75,14 @@ fun PriorityItemInDropdown(
                 Text(
                     text = priority,
                     fontSize = 16.sp,
+                    fontWeight = FontWeight(500),
                     color = priorityColor
                 )
             }
         },
-        /*TODO*/
-        onClick = { clickToExpand(false) }
+        onClick = {
+            receiveEvent(ItemModificationEvent.UpdatePriority(priority)).invoke()
+            clickToExpand(false)
+        }
     )
 }

@@ -15,17 +15,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
-fun DetailsTextField(text: String) {
+fun DetailsTextField(
+    text: String,
+    onTextChange: (String) -> Unit,
+    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+) {
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(16.dp)
             .heightIn(min = 128.dp),
         value = text,
-        onValueChange = {/* TODO make click */},
-        placeholder = {TextFieldPlaceholder()},
+        onValueChange = { value ->
+            onTextChange(value)
+            receiveEvent(ItemModificationEvent.UpdateName(value)).invoke()
+        },
+        placeholder = { TextFieldPlaceholder() },
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.colors(
             focusedTextColor = MaterialTheme.colorScheme.onPrimary,

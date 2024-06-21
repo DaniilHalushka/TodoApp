@@ -19,11 +19,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
-fun DetailsTopBar() {
+fun DetailsTopBar(
+    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+) {
     Box(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(16.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         Row(
@@ -36,14 +39,13 @@ fun DetailsTopBar() {
                 contentDescription = stringResource(R.string.close_details_screen),
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { /*TODO make click*/ }
+                    .clickable(onClick = receiveEvent(ItemModificationEvent.Exit))
             )
             Text(
                 text = stringResource(R.string.save_todo),
                 modifier = Modifier
-                    .padding(16.dp)
-                    .clickable { /*TODO make click*/ },
-                fontSize = 16.sp,
+                    .clickable(onClick = receiveEvent(ItemModificationEvent.Save)),
+                fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.tertiary
             )
         }

@@ -8,7 +8,8 @@ import androidx.compose.runtime.setValue
 
 @Composable
 fun DetailsDeadlineBlock(
-    getDeadlineDate: () -> Long?
+    getDeadlineDate: () -> Long?,
+    onDateSelect: (Long?) -> Unit
 ) {
     var isClicked by remember { mutableStateOf(false) }
 
@@ -19,7 +20,13 @@ fun DetailsDeadlineBlock(
     )
 
     if (isClicked) {
-        //TODO make date
-        DetailsCustomDatePicker()
+        DetailsCustomDatePicker(
+            cancelChoice = { isClicked = false },
+            confirmChoice = { date ->
+                onDateSelect(date)
+                isClicked = false
+            }
+        )
     }
 }
+

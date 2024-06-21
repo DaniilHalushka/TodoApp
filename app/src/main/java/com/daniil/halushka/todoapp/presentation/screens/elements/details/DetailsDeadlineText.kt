@@ -24,9 +24,9 @@ fun DetailsDeadlineText(
         )
 
         if (isClicked) {
-            getDeadlineDate()?.let {
+            getDeadlineDate()?.let { date ->
                 Text(
-                    text = it.asTime(),
+                    text = date.asTime(),
                     color = MaterialTheme.colorScheme.tertiary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal

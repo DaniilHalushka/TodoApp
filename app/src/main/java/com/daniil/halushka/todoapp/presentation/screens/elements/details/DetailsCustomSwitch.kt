@@ -38,7 +38,6 @@ fun DetailsCustomSwitch(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
                 .background(backgroundContainerColor)
-                //TODO click
                 .clickable { onCheckedChange(!checked) }
                 .padding(horizontal = 4.dp, vertical = 2.dp)
                 .size(width = 32.dp, height = 12.dp)

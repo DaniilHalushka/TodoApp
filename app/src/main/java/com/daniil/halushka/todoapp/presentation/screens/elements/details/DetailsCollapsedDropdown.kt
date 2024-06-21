@@ -17,12 +17,13 @@ import com.daniil.halushka.todoapp.R
 @Composable
 fun DetailsCollapsedDropdown(
     priority: String,
+    isClicked: (Boolean) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { /*TODO make click */ }
+            .padding(16.dp)
+            .clickable { isClicked(true) }
     ) {
         Text(
             text = stringResource(R.string.priority),
