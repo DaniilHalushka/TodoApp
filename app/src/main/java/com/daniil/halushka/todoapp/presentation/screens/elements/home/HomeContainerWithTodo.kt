@@ -38,12 +38,17 @@ fun ContainerWithTodo(
 ) {
     val itemsInContainer by remember { mutableStateOf(todoList) }
     var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
+    var showCompleted by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
     ) {
-        HomeTopBar(completedItemsCount = completedItemsCount)
+        HomeTopBar(
+            completedItemsCount = completedItemsCount,
+            onEyeIconClick = { showCompleted = !showCompleted },
+            showCompleted = showCompleted
+        )
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(1),
             modifier = Modifier
@@ -51,7 +56,7 @@ fun ContainerWithTodo(
                 .padding(horizontal = 8.dp)
                 .background(MaterialTheme.colorScheme.primary)
         ) {
-            items(itemsInContainer) { item ->
+            items(itemsInContainer.filter { showCompleted || !it.isDone }) { item ->
                 TodoInColumn(
                     todoItem = item,
                     onEditClick = {
