@@ -39,7 +39,10 @@ fun ContainerWithTodo(
     val itemsInContainer by remember { mutableStateOf(todoList) }
     var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
 
-    Column {
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.primary)
+    ) {
         HomeTopBar(completedItemsCount = completedItemsCount)
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(1),
