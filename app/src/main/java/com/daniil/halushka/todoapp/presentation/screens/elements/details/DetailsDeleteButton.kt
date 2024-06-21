@@ -16,26 +16,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsDeleteButton(
-    isClicked: () -> Boolean,
-    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+    clickOnNavigationItem: () -> Unit = {},
+    isClicked: Boolean
 ) {
-    val color = if (isClicked()) {
+    val color = if (isClicked) {
         Color.Red
     } else {
         MaterialTheme.colorScheme.onPrimaryContainer
     }
 
-    val activeButtonModifier = when {
-        (isClicked()) -> Modifier
-            .padding(16.dp)
-            .clickable(onClick = receiveEvent(ItemModificationEvent.Delete))
-        else -> Modifier
-            .padding(16.dp)
-    }
+    val activeButtonModifier = Modifier
+        .padding(16.dp)
+        .clickable(onClick = clickOnNavigationItem)
 
     Row(
         modifier = activeButtonModifier,

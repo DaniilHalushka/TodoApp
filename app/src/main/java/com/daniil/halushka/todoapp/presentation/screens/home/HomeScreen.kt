@@ -8,19 +8,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.repository.TodoRepository
 import com.daniil.halushka.todoapp.data.repository.TodoViewModel
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.ContainerWithTodo
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.CustomFAB
-import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import java.util.UUID
 
 @Composable
 fun HomeScreen(
+    navigationController: NavController,
     viewModel: TodoViewModel,
     onEditItem: (TodoItem) -> Unit,
 ) {
@@ -48,16 +47,6 @@ fun HomeScreen(
                     ))
                 },
             )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewHomeScreen(){
-    TodoAppTheme {
-        HomeScreen(viewModel = TodoViewModel(TodoRepository())) {
-            
         }
     }
 }

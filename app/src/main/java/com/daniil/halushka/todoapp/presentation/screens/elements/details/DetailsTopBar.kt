@@ -19,11 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsTopBar(
-    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+    clickOnNavigationItem: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier.padding(16.dp),
@@ -37,13 +36,13 @@ fun DetailsTopBar(
             Icon(
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable(onClick = receiveEvent(ItemModificationEvent.Exit)),
+                    .clickable(onClick = clickOnNavigationItem),
                 imageVector = Icons.Default.Close,
                 contentDescription = stringResource(R.string.close_details_screen),
             )
             Text(
                 modifier = Modifier
-                    .clickable(onClick = receiveEvent(ItemModificationEvent.Save)),
+                    .clickable(onClick = clickOnNavigationItem),
                 text = stringResource(R.string.save_todo),
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.tertiary

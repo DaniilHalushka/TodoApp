@@ -13,13 +13,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.repository.TodoRepository
 import com.daniil.halushka.todoapp.data.repository.TodoViewModel
 import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
+import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsDeadlineBlock
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsDeleteButton
@@ -27,24 +27,33 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsSeparator
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
-import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
-import java.util.UUID
 
 @Composable
 fun DetailsScreen(
+    navigationController: NavController,
     viewModel: TodoViewModel,
-    todoItem: TodoItem?,
-    getDeadlineDate: () -> Long?,
-    isDeleteClicked: () -> Boolean,
+    todoItem: TodoItem? = null,
+    getDeadlineDate: () -> Long? = { null },
 ) {
+
+    when (navigationController.previousBackStackEntry?.destination?.route) {
+        ScreenRoutes.HomeScreen.screenType -> {}
+
+        ScreenRoutes.DetailsScreen.screenType -> {}
+    }
+
     var dropdownClick: Boolean by remember { mutableStateOf(false) }
+
     var todoText by remember { mutableStateOf(todoItem?.text ?: "") }
     var selectedPriority by remember {
         mutableStateOf(
             todoItem?.priority ?: Priority.USUAL_PRIORITY
         )
     }
+
     var selectedDate by remember { mutableStateOf(getDeadlineDate()) }
+
+    var isDeleteClicked: Boolean by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -54,33 +63,8 @@ fun DetailsScreen(
         horizontalAlignment = Alignment.Start
     ) {
         DetailsTopBar(
-            receiveEvent = { event ->
-                {
-                    when (event) {
-                        is ItemModificationEvent.Save -> {
-                            viewModel.updateTodoItem(
-                                TodoItem(
-                                    id = todoItem?.id ?: UUID.randomUUID().toString(),
-                                    text = todoText,
-                                    priority = selectedPriority,
-                                    startDate = todoItem?.startDate ?: System.currentTimeMillis(),
-                                    isDone = false,
-                                    deadline = selectedDate
-                                )
-                            )
-                        }
-
-                        is ItemModificationEvent.Delete -> {
-                            todoItem?.id?.let { viewModel.deleteTodoItem(it) }
-                        }
-
-                        is ItemModificationEvent.Exit -> {
-                            // handle exit
-                        }
-
-                        else -> {}
-                    }
-                }
+            clickOnNavigationItem = {
+                navigationController.popBackStack()
             }
         )
 
@@ -133,7 +117,8 @@ fun DetailsScreen(
             DetailsSeparator()
 
             DetailsDeleteButton(
-                isClicked = { isDeleteClicked() },
+                isClicked = isDeleteClicked,
+                onDeleteClick = { isDeleteClicked = !isDeleteClicked },
                 receiveEvent = { event ->
                     {
                         when (event) {
@@ -147,18 +132,5 @@ fun DetailsScreen(
                 }
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewDetailsScreen(){
-    TodoAppTheme {
-        DetailsScreen(
-            viewModel = TodoViewModel(TodoRepository()),
-            todoItem = TodoRepository().getTodoList().component3(),
-            getDeadlineDate = { 1L },
-            isDeleteClicked = { true }
-        )
     }
 }
