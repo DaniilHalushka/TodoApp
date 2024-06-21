@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.data.repository.TodoViewModel
 import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsDeadlineBlock
@@ -28,38 +28,77 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
+import java.util.UUID
 
 @Composable
 fun DetailsScreen(
-    repository: TodoRepository,
+    viewModel: TodoViewModel,
     todoItem: TodoItem?,
     getDeadlineDate: () -> Long?,
     isDeleteClicked: () -> Boolean,
-    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
 ) {
-    var dropdownClick: Boolean by remember {
-        mutableStateOf(false)
-    }
-
+    var dropdownClick: Boolean by remember { mutableStateOf(false) }
     var todoText by remember { mutableStateOf(todoItem?.text ?: "") }
-    var selectedPriority by remember { mutableStateOf(todoItem?.priority ?: Priority.USUAL_PRIORITY) }
+    var selectedPriority by remember {
+        mutableStateOf(
+            todoItem?.priority ?: Priority.USUAL_PRIORITY
+        )
+    }
     var selectedDate by remember { mutableStateOf(getDeadlineDate()) }
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
             .padding(end = 4.dp),
         horizontalAlignment = Alignment.Start
     ) {
         DetailsTopBar(
-            receiveEvent = receiveEvent
+            receiveEvent = { event ->
+                {
+                    when (event) {
+                        is ItemModificationEvent.Save -> {
+                            viewModel.updateTodoItem(
+                                TodoItem(
+                                    id = todoItem?.id ?: UUID.randomUUID().toString(),
+                                    text = todoText,
+                                    priority = selectedPriority,
+                                    startDate = todoItem?.startDate ?: System.currentTimeMillis(),
+                                    isDone = false,
+                                    deadline = selectedDate
+                                )
+                            )
+                        }
+
+                        is ItemModificationEvent.Delete -> {
+                            todoItem?.id?.let { viewModel.deleteTodoItem(it) }
+                        }
+
+                        is ItemModificationEvent.Exit -> {
+                            // handle exit
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
         )
 
         Column {
             DetailsTextField(
                 text = todoText,
                 onTextChange = { newText -> todoText = newText },
-                receiveEvent = receiveEvent
+                receiveEvent = { event ->
+                    {
+                        when (event) {
+                            is ItemModificationEvent.UpdateName -> {
+                                todoText = event.newName
+                            }
+
+                            else -> {}
+                        }
+                    }
+                }
             )
 
             Row {
@@ -70,7 +109,17 @@ fun DetailsScreen(
                 DetailsExpandedDropdown(
                     expanded = dropdownClick,
                     clickToExpand = { dropdownClick = it },
-                    receiveEvent = receiveEvent
+                    receiveEvent = { event ->
+                        {
+                            when (event) {
+                                is ItemModificationEvent.UpdatePriority -> {
+                                    selectedPriority = event.newPriority
+                                }
+
+                                else -> {}
+                            }
+                        }
+                    }
                 )
             }
 
@@ -84,8 +133,18 @@ fun DetailsScreen(
             DetailsSeparator()
 
             DetailsDeleteButton(
-                isClicked = isDeleteClicked,
-                receiveEvent = receiveEvent
+                isClicked = { isDeleteClicked() },
+                receiveEvent = { event ->
+                    {
+                        when (event) {
+                            is ItemModificationEvent.Delete -> {
+                                todoItem?.id?.let { viewModel.deleteTodoItem(it) }
+                            }
+
+                            else -> {}
+                        }
+                    }
+                }
             )
         }
     }
@@ -93,12 +152,13 @@ fun DetailsScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewEditItemUI() {
+fun PreviewDetailsScreen(){
     TodoAppTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            DetailsScreen(TodoRepository(), TodoRepository().getTodoList().component2(), { 1L }, {true}, { {} })
-        }
+        DetailsScreen(
+            viewModel = TodoViewModel(TodoRepository()),
+            todoItem = TodoRepository().getTodoList().component3(),
+            getDeadlineDate = { 1L },
+            isDeleteClicked = { true }
+        )
     }
 }

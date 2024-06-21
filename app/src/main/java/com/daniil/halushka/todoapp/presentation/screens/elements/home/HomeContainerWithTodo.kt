@@ -28,12 +28,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.repository.TodoRepository
 import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
-fun ContainerWithTodo(repository: TodoRepository, onEditItem: (TodoItem) -> Unit) {
-    val itemsInContainer by remember { mutableStateOf(repository.getTodoList()) }
+fun ContainerWithTodo(todoList: List<TodoItem>, onEditItem: (TodoItem) -> Unit) {
+    val itemsInContainer by remember { mutableStateOf(todoList) }
     var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
 
     Column {

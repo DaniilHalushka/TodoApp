@@ -4,20 +4,31 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.data.repository.TodoViewModel
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.ContainerWithTodo
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.CustomFAB
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
+import java.util.UUID
 
 @Composable
-fun HomeScreen(repository: TodoRepository, onEditItem: (TodoItem) -> Unit) {
+fun HomeScreen(
+    viewModel: TodoViewModel,
+    onEditItem: (TodoItem) -> Unit,
+) {
+    val todoList by viewModel.todoList.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         ContainerWithTodo(
-            repository = repository,
+            todoList = todoList,
             onEditItem = onEditItem
         )
         Box(
@@ -27,8 +38,26 @@ fun HomeScreen(repository: TodoRepository, onEditItem: (TodoItem) -> Unit) {
             contentAlignment = Alignment.BottomEnd
         ) {
             CustomFAB(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    viewModel.addTodoItem(TodoItem(
+                        id = UUID.randomUUID().toString(),
+                        text = "",
+                        priority = Priority.USUAL_PRIORITY,
+                        startDate = System.currentTimeMillis(),
+                        isDone = false
+                    ))
+                },
             )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewHomeScreen(){
+    TodoAppTheme {
+        HomeScreen(viewModel = TodoViewModel(TodoRepository())) {
+            
         }
     }
 }
