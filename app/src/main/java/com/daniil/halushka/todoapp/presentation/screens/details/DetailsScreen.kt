@@ -79,7 +79,8 @@ fun DetailsScreen(
                 )
                 DetailsExpandedDropdown(
                     expanded = dropdownClick,
-                    clickToExpand = { click -> dropdownClick = click }
+                    clickToExpand = { click -> dropdownClick = click },
+                    onPrioritySelect = { newPriority -> selectedPriority = newPriority }
                 )
             }
 

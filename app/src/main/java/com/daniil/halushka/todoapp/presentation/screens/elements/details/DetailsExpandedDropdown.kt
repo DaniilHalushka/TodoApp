@@ -24,7 +24,8 @@ import com.daniil.halushka.todoapp.constants.Priority
 @Composable
 fun DetailsExpandedDropdown(
     expanded: Boolean,
-    clickToExpand: (Boolean) -> Unit
+    clickToExpand: (Boolean) -> Unit,
+    onPrioritySelect: (String) -> Unit
 ) {
     DropdownMenu(
         modifier = Modifier
@@ -43,7 +44,8 @@ fun DetailsExpandedDropdown(
         ).forEach { priority ->
             PriorityItemInDropdown(
                 priority = priority,
-                clickToExpand = clickToExpand
+                clickToExpand = clickToExpand,
+                onPrioritySelect = onPrioritySelect
             )
         }
     }
@@ -52,7 +54,8 @@ fun DetailsExpandedDropdown(
 @Composable
 fun PriorityItemInDropdown(
     priority: String,
-    clickToExpand: (Boolean) -> Unit
+    clickToExpand: (Boolean) -> Unit,
+    onPrioritySelect: (String) -> Unit
 ) {
     val priorityColor: Color = when (priority) {
         Priority.URGENT_PRIORITY -> Color.Red
@@ -76,6 +79,9 @@ fun PriorityItemInDropdown(
                 )
             }
         },
-        onClick = { clickToExpand(false) }
+        onClick = {
+            clickToExpand(false)
+            onPrioritySelect(priority)
+        }
     )
 }
