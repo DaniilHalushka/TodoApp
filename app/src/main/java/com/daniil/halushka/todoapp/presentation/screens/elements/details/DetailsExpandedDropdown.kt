@@ -20,13 +20,11 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.constants.Priority
-import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsExpandedDropdown(
     expanded: Boolean,
-    clickToExpand: (Boolean) -> Unit,
-    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+    clickToExpand: (Boolean) -> Unit
 ) {
     DropdownMenu(
         modifier = Modifier
@@ -45,8 +43,7 @@ fun DetailsExpandedDropdown(
         ).forEach { priority ->
             PriorityItemInDropdown(
                 priority = priority,
-                clickToExpand = clickToExpand,
-                receiveEvent = receiveEvent
+                clickToExpand = clickToExpand
             )
         }
     }
@@ -55,8 +52,7 @@ fun DetailsExpandedDropdown(
 @Composable
 fun PriorityItemInDropdown(
     priority: String,
-    clickToExpand: (Boolean) -> Unit,
-    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+    clickToExpand: (Boolean) -> Unit
 ) {
     val priorityColor: Color = when (priority) {
         Priority.URGENT_PRIORITY -> Color.Red
@@ -80,9 +76,6 @@ fun PriorityItemInDropdown(
                 )
             }
         },
-        onClick = {
-            receiveEvent(ItemModificationEvent.UpdatePriority(priority)).invoke()
-            clickToExpand(false)
-        }
+        onClick = { clickToExpand(false) }
     )
 }

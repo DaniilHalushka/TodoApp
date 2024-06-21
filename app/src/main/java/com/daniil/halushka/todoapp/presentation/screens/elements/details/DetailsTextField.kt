@@ -14,24 +14,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 
 @Composable
 fun DetailsTextField(
     text: String,
-    onTextChange: (String) -> Unit,
-    receiveEvent: (ItemModificationEvent) -> (() -> Unit)
+    onTextChange: (String) -> Unit
 ) {
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .heightIn(min = 128.dp),
+            .padding(horizontal = 8.dp)
+            .heightIn(min = 128.dp, max = 256.dp),
         value = text,
-        onValueChange = { value ->
-            onTextChange(value)
-            receiveEvent(ItemModificationEvent.UpdateName(value)).invoke()
-        },
+        onValueChange = { value -> onTextChange(value) },
         placeholder = { TextFieldPlaceholder() },
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.colors(

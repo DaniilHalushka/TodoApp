@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.presentation.events.ItemModificationEvent
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsDeadlineBlock
@@ -44,6 +43,8 @@ fun DetailsScreen(
     var dropdownClick: Boolean by remember { mutableStateOf(false) }
 
     var todoText by remember { mutableStateOf(todoItem?.text ?: "") }
+
+    //TODO will be mutable in future
     var selectedPriority by remember {
         mutableStateOf(
             todoItem?.priority ?: Priority.USUAL_PRIORITY
@@ -68,18 +69,7 @@ fun DetailsScreen(
         Column {
             DetailsTextField(
                 text = todoText,
-                onTextChange = { newText -> todoText = newText },
-                receiveEvent = { event ->
-                    {
-                        when (event) {
-                            is ItemModificationEvent.UpdateName -> {
-                                todoText = event.newName
-                            }
-
-                            else -> {}
-                        }
-                    }
-                }
+                onTextChange = { newText -> todoText = newText }
             )
 
             Row {
@@ -89,18 +79,7 @@ fun DetailsScreen(
                 )
                 DetailsExpandedDropdown(
                     expanded = dropdownClick,
-                    clickToExpand = { click -> dropdownClick = click },
-                    receiveEvent = { event ->
-                        {
-                            when (event) {
-                                is ItemModificationEvent.UpdatePriority -> {
-                                    selectedPriority = event.newPriority
-                                }
-
-                                else -> {}
-                            }
-                        }
-                    }
+                    clickToExpand = { click -> dropdownClick = click }
                 )
             }
 
