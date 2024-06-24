@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="done_todo">Done todo</string>
+    <string name="important_undone_todo">Important undone todo</string>
+    <string name="normal_undone_todo">Normal undone todo</string>
+    <string name="todo_priority">Priority: %1$s</string>
+    <string name="deadline_is_in">Deadline is in: %1$s</string>
+    <string name="information_about_task">Information about task</string>
+    <string name="view_completed_todo_s">View completed todo\'s</string>
+    <string name="my_tasks_todo_s">My tasks (todos)</string>
+    <string name="completed_todo_s">Completed – %1$s</string>
+    <string name="close_details_screen">Close details screen</string>
+    <string name="save_todo">Save</string>
+    <string name="what_you_need_to_do">What you need to do?</string>
+    <string name="priority">Priority</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="date_of_deadline">Date of deadline</string>
+    <string name="delete">Delete</string>
+    <string name="hide_completed_tasks">Hide completed tasks</string>
+    <string name="show_completed_tasks">Show completed tasks</string>
 </resources>
