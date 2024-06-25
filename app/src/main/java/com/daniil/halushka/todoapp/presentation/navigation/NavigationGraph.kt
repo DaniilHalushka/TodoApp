@@ -8,6 +8,7 @@ import com.daniil.halushka.todoapp.data.repository.TodoRepository
 import com.daniil.halushka.todoapp.data.repository.TodoViewModel
 import com.daniil.halushka.todoapp.presentation.screens.details.DetailsScreen
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreen
+import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreenViewModel
 
 @Composable
 fun NavigationGraph(
@@ -24,7 +25,7 @@ fun NavigationGraph(
             //todo refactor viewModel in future
             HomeScreen(
                 navigationController = navController,
-                viewModel = TodoViewModel(TodoRepository()),
+                viewModel = HomeScreenViewModel(),
             )
         }
 

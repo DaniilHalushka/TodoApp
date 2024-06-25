@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
@@ -15,8 +14,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,26 +27,26 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
+import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreenViewModel
 import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
 fun ContainerWithTodo(
     navigationController: NavController,
-    todoList: List<TodoItem>,
-    onUpdateTodo: (TodoItem) -> Unit,
+    viewModel: HomeScreenViewModel,
 ) {
-    val itemsInContainer by remember { mutableStateOf(todoList) }
-    var completedItemsCount by remember { mutableIntStateOf(itemsInContainer.count { it.isDone }) }
-    var showCompleted by remember { mutableStateOf(true) }
+    val todoList = viewModel.todoList.collectAsState()
+    val showCompleted = viewModel.showFinishedTodo.collectAsState()
+    val completedItemsCount = viewModel.quantityOfFinishedTodo.collectAsState()
 
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
     ) {
         HomeTopBar(
-            completedItemsCount = completedItemsCount,
-            onEyeIconClick = { showCompleted = !showCompleted },
-            showCompleted = showCompleted
+            completedItemsCount = completedItemsCount.value,
+            onEyeIconClick = { showTask -> viewModel.showFinishedTodo(showTask) },
+            showCompleted = showCompleted.value
         )
         LazyColumn(
             modifier = Modifier
@@ -55,16 +54,15 @@ fun ContainerWithTodo(
                 .padding(horizontal = 8.dp)
                 .background(MaterialTheme.colorScheme.primary)
         ) {
-            items(itemsInContainer.filter { showCompleted || !it.isDone }) { item ->
+            items(count = todoList.value.size) { item ->
+                val currentItem = todoList.value[item]
                 TodoInColumn(
-                    todoItem = item,
+                    todoItem = currentItem,
                     onEditClick = {
                         navigationController.navigate("Details")
                     },
-                    onCheckedChange = { isChecked ->
-                        item.isDone = isChecked
-                        completedItemsCount = itemsInContainer.count { it.isDone }
-                        onUpdateTodo(item)
+                    onCheckedChange = { todoId, isTodoDone ->
+                        viewModel.finishTodo(todoId, isTodoDone)
                     }
                 )
             }
@@ -76,7 +74,7 @@ fun ContainerWithTodo(
 fun TodoInColumn(
     todoItem: TodoItem,
     onEditClick: () -> Unit,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (todoId: String, isTodoDone: Boolean) -> Unit
 ) {
     var checked by remember { mutableStateOf(todoItem.isDone) }
 
@@ -97,7 +95,7 @@ fun TodoInColumn(
                 isChecked = checked,
                 onValueChange = {
                     checked = it
-                    onCheckedChange(it)
+                    onCheckedChange.invoke(todoItem.id, checked)
                 },
                 modifier = Modifier.padding(end = 8.dp)
             )
