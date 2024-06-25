@@ -6,11 +6,14 @@ import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.domain.usecase.CountFinishedTodo
 import com.daniil.halushka.todoapp.domain.usecase.FinishTodo
 import com.daniil.halushka.todoapp.domain.usecase.ReceiveTodoList
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeScreenViewModel(
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
     private val receiveTodoList: ReceiveTodoList,
     private val countFinishedTasks: CountFinishedTodo,
     private val finishTodo: FinishTodo
