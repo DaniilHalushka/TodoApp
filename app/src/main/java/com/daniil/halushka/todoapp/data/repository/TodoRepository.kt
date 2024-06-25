@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class TodoRepository : TodoRepositoryInterface {
     private val todoList = mutableStateListOf(
@@ -126,21 +128,35 @@ class TodoRepository : TodoRepositoryInterface {
         ),
     )
 
+    override suspend fun getTodoList(): List<TodoItem> = withContext(Dispatchers.IO) {
+        todoList
+    }
 
-    override fun getTodoList(): List<TodoItem> = todoList
-
-    override fun addTodoInList(todoItem: TodoItem) {
+    override suspend fun addTodoInList(todoItem: TodoItem): Unit = withContext(Dispatchers.IO) {
         todoList.add(todoItem)
     }
 
-    override fun updateTodo(updatedTodo: TodoItem) {
+    override suspend fun updateTodo(updatedTodo: TodoItem): Unit = withContext(Dispatchers.IO) {
         todoList.indexOfFirst { todo -> todo.id == updatedTodo.id }
             .takeIf { result -> result != -1 }?.let { index ->
                 todoList[index] = updatedTodo
             }
     }
 
-    override fun deleteTodo(id: String) {
+    override suspend fun deleteTodo(id: String): Unit = withContext(Dispatchers.IO) {
         todoList.removeAll { todo -> todo.id == id }
     }
+
+    override suspend fun countFinishedTodo(): Int = withContext(Dispatchers.IO) {
+        todoList.count { it.isDone }
+    }
+
+    override suspend fun finishTodo(todoId: String, isTodoDone: Boolean): Unit =
+        withContext(Dispatchers.IO) {
+            todoList.indexOfFirst { todo -> todo.id == todoId }
+                .takeIf { result -> result != -1 }?.let { index ->
+                    val updatedTodo = todoList[index].copy(isDone = isTodoDone)
+                    todoList[index] = updatedTodo
+                }
+        }
 }
