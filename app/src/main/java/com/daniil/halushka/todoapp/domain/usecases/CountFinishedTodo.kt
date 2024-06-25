@@ -6,7 +6,5 @@ import javax.inject.Inject
 class CountFinishedTodo @Inject constructor(
     private val todoRepository: TodoRepositoryInterface
 ) {
-    suspend fun countTasks(): Int {
-        return todoRepository.countFinishedTodo()
-    }
+    suspend fun countTasks() = todoRepository.countFinishedTodo()
 }

@@ -27,27 +27,14 @@ class HomeScreenViewModel @Inject constructor(
     private val _showFinishedTodo = MutableStateFlow(false)
     val showFinishedTodo: StateFlow<Boolean> get() = _showFinishedTodo
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> get() = _isLoading
-
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> get() = _error
-
     init {
         getTodoList()
     }
 
     private fun getTodoList() {
         viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                _todoList.value = receiveTodoList.receiveTodoList()
-                _quantityOfFinishedTodo.value = countFinishedTasks.countTasks()
-            } catch (exception: Exception) {
-                _error.value = exception.message
-            } finally {
-                _isLoading.value = false
-            }
+            _todoList.value = receiveTodoList.receiveTodoList()
+            _quantityOfFinishedTodo.value = countFinishedTasks.countTasks()
         }
     }
 
@@ -57,12 +44,8 @@ class HomeScreenViewModel @Inject constructor(
 
     fun finishTodo(todoId: String, isTodoDone: Boolean) {
         viewModelScope.launch {
-            try {
-                finishTodo.finishTodo(todoId, isTodoDone)
-                getTodoList()
-            } catch (exception: Exception) {
-                _error.value = exception.message
-            }
+            finishTodo.finishTodo(todoId, isTodoDone)
+            getTodoList()
         }
     }
 }

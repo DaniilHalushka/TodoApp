@@ -1,5 +1,11 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +42,7 @@ fun ContainerWithTodo(
     viewModel: HomeScreenViewModel,
 ) {
     val todoList = viewModel.todoList.collectAsState()
-    val showCompleted = viewModel.showFinishedTodo.collectAsState()
+    val showFinished = viewModel.showFinishedTodo.collectAsState()
     val completedItemsCount = viewModel.quantityOfFinishedTodo.collectAsState()
 
     Column(
@@ -46,7 +52,7 @@ fun ContainerWithTodo(
         HomeTopBar(
             completedItemsCount = completedItemsCount.value,
             onEyeIconClick = { showTask -> viewModel.showFinishedTodo(showTask) },
-            showCompleted = showCompleted.value
+            showFinished = showFinished.value
         )
         LazyColumn(
             modifier = Modifier
@@ -54,13 +60,14 @@ fun ContainerWithTodo(
                 .padding(horizontal = 8.dp)
                 .background(MaterialTheme.colorScheme.primary)
         ) {
-            items(count = todoList.value.size) { item ->
-                val currentItem = todoList.value[item]
+            items(count = todoList.value.size) { index ->
+                val currentItem = todoList.value[index]
                 TodoInColumn(
                     todoItem = currentItem,
                     onEditClick = {
                         navigationController.navigate("Details")
                     },
+                    showFinishedTodo = showFinished.value,
                     onCheckedChange = { todoId, isTodoDone ->
                         viewModel.finishTodo(todoId, isTodoDone)
                     }
@@ -74,55 +81,62 @@ fun ContainerWithTodo(
 fun TodoInColumn(
     todoItem: TodoItem,
     onEditClick: () -> Unit,
+    showFinishedTodo: Boolean,
     onCheckedChange: (todoId: String, isTodoDone: Boolean) -> Unit
 ) {
     var checked by remember { mutableStateOf(todoItem.isDone) }
 
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 2.dp),
-        shape = MaterialTheme.shapes.medium,
-        shadowElevation = 2.dp,
+    AnimatedVisibility(
+        visible = !(!showFinishedTodo && checked),
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut(animationSpec = tween(durationMillis = 400)) + shrinkVertically()
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Surface(
             modifier = Modifier
-                .padding(16.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 2.dp),
+            shape = MaterialTheme.shapes.medium,
+            shadowElevation = 2.dp,
         ) {
-            CustomCheckbox(
-                priority = todoItem.priority,
-                isChecked = checked,
-                onValueChange = {
-                    checked = it
-                    onCheckedChange.invoke(todoItem.id, checked)
-                },
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Column(
-                modifier = Modifier.weight(1f)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(16.dp)
             ) {
-                Text(
-                    text = todoItem.text,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onBackground
+                CustomCheckbox(
+                    priority = todoItem.priority,
+                    isChecked = checked,
+                    onValueChange = {
+                        checked = it
+                        onCheckedChange.invoke(todoItem.id, checked)
+                    },
+                    modifier = Modifier.padding(end = 8.dp)
                 )
-                todoItem.deadline?.let { deadline ->
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
                     Text(
-                        text = stringResource(id = R.string.deadline_is_in, deadline.asTime()),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onTertiary
+                        text = todoItem.text,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    todoItem.deadline?.let { deadline ->
+                        Text(
+                            text = stringResource(id = R.string.deadline_is_in, deadline.asTime()),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
+                }
+                IconButton(
+                    onClick = onEditClick,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = stringResource(R.string.information_about_task)
                     )
                 }
-            }
-            IconButton(
-                onClick = onEditClick,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Info,
-                    contentDescription = stringResource(R.string.information_about_task)
-                )
             }
         }
     }

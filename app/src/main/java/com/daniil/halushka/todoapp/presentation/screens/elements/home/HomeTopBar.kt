@@ -1,14 +1,18 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,9 +34,9 @@ import com.daniil.halushka.todoapp.R
 fun HomeTopBar(
     completedItemsCount: Int,
     onEyeIconClick: (Boolean) -> Unit,
-    showCompleted: Boolean
+    showFinished: Boolean
 ) {
-    var localShowState by remember { mutableStateOf(showCompleted) }
+    var localShowState by remember { mutableStateOf(showFinished) }
 
     Box(
         modifier = Modifier
@@ -68,21 +72,46 @@ fun HomeTopBar(
                         color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
-                IconButton(
-                    onClick = {
+                EyeIcon(
+                    onIconClick = {
                         localShowState = !localShowState
                         onEyeIconClick.invoke(localShowState)
-                    }
-                ) {
-                    Icon(
-                        painter = if (showCompleted) painterResource(id = R.drawable.ic_visibility)
-                        else painterResource(id = R.drawable.ic_visibility_off),
-                        contentDescription = if (showCompleted)
-                            stringResource(R.string.hide_completed_tasks)
-                        else stringResource(R.string.show_completed_tasks)
-                    )
-                }
+                    },
+                    isDone = localShowState
+                )
             }
         }
+    }
+}
+
+@Composable
+fun EyeIcon(
+    onIconClick: () -> Unit,
+    isDone: Boolean
+) {
+    Crossfade(
+        modifier = Modifier
+            .size(24.dp),
+        targetState = isDone,
+        animationSpec = tween(200),
+        label = stringResource(R.string.visibility_icon)
+    ) { iconState ->
+        Icon(
+            modifier = Modifier
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { onIconClick.invoke() },
+            painter = painterResource(
+                if (iconState)
+                    R.drawable.ic_visibility
+                else R.drawable.ic_visibility_off
+            ),
+            contentDescription = stringResource(
+                if (iconState)
+                    R.string.hide_completed_tasks
+                else R.string.show_completed_tasks
+            )
+        )
     }
 }
