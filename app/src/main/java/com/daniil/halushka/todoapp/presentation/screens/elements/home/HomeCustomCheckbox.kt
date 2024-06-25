@@ -10,14 +10,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,8 +34,6 @@ fun CustomCheckbox(
     priority: String,
     modifier: Modifier = Modifier,
     size: Float = 24f,
-    checkedColor: Color = Color.Green,
-    uncheckedColor: Color = Color.White,
     onValueChange: (Boolean) -> Unit
 ) {
     val priorityColor: Color = when {
@@ -46,19 +43,18 @@ fun CustomCheckbox(
     }
 
     val checkboxColor: Color by animateColorAsState(
-        if (isChecked) checkedColor else uncheckedColor,
+        targetValue = if (isChecked) Color.Green else Color.White,
+        animationSpec = tween(durationMillis = 200),
         label = ""
     )
 
     val interactionSource = remember { MutableInteractionSource() }
-
     val density = LocalDensity.current
     val duration = 200
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .heightIn(24.dp)
             .toggleable(
                 value = isChecked,
                 role = Role.Checkbox,
@@ -78,20 +74,26 @@ fun CustomCheckbox(
                 .border(width = 2.5.dp, color = priorityColor, shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center
         ) {
+
             androidx.compose.animation.AnimatedVisibility(
                 visible = isChecked,
-                enter = slideInHorizontally(animationSpec = tween(duration)) {
+                enter = slideInHorizontally(animationSpec = tween(durationMillis = duration)) {
                     with(density) { (size * -0.5).dp.roundToPx() }
                 } + expandHorizontally(
                     expandFrom = Alignment.Start,
-                    animationSpec = tween(duration)
+                    animationSpec = tween(durationMillis = duration)
                 ),
-                exit = fadeOut()
+                exit = fadeOut(animationSpec = tween(durationMillis = duration))
             ) {
-                Icon(
-                    Icons.Default.Check,
-                    contentDescription = null,
-                    tint = uncheckedColor
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = onValueChange,
+                    modifier = Modifier.size(size.dp),
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Color.Transparent,
+                        uncheckedColor = Color.Transparent,
+                        checkmarkColor = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
         }
