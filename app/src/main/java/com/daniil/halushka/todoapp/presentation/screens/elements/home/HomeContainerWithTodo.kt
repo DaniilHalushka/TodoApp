@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
@@ -40,34 +42,37 @@ import com.daniil.halushka.todoapp.util.asTime
 fun ContainerWithTodo(
     navigationController: NavController,
     viewModel: HomeScreenViewModel,
+    listState: LazyListState,
+    toolbarHeight: Dp
 ) {
-    val todoList = viewModel.todoList.collectAsState()
-    val showFinished = viewModel.showFinishedTodo.collectAsState()
-    val completedItemsCount = viewModel.quantityOfFinishedTodo.collectAsState()
+    val todoList by viewModel.todoList.collectAsState()
+    val showFinished by viewModel.showFinishedTodo.collectAsState()
+    val completedItemsCount by viewModel.quantityOfFinishedTodo.collectAsState()
 
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
     ) {
         HomeTopBar(
-            completedItemsCount = completedItemsCount.value,
+            completedItemsCount = completedItemsCount,
             onEyeIconClick = { showTask -> viewModel.showFinishedTodo(showTask) },
-            showFinished = showFinished.value
+            showFinished = showFinished,
+            height = toolbarHeight
         )
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
                 .background(MaterialTheme.colorScheme.primary)
         ) {
-            items(count = todoList.value.size) { index ->
-                val currentItem = todoList.value[index]
+            items(count = todoList.size) { index ->
+                val currentItem = todoList[index]
                 TodoInColumn(
                     todoItem = currentItem,
                     onEditClick = {
                         navigationController.navigate("Details")
                     },
-                    showFinishedTodo = showFinished.value,
+                    showFinishedTodo = showFinished,
                     onCheckedChange = { todoId, isTodoDone ->
                         viewModel.finishTodo(todoId, isTodoDone)
                     }

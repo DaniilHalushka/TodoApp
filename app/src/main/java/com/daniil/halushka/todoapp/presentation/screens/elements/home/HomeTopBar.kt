@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
@@ -34,23 +36,26 @@ import com.daniil.halushka.todoapp.R
 fun HomeTopBar(
     completedItemsCount: Int,
     onEyeIconClick: (Boolean) -> Unit,
-    showFinished: Boolean
+    showFinished: Boolean,
+    height: Dp
 ) {
     var localShowState by remember { mutableStateOf(showFinished) }
 
     Box(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary),
+            .fillMaxWidth()
+            .height(height)
+            .background(MaterialTheme.colorScheme.primary)
     ) {
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
-                .height(64.dp)
+                .fillMaxSize(),
+            shadowElevation = 4.dp,
         ) {
             Row(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary),
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
@@ -83,6 +88,7 @@ fun HomeTopBar(
         }
     }
 }
+
 
 @Composable
 fun EyeIcon(
