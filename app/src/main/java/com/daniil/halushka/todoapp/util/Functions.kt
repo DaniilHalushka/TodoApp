@@ -6,6 +6,6 @@ import java.util.Locale
 
 fun Long.asTime(): String {
     val time = Date(this)
-    val timeFormat = SimpleDateFormat("HH:mm, dd.MM.yyyy", Locale.getDefault())
+    val timeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     return timeFormat.format(time)
 }
