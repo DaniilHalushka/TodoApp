@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.domain.usecase
+package com.daniil.halushka.todoapp.domain.usecases
 
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
