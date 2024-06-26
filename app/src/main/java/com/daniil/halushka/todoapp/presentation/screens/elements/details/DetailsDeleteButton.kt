@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun DetailsDeleteButton(
@@ -40,7 +40,7 @@ fun DetailsDeleteButton(
             text = stringResource(R.string.delete),
             color = redColor,
             modifier = Modifier.padding(start = 16.dp),
-            fontSize = 16.sp,
+            style = AppTheme.typographyScheme.buttonText
         )
     }
 }

@@ -25,9 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.util.asTime
@@ -95,14 +93,14 @@ private fun DeadlineRow(
             Text(
                 text = stringResource(R.string.date_of_deadline),
                 color = AppTheme.colorScheme.labelPrimaryColor,
-                fontSize = 16.sp,
-                fontWeight = FontWeight(400)
+                style = AppTheme.typographyScheme.bodyText
             )
             AnimatedVisibility(visible = isDeadlineActive) {
                 date?.let { date ->
                     Text(
                         text = date.asTime(),
-                        color = AppTheme.colorScheme.blueColor
+                        color = AppTheme.colorScheme.blueColor,
+                        style = AppTheme.typographyScheme.bodyText
                     )
                 }
             }
@@ -134,7 +132,8 @@ private fun DeadlineDatePickerDialog(
             TextButton(onClick = onConfirm) {
                 Text(
                     text = stringResource(R.string.done),
-                    color = AppTheme.colorScheme.blueColor
+                    color = AppTheme.colorScheme.blueColor,
+                    style = AppTheme.typographyScheme.buttonText
                 )
             }
         },
@@ -142,7 +141,8 @@ private fun DeadlineDatePickerDialog(
             TextButton(onClick = onDismiss) {
                 Text(
                     text = stringResource(R.string.cancel),
-                    color = AppTheme.colorScheme.blueColor
+                    color = AppTheme.colorScheme.blueColor,
+                    style = AppTheme.typographyScheme.buttonText
                 )
             }
         }

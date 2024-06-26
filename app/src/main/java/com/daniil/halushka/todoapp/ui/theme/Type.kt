@@ -21,16 +21,16 @@ val typographyScheme = FontTypography(
     ),
     buttonText = TextStyle(
         fontFamily = RobotoFamily,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.16.sp,
-        fontWeight = FontWeight.Medium
+        fontWeight = FontWeight.Bold
     ),
     bodyText = TextStyle(
         fontFamily = RobotoFamily,
         fontSize = 16.sp,
         lineHeight = 20.sp,
-        fontWeight = FontWeight.Normal
+        fontWeight = FontWeight(400)
     ),
     headerText = TextStyle(
         fontFamily = RobotoFamily,

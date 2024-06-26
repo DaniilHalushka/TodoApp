@@ -14,9 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
@@ -43,8 +41,7 @@ fun DetailsTopBar(
             modifier = Modifier
                 .clickable(onClick = clickOnNavigationItem),
             text = stringResource(R.string.save_todo),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            style = AppTheme.typographyScheme.buttonText,
             color = AppTheme.colorScheme.blueColor
         )
 

@@ -36,6 +36,7 @@ fun DetailsTextField(
                 .padding(horizontal = 8.dp)
                 .heightIn(min = 128.dp, max = 256.dp),
             value = text,
+            textStyle = AppTheme.typographyScheme.bodyText,
             onValueChange = { value -> onTextChange(value) },
             placeholder = { TextFieldPlaceholder() },
             shape = RoundedCornerShape(8.dp),
