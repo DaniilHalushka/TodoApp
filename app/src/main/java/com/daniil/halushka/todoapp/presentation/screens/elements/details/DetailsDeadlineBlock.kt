@@ -25,7 +25,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.util.asTime
@@ -92,7 +94,9 @@ private fun DeadlineRow(
         ) {
             Text(
                 text = stringResource(R.string.date_of_deadline),
-                color = AppTheme.colorScheme.labelPrimaryColor
+                color = AppTheme.colorScheme.labelPrimaryColor,
+                fontSize = 16.sp,
+                fontWeight = FontWeight(400)
             )
             AnimatedVisibility(visible = isDeadlineActive) {
                 date?.let { date ->
@@ -107,7 +111,6 @@ private fun DeadlineRow(
             checked = isDeadlineActive,
             onCheckedChange = onSwitchChange,
             colors = SwitchDefaults.colors(
-                //todo check colors
                 checkedThumbColor = AppTheme.colorScheme.backSecondaryColor,
                 checkedTrackColor = AppTheme.colorScheme.blueColor,
                 uncheckedThumbColor = AppTheme.colorScheme.whiteColor,
@@ -161,11 +164,17 @@ private fun datePickerDialogColors() = DatePickerDefaults.colors(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun datePickerColors() = DatePickerDefaults.colors(
+    headlineContentColor = AppTheme.colorScheme.blueColor,
     containerColor = AppTheme.colorScheme.backSecondaryColor,
+    currentYearContentColor = AppTheme.colorScheme.greenColor,
     selectedYearContainerColor = AppTheme.colorScheme.blueColor,
     selectedDayContainerColor = AppTheme.colorScheme.blueColor,
+    dayContentColor = AppTheme.colorScheme.labelPrimaryColor,
     dayInSelectionRangeContainerColor = AppTheme.colorScheme.blueColor,
-    disabledSelectedDayContainerColor = AppTheme.colorScheme.blueColor,
-    todayContentColor = AppTheme.colorScheme.labelPrimaryColor,
-    todayDateBorderColor = AppTheme.colorScheme.blueColor
+    disabledSelectedDayContainerColor = AppTheme.colorScheme.lightGrayColor,
+    titleContentColor = AppTheme.colorScheme.labelPrimaryColor,
+    todayContentColor = AppTheme.colorScheme.redColor,
+    todayDateBorderColor = AppTheme.colorScheme.redColor,
+    weekdayContentColor = AppTheme.colorScheme.lightGrayColor,
+    navigationContentColor = AppTheme.colorScheme.labelPrimaryColor
 )
