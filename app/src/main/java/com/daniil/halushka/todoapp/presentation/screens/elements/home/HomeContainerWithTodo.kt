@@ -30,10 +30,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
@@ -92,6 +92,10 @@ fun TodoInColumn(
     onCheckedChange: (todoId: String, isTodoDone: Boolean) -> Unit
 ) {
     var checked by remember { mutableStateOf(todoItem.isDone) }
+    val textStyle = when (checked) {
+        true -> AppTheme.typographyScheme.bodyText.copy(textDecoration = TextDecoration.LineThrough)
+        else -> AppTheme.typographyScheme.bodyText
+    }
 
     AnimatedVisibility(
         visible = !(!showFinishedTodo && checked),
@@ -129,7 +133,7 @@ fun TodoInColumn(
                         Text(
                             text = todoItem.text,
                             color = AppTheme.colorScheme.labelPrimaryColor,
-                            fontSize = 16.sp,
+                            style = textStyle,
                             maxLines = 3,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -139,9 +143,8 @@ fun TodoInColumn(
                                     id = R.string.deadline_is_in,
                                     deadline.asTime()
                                 ),
-                                style = MaterialTheme.typography.bodySmall,
                                 color = AppTheme.colorScheme.labelTertiaryColor,
-                                fontSize = 16.sp,
+                                style = textStyle,
                             )
                         }
                     }

@@ -25,10 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
@@ -64,17 +62,16 @@ fun HomeTopBar(
                 ) {
                     Text(
                         text = stringResource(R.string.my_tasks_todo_s),
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AppTheme.colorScheme.labelPrimaryColor
+                        color = AppTheme.colorScheme.labelPrimaryColor,
+                        style = AppTheme.typographyScheme.largeTitle
                     )
                     Text(
                         text = stringResource(
                             id = R.string.completed_todo_s,
                             completedItemsCount
                         ),
-                        fontSize = 20.sp,
-                        color = AppTheme.colorScheme.labelSecondaryColor
+                        color = AppTheme.colorScheme.labelSecondaryColor,
+                        style = AppTheme.typographyScheme.bodyText
                     )
                 }
                 EyeIcon(
