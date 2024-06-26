@@ -29,7 +29,7 @@ fun DetailsExpandedDropdown(
 ) {
     DropdownMenu(
         modifier = Modifier
-            .background(AppTheme.colorScheme.backPrimaryColor)
+            .background(AppTheme.colorScheme.backElevatedColor)
             .shadow(0.05.dp, RoundedCornerShape(2.dp))
             .clip(RoundedCornerShape(4.dp))
             .widthIn(min = 192.dp),
