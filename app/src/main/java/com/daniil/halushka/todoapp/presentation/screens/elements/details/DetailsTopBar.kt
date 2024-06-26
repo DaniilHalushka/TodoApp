@@ -39,6 +39,7 @@ fun DetailsTopBar(
                     .clickable(onClick = clickOnNavigationItem),
                 imageVector = Icons.Default.Close,
                 contentDescription = stringResource(R.string.close_details_screen),
+                tint = AppTheme.colorScheme.labelPrimaryColor
             )
             Text(
                 modifier = Modifier
