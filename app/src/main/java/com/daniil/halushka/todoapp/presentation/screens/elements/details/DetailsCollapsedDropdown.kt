@@ -8,9 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
@@ -28,13 +26,12 @@ fun DetailsCollapsedDropdown(
         Text(
             text = stringResource(R.string.priority),
             color = AppTheme.colorScheme.labelPrimaryColor,
-            fontSize = 20.sp,
-            fontWeight = FontWeight(500)
+            style = AppTheme.typographyScheme.title
         )
         Text(
             text = priority,
             color = AppTheme.colorScheme.labelTertiaryColor,
-            fontSize = 16.sp
+            style = AppTheme.typographyScheme.bodyText
         )
     }
 }
