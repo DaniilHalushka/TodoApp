@@ -19,7 +19,6 @@ fun NavigationGraph(
         composable(
             ScreenRoutes.HomeScreen.screenType
         ) {
-            //todo refactor viewModel in future
             HomeScreen(
                 navigationController = navController
             )

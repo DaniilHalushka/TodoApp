@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.constants.Priority
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun DetailsExpandedDropdown(
@@ -29,7 +29,7 @@ fun DetailsExpandedDropdown(
 ) {
     DropdownMenu(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surface)
+            .background(AppTheme.colorScheme.backPrimaryColor)
             .shadow(0.05.dp, RoundedCornerShape(2.dp))
             .clip(RoundedCornerShape(4.dp))
             .widthIn(min = 192.dp),

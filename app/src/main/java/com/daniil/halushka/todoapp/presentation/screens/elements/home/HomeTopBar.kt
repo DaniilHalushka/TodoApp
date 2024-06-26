@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun HomeTopBar(
@@ -45,7 +45,7 @@ fun HomeTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(height)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(AppTheme.colorScheme.backPrimaryColor)
     ) {
         Surface(
             modifier = Modifier
@@ -54,8 +54,8 @@ fun HomeTopBar(
         ) {
             Row(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary)
-                    .padding(8.dp),
+                    .background(AppTheme.colorScheme.backPrimaryColor)
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
@@ -66,7 +66,7 @@ fun HomeTopBar(
                         text = stringResource(R.string.my_tasks_todo_s),
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = AppTheme.colorScheme.labelPrimaryColor
                     )
                     Text(
                         text = stringResource(
@@ -74,7 +74,7 @@ fun HomeTopBar(
                             completedItemsCount
                         ),
                         fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.onTertiary
+                        color = AppTheme.colorScheme.labelSecondaryColor
                     )
                 }
                 EyeIcon(
@@ -117,7 +117,8 @@ fun EyeIcon(
                 if (iconState)
                     R.string.hide_completed_tasks
                 else R.string.show_completed_tasks
-            )
+            ),
+            tint = AppTheme.colorScheme.blueColor
         )
     }
 }

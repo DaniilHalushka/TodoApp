@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -18,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun DetailsTextField(
@@ -26,7 +26,7 @@ fun DetailsTextField(
 ) {
 
     val customSelectedColor = TextSelectionColors(
-        handleColor = MaterialTheme.colorScheme.tertiary,
+        handleColor = AppTheme.colorScheme.blueColor,
         backgroundColor = Color.LightGray
     )
     CompositionLocalProvider(value = LocalTextSelectionColors provides customSelectedColor) {
@@ -41,13 +41,13 @@ fun DetailsTextField(
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 selectionColors = customSelectedColor,
-                focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                cursorColor = MaterialTheme.colorScheme.tertiary,
-                disabledIndicatorColor = MaterialTheme.colorScheme.primary,
-                focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                focusedTextColor = AppTheme.colorScheme.labelPrimaryColor,
+                cursorColor = AppTheme.colorScheme.blueColor,
+                disabledIndicatorColor = AppTheme.colorScheme.backPrimaryColor,
+                focusedIndicatorColor = AppTheme.colorScheme.blueColor,
+                unfocusedIndicatorColor = AppTheme.colorScheme.backPrimaryColor,
+                focusedContainerColor = AppTheme.colorScheme.backSecondaryColor,
+                unfocusedContainerColor = AppTheme.colorScheme.backSecondaryColor,
 
                 )
         )
@@ -58,7 +58,7 @@ fun DetailsTextField(
 fun TextFieldPlaceholder() {
     Text(
         text = stringResource(R.string.what_you_need_to_do),
-        color = MaterialTheme.colorScheme.onTertiary,
+        color = AppTheme.colorScheme.labelTertiaryColor,
         fontSize = 16.sp
     )
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,7 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsSeparator
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun DetailsScreen(
@@ -45,7 +45,7 @@ fun DetailsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(AppTheme.colorScheme.backPrimaryColor)
             .padding(end = 4.dp),
         horizontalAlignment = Alignment.Start
     ) {

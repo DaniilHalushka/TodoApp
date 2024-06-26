@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,10 +33,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreenViewModel
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
@@ -51,7 +54,7 @@ fun ContainerWithTodo(
 
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary)
+            .background(AppTheme.colorScheme.backPrimaryColor)
     ) {
         HomeTopBar(
             completedItemsCount = completedItemsCount,
@@ -63,7 +66,6 @@ fun ContainerWithTodo(
             state = listState,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
         ) {
             items(count = todoList.size) { index ->
                 val currentItem = todoList[index]
@@ -103,44 +105,55 @@ fun TodoInColumn(
             shape = MaterialTheme.shapes.medium,
             shadowElevation = 2.dp,
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Box(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .background(AppTheme.colorScheme.backSecondaryColor)
             ) {
-                CustomCheckbox(
-                    priority = todoItem.priority,
-                    isChecked = checked,
-                    onValueChange = {
-                        checked = it
-                        onCheckedChange.invoke(todoItem.id, checked)
-                    },
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Column(
-                    modifier = Modifier.weight(1f)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(16.dp)
                 ) {
-                    Text(
-                        text = todoItem.text,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.onBackground
+                    CustomCheckbox(
+                        priority = todoItem.priority,
+                        isChecked = checked,
+                        onValueChange = {
+                            checked = it
+                            onCheckedChange.invoke(todoItem.id, checked)
+                        },
+                        modifier = Modifier.padding(end = 8.dp)
                     )
-                    todoItem.deadline?.let { deadline ->
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
                         Text(
-                            text = stringResource(id = R.string.deadline_is_in, deadline.asTime()),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onTertiary
+                            text = todoItem.text,
+                            color = AppTheme.colorScheme.labelPrimaryColor,
+                            fontSize = 16.sp,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        todoItem.deadline?.let { deadline ->
+                            Text(
+                                text = stringResource(
+                                    id = R.string.deadline_is_in,
+                                    deadline.asTime()
+                                ),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = AppTheme.colorScheme.labelTertiaryColor,
+                                fontSize = 16.sp,
+                            )
+                        }
+                    }
+                    IconButton(
+                        onClick = onEditClick,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = stringResource(R.string.information_about_task),
+                            tint = AppTheme.colorScheme.labelTertiaryColor
                         )
                     }
-                }
-                IconButton(
-                    onClick = onEditClick,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = stringResource(R.string.information_about_task)
-                    )
                 }
             }
         }

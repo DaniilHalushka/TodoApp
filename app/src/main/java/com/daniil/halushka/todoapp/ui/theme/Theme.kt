@@ -2,47 +2,60 @@ package com.daniil.halushka.todoapp.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.daniil.halushka.todoapp.ui.theme.custom.ColorPaletteScheme
+import com.daniil.halushka.todoapp.ui.theme.custom.LocalColorPaletteScheme
 
-private val DarkColorScheme = darkColorScheme(
-    primary = nightBackPrimaryColor,
-    secondary = nightBackSecondaryColor,
-    tertiary = blueColor,
-    background = nightBackPrimaryColor,
-    surface = nightBackElevatedColor,
-    onPrimary = nightLabelPrimaryColor,
-    onSecondary = nightLabelSecondaryColor,
-    onTertiary = nightLabelTertiaryColor,
-    onBackground = nightLabelPrimaryColor,
-    onSurface = nightLabelPrimaryColor,
+object AppTheme {
+    val colorScheme: ColorPaletteScheme
+        @Composable get() = LocalColorPaletteScheme.current
+}
 
-    primaryContainer = nightSeparatorColor,
-    secondaryContainer = nightOverlayColor,
-    onPrimaryContainer = nightLabelDisableColor
+private val DarkColorScheme = ColorPaletteScheme(
+    redColor = redColor,
+    greenColor = greenColor,
+    blueColor = blueColor,
+    grayColor = grayColor,
+    lightGrayColor = lightGrayColor,
+    whiteColor = whiteColor,
+
+    separatorColor = nightSeparatorColor,
+    overlayColor = nightOverlayColor,
+
+    labelPrimaryColor = nightLabelPrimaryColor,
+    labelSecondaryColor = nightLabelSecondaryColor,
+    labelTertiaryColor = nightLabelTertiaryColor,
+    labelDisableColor = nightLabelDisableColor,
+
+    backPrimaryColor = nightBackPrimaryColor,
+    backSecondaryColor = nightBackSecondaryColor,
+    backElevatedColor = nightBackElevatedColor
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = backPrimaryColor,
-    secondary = backSecondaryColor,
-    tertiary = blueColor,
-    background = backPrimaryColor,
-    surface = backElevatedColor,
-    onPrimary = labelPrimaryColor,
-    onSecondary = labelSecondaryColor,
-    onTertiary = labelTertiaryColor,
-    onBackground = labelPrimaryColor,
-    onSurface = labelPrimaryColor,
+private val LightColorScheme = ColorPaletteScheme(
+    redColor = redColor,
+    greenColor = greenColor,
+    blueColor = blueColor,
+    grayColor = grayColor,
+    lightGrayColor = lightGrayColor,
+    whiteColor = whiteColor,
 
-    primaryContainer = separatorColor,
-    secondaryContainer = overlayColor,
-    onPrimaryContainer = labelDisableColor
+    separatorColor = separatorColor,
+    overlayColor = overlayColor,
+
+    labelPrimaryColor = labelPrimaryColor,
+    labelSecondaryColor = labelSecondaryColor,
+    labelTertiaryColor = labelTertiaryColor,
+    labelDisableColor = labelDisableColor,
+
+    backPrimaryColor = backPrimaryColor,
+    backSecondaryColor = backSecondaryColor,
+    backElevatedColor = backElevatedColor
 )
 
 @Composable
@@ -56,15 +69,14 @@ fun TodoAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
-            window.navigationBarColor = colorScheme.background.toArgb()
+            window.statusBarColor = colorScheme.backPrimaryColor.toArgb()
+            window.navigationBarColor = colorScheme.backPrimaryColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+    CompositionLocalProvider(
+        LocalColorPaletteScheme provides colorScheme,
         content = content
     )
 }

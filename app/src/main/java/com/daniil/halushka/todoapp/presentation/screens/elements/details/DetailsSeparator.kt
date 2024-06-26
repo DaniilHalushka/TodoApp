@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun DetailsSeparator() {
@@ -20,7 +20,7 @@ fun DetailsSeparator() {
                 start = 16.dp,
                 end = 16.dp
             )
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(AppTheme.colorScheme.lightGrayColor)
             .height(1.dp)
     )
 }

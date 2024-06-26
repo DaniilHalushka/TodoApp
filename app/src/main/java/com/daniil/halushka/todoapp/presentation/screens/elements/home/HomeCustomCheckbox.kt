@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -27,6 +26,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.constants.Priority
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun CustomCheckbox(
@@ -92,7 +92,7 @@ fun CustomCheckbox(
                     colors = CheckboxDefaults.colors(
                         checkedColor = Color.Transparent,
                         uncheckedColor = Color.Transparent,
-                        checkmarkColor = MaterialTheme.colorScheme.primary
+                        checkmarkColor = AppTheme.colorScheme.backPrimaryColor
                     )
                 )
             }

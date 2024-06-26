@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
 fun DetailsCollapsedDropdown(
@@ -27,13 +27,13 @@ fun DetailsCollapsedDropdown(
     ) {
         Text(
             text = stringResource(R.string.priority),
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = AppTheme.colorScheme.labelPrimaryColor,
             fontSize = 20.sp,
             fontWeight = FontWeight(500)
         )
         Text(
             text = priority,
-            color = MaterialTheme.colorScheme.onTertiary,
+            color = AppTheme.colorScheme.labelTertiaryColor,
             fontSize = 16.sp
         )
     }
