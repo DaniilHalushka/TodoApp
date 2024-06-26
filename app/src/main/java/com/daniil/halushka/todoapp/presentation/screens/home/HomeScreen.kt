@@ -3,8 +3,11 @@ package com.daniil.halushka.todoapp.presentation.screens.home
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +37,7 @@ fun HomeScreen(
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemScrollOffset }
             .collect { scrollOffset ->
-                toolbarHeight = if (scrollOffset > 0) 64.dp else 128.dp
+                toolbarHeight = if (scrollOffset > 0) 64.dp else 100.dp
             }
     }
 
@@ -54,7 +57,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(WindowInsets.systemBars.asPaddingValues()),
             contentAlignment = Alignment.BottomEnd
         ) {
             CustomFAB(

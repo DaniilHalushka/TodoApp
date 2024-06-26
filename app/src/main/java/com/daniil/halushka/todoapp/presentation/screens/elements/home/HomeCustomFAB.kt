@@ -24,7 +24,7 @@ fun CustomFAB(
             )
         },
         modifier = Modifier
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
         containerColor = AppTheme.colorScheme.blueColor,
         contentColor = Color.White,
         shape = CircleShape
