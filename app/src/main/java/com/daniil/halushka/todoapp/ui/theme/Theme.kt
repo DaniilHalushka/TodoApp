@@ -9,11 +9,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.daniil.halushka.todoapp.ui.theme.custom.ColorPaletteScheme
+import com.daniil.halushka.todoapp.ui.theme.custom.FontTypography
+import com.daniil.halushka.todoapp.ui.theme.custom.LocalAppTypography
 import com.daniil.halushka.todoapp.ui.theme.custom.LocalColorPaletteScheme
 
 object AppTheme {
     val colorScheme: ColorPaletteScheme
         @Composable get() = LocalColorPaletteScheme.current
+
+    val typographyScheme: FontTypography
+        @Composable get() = LocalAppTypography.current
 }
 
 private val DarkColorScheme = ColorPaletteScheme(
@@ -77,6 +82,7 @@ fun TodoAppTheme(
 
     CompositionLocalProvider(
         LocalColorPaletteScheme provides colorScheme,
+        LocalAppTypography provides typographyScheme,
         content = content
     )
 }
