@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,8 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,7 +47,30 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
-    var toolbarHeight by remember { mutableStateOf(0.dp) }
+    val toolbarHeight by rememberToolbarHeight(listState)
+
+    val nestedScrollConnection = createNestedScrollConnection(listState)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(nestedScrollConnection)
+    ) {
+        Column {
+            ContainerWithTodo(
+                navigationController = navigationController,
+                viewModel = viewModel,
+                listState = listState,
+                toolbarHeight = toolbarHeight
+            )
+        }
+        BottomEndFAB(navigationController)
+    }
+}
+
+@Composable
+fun rememberToolbarHeight(listState: LazyListState): State<Dp> {
+    var toolbarHeight by remember { mutableStateOf(100.dp) }
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemScrollOffset }
@@ -49,31 +79,44 @@ fun HomeScreen(
             }
     }
 
-    val animatedHeight by animateDpAsState(
-        targetValue = toolbarHeight, label = stringResource(id = R.string.toolbar)
+    return animateDpAsState(
+        targetValue = toolbarHeight,
+        label = stringResource(id = R.string.toolbar)
     )
+}
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column {
-            ContainerWithTodo(
-                navigationController = navigationController,
-                viewModel = viewModel,
-                listState = listState,
-                toolbarHeight = animatedHeight
-            )
+fun createNestedScrollConnection(listState: LazyListState): NestedScrollConnection {
+    return object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            return if (available.y > 0 && listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0) {
+                Offset.Zero
+            } else {
+                Offset(available.x, 0f)
+            }
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(WindowInsets.systemBars.asPaddingValues()),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            CustomFAB(
-                navigationController = navigationController
-            )
+
+        override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
+            return if (available.y < 0 && listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0) {
+                Offset.Zero
+            } else {
+                Offset(available.x, 0f)
+            }
         }
     }
 }
+
+@Composable
+fun BottomEndFAB(navigationController: NavController) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WindowInsets.systemBars.asPaddingValues()),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        CustomFAB(navigationController = navigationController)
+    }
+}
+
 
 
 @Composable
