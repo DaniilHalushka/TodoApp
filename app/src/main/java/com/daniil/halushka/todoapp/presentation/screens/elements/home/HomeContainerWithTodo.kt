@@ -12,8 +12,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -34,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.data.repository.TodoRepository
 import com.daniil.halushka.todoapp.domain.usecases.CountFinishedTodo
@@ -139,35 +143,52 @@ fun TodoInColumn(
                         },
                         modifier = Modifier.padding(end = 8.dp)
                     )
-                    Column(
-                        modifier = Modifier.weight(1f)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = todoItem.text,
-                            color = AppTheme.colorScheme.labelPrimaryColor,
-                            style = textStyle,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                        todoItem.deadline?.let { deadline ->
+                        if (todoItem.priority != Priority.USUAL_PRIORITY && !checked) {
+                            val (iconRes, tintColor) = when (todoItem.priority) {
+                                Priority.LOW_PRIORITY -> R.drawable.ic_low_priority to AppTheme.colorScheme.lightGrayColor
+                                else -> R.drawable.ic_urgent_priority to AppTheme.colorScheme.redColor
+                            }
+
+                            Icon(
+                                painter = painterResource(id = iconRes),
+                                tint = tintColor,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
                             Text(
-                                text = stringResource(
-                                    id = R.string.deadline_is_in,
-                                    deadline.asTime()
-                                ),
-                                color = AppTheme.colorScheme.labelTertiaryColor,
+                                text = todoItem.text,
+                                color = AppTheme.colorScheme.labelPrimaryColor,
                                 style = textStyle,
+                                maxLines = 3,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            todoItem.deadline?.let { deadline ->
+                                Text(
+                                    text = stringResource(
+                                        id = R.string.deadline_is_in,
+                                        deadline.asTime()
+                                    ),
+                                    color = AppTheme.colorScheme.labelTertiaryColor,
+                                    style = textStyle,
+                                )
+                            }
+                        }
+                        IconButton(
+                            onClick = onEditClick,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Info,
+                                contentDescription = stringResource(R.string.information_about_task),
+                                tint = AppTheme.colorScheme.labelTertiaryColor
                             )
                         }
-                    }
-                    IconButton(
-                        onClick = onEditClick,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Info,
-                            contentDescription = stringResource(R.string.information_about_task),
-                            tint = AppTheme.colorScheme.labelTertiaryColor
-                        )
                     }
                 }
             }
