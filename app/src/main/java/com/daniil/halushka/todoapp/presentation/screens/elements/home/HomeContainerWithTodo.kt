@@ -92,10 +92,10 @@ fun TodoInColumn(
     onCheckedChange: (todoId: String, isTodoDone: Boolean) -> Unit
 ) {
     var checked by remember { mutableStateOf(todoItem.isDone) }
-    val textStyle = when (checked) {
-        true -> AppTheme.typographyScheme.bodyText.copy(textDecoration = TextDecoration.LineThrough)
-        else -> AppTheme.typographyScheme.bodyText
-    }
+    val textStyle = if (checked) {
+        AppTheme.typographyScheme.bodyText.copy(textDecoration = TextDecoration.LineThrough)
+    } else AppTheme.typographyScheme.bodyText
+
 
     AnimatedVisibility(
         visible = !(!showFinishedTodo && checked),
