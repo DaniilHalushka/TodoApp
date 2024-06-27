@@ -1,5 +1,6 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
@@ -9,7 +10,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,15 +21,19 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun CustomCheckbox(
@@ -99,3 +106,66 @@ fun CustomCheckbox(
         }
     }
 }
+
+@Composable
+@Preview(name = "Light version", showBackground = true)
+fun CheckboxPreview() {
+    TodoAppTheme {
+        var checked by remember { mutableStateOf(false) }
+        Column(
+            modifier = Modifier
+                .padding(128.dp),
+        ) {
+            CustomCheckbox(
+                isChecked = true,
+                priority = Priority.USUAL_PRIORITY,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(8.dp)
+            )
+            CustomCheckbox(
+                isChecked = checked,
+                priority = Priority.USUAL_PRIORITY,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(8.dp)
+            )
+            CustomCheckbox(
+                isChecked = checked,
+                priority = Priority.URGENT_PRIORITY,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun CheckboxPreviewDark() {
+    TodoAppTheme {
+        var checked by remember { mutableStateOf(false) }
+        Column(
+            modifier = Modifier
+                .padding(128.dp),
+        ) {
+            CustomCheckbox(
+                isChecked = true,
+                priority = Priority.USUAL_PRIORITY,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(8.dp)
+            )
+            CustomCheckbox(
+                isChecked = checked,
+                priority = Priority.USUAL_PRIORITY,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(8.dp)
+            )
+            CustomCheckbox(
+                isChecked = checked,
+                priority = Priority.URGENT_PRIORITY,
+                onValueChange = { checked = it },
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+
