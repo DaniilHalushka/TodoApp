@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -112,7 +113,6 @@ fun TodoInColumn(
         AppTheme.typographyScheme.bodyText.copy(textDecoration = TextDecoration.LineThrough)
     } else AppTheme.typographyScheme.bodyText
 
-
     AnimatedVisibility(
         visible = !(!showFinishedTodo && checked),
         enter = fadeIn() + expandVertically(),
@@ -126,73 +126,97 @@ fun TodoInColumn(
             shadowElevation = 2.dp,
         ) {
             Box(
-                modifier = Modifier
-                    .background(AppTheme.colorScheme.backSecondaryColor)
+                modifier = Modifier.background(AppTheme.colorScheme.backSecondaryColor),
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    CustomCheckbox(
-                        priority = todoItem.priority,
-                        isChecked = checked,
-                        onValueChange = {
-                            checked = it
-                            onCheckedChange.invoke(todoItem.id, checked)
-                        },
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (todoItem.priority != Priority.USUAL_PRIORITY && !checked) {
-                            val (iconRes, tintColor) = when (todoItem.priority) {
-                                Priority.LOW_PRIORITY -> R.drawable.ic_low_priority to AppTheme.colorScheme.lightGrayColor
-                                else -> R.drawable.ic_urgent_priority to AppTheme.colorScheme.redColor
-                            }
-
-                            Icon(
-                                painter = painterResource(id = iconRes),
-                                tint = tintColor,
-                                contentDescription = null
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                        }
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(
-                                text = todoItem.text,
-                                color = AppTheme.colorScheme.labelPrimaryColor,
-                                style = textStyle,
-                                maxLines = 3,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                            todoItem.deadline?.let { deadline ->
-                                Text(
-                                    text = stringResource(
-                                        id = R.string.deadline_is_in,
-                                        deadline.asTime()
-                                    ),
-                                    color = AppTheme.colorScheme.labelTertiaryColor,
-                                    style = textStyle,
-                                )
-                            }
-                        }
-                        IconButton(
-                            onClick = onEditClick,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Info,
-                                contentDescription = stringResource(R.string.information_about_task),
-                                tint = AppTheme.colorScheme.labelTertiaryColor
-                            )
-                        }
-                    }
-                }
+                TodoRow(
+                    todoItem = todoItem,
+                    checked = checked,
+                    textStyle = textStyle,
+                    onCheckedChange = { checked = it; onCheckedChange(todoItem.id, it) },
+                    onEditClick = onEditClick
+                )
             }
         }
+    }
+}
+
+@Composable
+fun TodoRow(
+    todoItem: TodoItem,
+    checked: Boolean,
+    textStyle: TextStyle,
+    onCheckedChange: (Boolean) -> Unit,
+    onEditClick: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(16.dp)
+    ) {
+        CustomCheckbox(
+            priority = todoItem.priority,
+            isChecked = checked,
+            onValueChange = onCheckedChange,
+            modifier = Modifier.padding(end = 8.dp)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.weight(1f)
+        ) {
+            if (todoItem.priority != Priority.USUAL_PRIORITY && !checked) {
+                PriorityIcon(priority = todoItem.priority)
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+            TodoTextColumn(todoItem = todoItem, textStyle = textStyle)
+        }
+        EditIconButton(onEditClick = onEditClick)
+    }
+}
+
+@Composable
+fun PriorityIcon(priority: String) {
+    val (iconRes, tintColor) = when (priority) {
+        Priority.LOW_PRIORITY -> R.drawable.ic_low_priority to AppTheme.colorScheme.lightGrayColor
+        else -> R.drawable.ic_urgent_priority to AppTheme.colorScheme.redColor
+    }
+
+    Icon(
+        painter = painterResource(id = iconRes),
+        tint = tintColor,
+        contentDescription = null
+    )
+}
+
+@Composable
+fun TodoTextColumn(todoItem: TodoItem, textStyle: TextStyle) {
+    Column {
+        Text(
+            text = todoItem.text,
+            color = AppTheme.colorScheme.labelPrimaryColor,
+            style = textStyle,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+        )
+        todoItem.deadline?.let { deadline ->
+            Text(
+                text = stringResource(
+                    id = R.string.deadline_is_in,
+                    deadline.asTime()
+                ),
+                color = AppTheme.colorScheme.labelTertiaryColor,
+                style = textStyle,
+            )
+        }
+    }
+}
+
+@Composable
+fun EditIconButton(onEditClick: () -> Unit) {
+    IconButton(onClick = onEditClick) {
+        Icon(
+            imageVector = Icons.Default.Info,
+            contentDescription = stringResource(R.string.information_about_task),
+            tint = AppTheme.colorScheme.labelTertiaryColor
+        )
     }
 }
 
