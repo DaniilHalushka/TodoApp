@@ -1,5 +1,6 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
+import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -25,10 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun HomeTopBar(
@@ -116,6 +119,32 @@ fun EyeIcon(
                 else R.string.show_completed_tasks
             ),
             tint = AppTheme.colorScheme.blueColor
+        )
+    }
+}
+
+@Composable
+@Preview(name = "Light version", showBackground = true)
+fun HomeTopBarPreview() {
+    TodoAppTheme {
+        HomeTopBar(
+            completedItemsCount = 10,
+            onEyeIconClick = {},
+            showFinished = true,
+            height = 100.dp
+        )
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun HomeTopBarPreviewDark() {
+    TodoAppTheme {
+        HomeTopBar(
+            completedItemsCount = 10,
+            onEyeIconClick = {},
+            showFinished = true,
+            height = 100.dp
         )
     }
 }
