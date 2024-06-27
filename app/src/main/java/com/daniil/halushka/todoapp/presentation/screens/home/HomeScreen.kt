@@ -1,5 +1,6 @@
 package com.daniil.halushka.todoapp.presentation.screens.home
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,12 +20,19 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.domain.usecases.CountFinishedTodo
+import com.daniil.halushka.todoapp.domain.usecases.FinishTodo
+import com.daniil.halushka.todoapp.domain.usecases.ReceiveTodoList
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.ContainerWithTodo
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.CustomFAB
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun HomeScreen(
@@ -64,5 +72,34 @@ fun HomeScreen(
                 navigationController = navigationController
             )
         }
+    }
+}
+
+
+@Composable
+@Preview(name = "Light version", showBackground = true)
+fun HomeScreenPreview() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        val fakeViewModel = HomeScreenViewModel(
+            ReceiveTodoList(TodoRepository()),
+            CountFinishedTodo(TodoRepository()),
+            FinishTodo(TodoRepository())
+        )
+        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun HomeScreenPreviewDark() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        val fakeViewModel = HomeScreenViewModel(
+            ReceiveTodoList(TodoRepository()),
+            CountFinishedTodo(TodoRepository()),
+            FinishTodo(TodoRepository())
+        )
+        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
     }
 }

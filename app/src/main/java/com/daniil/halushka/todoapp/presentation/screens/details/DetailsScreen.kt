@@ -100,15 +100,15 @@ fun DetailsScreen(
 fun DetailsScreenPreview() {
     TodoAppTheme {
         val navigationController = rememberNavController()
-        DetailsScreen(navigationController = navigationController, null)
+        DetailsScreen(navigationController = navigationController)
     }
 }
 
 @Composable
 @Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun ThemePreviewDark() {
+fun DetailsScreenPreviewDark() {
     TodoAppTheme {
         val navigationController = rememberNavController()
-        DetailsScreen(navigationController = navigationController, null)
+        DetailsScreen(navigationController = navigationController)
     }
 }
