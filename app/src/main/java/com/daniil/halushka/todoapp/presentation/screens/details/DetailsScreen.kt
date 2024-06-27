@@ -1,5 +1,6 @@
 package com.daniil.halushka.todoapp.presentation.screens.details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,8 +13,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
@@ -25,6 +28,7 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun DetailsScreen(
@@ -88,5 +92,23 @@ fun DetailsScreen(
                 }
             )
         }
+    }
+}
+
+@Composable
+@Preview(name = "Light version")
+fun DetailsScreenPreview() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        DetailsScreen(navigationController = navigationController, null)
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun ThemePreviewDark() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        DetailsScreen(navigationController = navigationController, null)
     }
 }
