@@ -1,6 +1,8 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
@@ -22,23 +25,32 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.models.TodoItem
+import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.domain.usecases.CountFinishedTodo
+import com.daniil.halushka.todoapp.domain.usecases.FinishTodo
+import com.daniil.halushka.todoapp.domain.usecases.ReceiveTodoList
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
@@ -160,5 +172,73 @@ fun TodoInColumn(
                 }
             }
         }
+    }
+}
+
+@Composable
+@Preview(name = "Light version", showBackground = true)
+fun ContainerWithTodoPreview() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        val fakeViewModel = HomeScreenViewModel(
+            ReceiveTodoList(TodoRepository()),
+            CountFinishedTodo(TodoRepository()),
+            FinishTodo(TodoRepository())
+        )
+        val listState = rememberLazyListState()
+
+        var toolbarHeight by remember { mutableStateOf(0.dp) }
+
+        LaunchedEffect(listState) {
+            snapshotFlow { listState.firstVisibleItemScrollOffset }
+                .collect { scrollOffset ->
+                    toolbarHeight = if (scrollOffset > 0) 64.dp else 100.dp
+                }
+        }
+
+        val animatedHeight by animateDpAsState(
+            targetValue = toolbarHeight, label = stringResource(id = R.string.toolbar)
+        )
+
+        ContainerWithTodo(
+            navigationController = navigationController,
+            viewModel = fakeViewModel,
+            listState = listState,
+            toolbarHeight = animatedHeight
+        )
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun ContainerWithTodoPreviewDark() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        val fakeViewModel = HomeScreenViewModel(
+            ReceiveTodoList(TodoRepository()),
+            CountFinishedTodo(TodoRepository()),
+            FinishTodo(TodoRepository())
+        )
+        val listState = rememberLazyListState()
+
+        var toolbarHeight by remember { mutableStateOf(0.dp) }
+
+        LaunchedEffect(listState) {
+            snapshotFlow { listState.firstVisibleItemScrollOffset }
+                .collect { scrollOffset ->
+                    toolbarHeight = if (scrollOffset > 0) 64.dp else 100.dp
+                }
+        }
+
+        val animatedHeight by animateDpAsState(
+            targetValue = toolbarHeight, label = stringResource(id = R.string.toolbar)
+        )
+
+        ContainerWithTodo(
+            navigationController = navigationController,
+            viewModel = fakeViewModel,
+            listState = listState,
+            toolbarHeight = animatedHeight
+        )
     }
 }

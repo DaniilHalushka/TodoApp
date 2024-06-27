@@ -86,6 +86,7 @@ fun HomeScreenPreview() {
             CountFinishedTodo(TodoRepository()),
             FinishTodo(TodoRepository())
         )
+
         HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
     }
 }
@@ -100,6 +101,7 @@ fun HomeScreenPreviewDark() {
             CountFinishedTodo(TodoRepository()),
             FinishTodo(TodoRepository())
         )
+
         HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
     }
 }
