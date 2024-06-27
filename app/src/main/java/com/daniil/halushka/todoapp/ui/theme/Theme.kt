@@ -208,12 +208,37 @@ fun PreviewTodoAppTheme() {
     }
 }
 
+@Composable
+fun TypographyPreview() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text("Title", style = AppTheme.typographyScheme.title)
+        Text("Large Title", style = AppTheme.typographyScheme.largeTitle)
+        Text("Button Text", style = AppTheme.typographyScheme.buttonText)
+        Text("Body Text", style = AppTheme.typographyScheme.bodyText)
+        Text("Header Text", style = AppTheme.typographyScheme.headerText)
+    }
+}
+
 
 @Composable
 @Preview(name = "Light version")
 fun ThemePreviewLight() {
     TodoAppTheme {
-        PreviewTodoAppTheme()
+        Column {
+            Text(
+                "Color palette",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            PreviewTodoAppTheme()
+
+            Text(
+                "Typography",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            TypographyPreview()
+        }
     }
 }
 
@@ -221,6 +246,20 @@ fun ThemePreviewLight() {
 @Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun ThemePreviewDark() {
     TodoAppTheme {
-        PreviewTodoAppTheme()
+        Column {
+            Text(
+                "Color palette",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            PreviewTodoAppTheme()
+
+            Text(
+                "Typography",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            TypographyPreview()
+        }
     }
 }
