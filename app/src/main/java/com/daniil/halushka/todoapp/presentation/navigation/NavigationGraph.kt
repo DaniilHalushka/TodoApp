@@ -26,9 +26,10 @@ fun NavigationGraph(
 
         composable(
             ScreenRoutes.DetailsScreen.screenType
-        ) {
-            //todo add viewModel in future
+        ) { screen ->
+            val arguments = requireNotNull(screen.arguments)
             DetailsScreen(
+                todoId = arguments.getString("id"),
                 navigationController = navController
             )
         }

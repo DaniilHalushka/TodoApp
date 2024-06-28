@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,9 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.daniil.halushka.todoapp.constants.Priority
+import com.daniil.halushka.todoapp.constants.NullableTodo
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
@@ -33,18 +36,32 @@ import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 @Composable
 fun DetailsScreen(
     navigationController: NavController,
-    todoItem: TodoItem? = null
+    viewModel: DetailsScreenViewModel = hiltViewModel(),
+    todoId: String? = null
 ) {
     //TODO add viewmodel in future
-    when (navigationController.previousBackStackEntry?.destination?.route) {
-        ScreenRoutes.HomeScreen.screenType -> {}
-        ScreenRoutes.DetailsScreen.screenType -> {}
+    if (navigationController.previousBackStackEntry?.destination?.route == ScreenRoutes.HomeScreen.screenType) {
+        todoId?.let {
+            viewModel.getUniqueTodo(it)
+        }
     }
 
-    var dropdownClick: Boolean by remember { mutableStateOf(false) }
-    var todoText by remember { mutableStateOf(todoItem?.text ?: "") }
-    var selectedPriority by remember { mutableStateOf(todoItem?.priority ?: Priority.USUAL_PRIORITY) }
-    var selectedDate by remember { mutableStateOf(todoItem?.deadline) }
+    val uniqueTodo by viewModel.uniqueTodo.collectAsState()
+    val todoItem: TodoItem = uniqueTodo ?: NullableTodo.nullableTodo
+
+    var todoText by remember { mutableStateOf(todoItem.text) }
+
+    var dropdownClick by remember { mutableStateOf(false) }
+
+    var selectedPriority by remember { mutableStateOf(todoItem.priority) }
+
+    var selectedDate by remember { mutableStateOf(todoItem.deadline) }
+
+    LaunchedEffect(todoItem) {
+        todoText = todoItem.text
+        selectedPriority = todoItem.priority
+        selectedDate = todoItem.deadline
+    }
 
     Column(
         modifier = Modifier

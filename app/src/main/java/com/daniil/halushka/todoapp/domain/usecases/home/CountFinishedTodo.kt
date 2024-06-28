@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.domain.usecases
+package com.daniil.halushka.todoapp.domain.usecases.home
 
 import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
 import javax.inject.Inject

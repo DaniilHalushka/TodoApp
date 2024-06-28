@@ -8,6 +8,6 @@ sealed class ScreenRoutes(
     )
 
     data object DetailsScreen : ScreenRoutes(
-        screenType = "Details"
+        screenType = "Details/{id}"
     )
 }

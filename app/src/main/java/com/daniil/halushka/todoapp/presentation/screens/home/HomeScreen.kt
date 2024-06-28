@@ -34,9 +34,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.data.repository.TodoRepository
-import com.daniil.halushka.todoapp.domain.usecases.CountFinishedTodo
-import com.daniil.halushka.todoapp.domain.usecases.FinishTodo
-import com.daniil.halushka.todoapp.domain.usecases.ReceiveTodoList
+import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
+import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
+import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.ContainerWithTodo
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.CustomFAB
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme

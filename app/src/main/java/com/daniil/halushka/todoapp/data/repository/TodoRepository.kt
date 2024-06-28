@@ -132,6 +132,10 @@ class TodoRepository : TodoRepositoryInterface {
         todoList
     }
 
+    override suspend fun getUniqueTodo(id: String) = withContext(Dispatchers.IO) {
+        todoList.first { todoItem -> todoItem.id == id }
+    }
+
     override suspend fun addTodoInList(todoItem: TodoItem): Unit = withContext(Dispatchers.IO) {
         todoList.add(todoItem)
     }
