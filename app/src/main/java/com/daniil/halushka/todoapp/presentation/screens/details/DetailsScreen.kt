@@ -69,6 +69,16 @@ fun DetailsScreen(
         DetailsTopBar(
             clickOnNavigationItem = {
                 navigationController.popBackStack()
+            },
+            onSaveClick = {
+                viewModel.saveTodo(
+                    todoItem.copy(
+                        text = todoText,
+                        priority = selectedPriority,
+                        deadline = selectedDate
+                    )
+                )
+                navigationController.popBackStack()
             }
         )
 

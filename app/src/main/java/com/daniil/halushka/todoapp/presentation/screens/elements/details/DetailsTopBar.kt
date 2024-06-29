@@ -26,7 +26,8 @@ import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun DetailsTopBar(
-    clickOnNavigationItem: () -> Unit = {}
+    clickOnNavigationItem: () -> Unit = {},
+    onSaveClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -45,14 +46,14 @@ fun DetailsTopBar(
         )
         Text(
             modifier = Modifier
-                .clickable(onClick = clickOnNavigationItem),
+                .clickable(onClick = onSaveClick),
             text = stringResource(R.string.save_todo),
             style = AppTheme.typographyScheme.buttonText,
             color = AppTheme.colorScheme.blueColor
         )
-
     }
 }
+
 
 @Composable
 @Preview(name = "Light version", showBackground = true)

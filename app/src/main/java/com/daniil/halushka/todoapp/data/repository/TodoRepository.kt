@@ -140,11 +140,16 @@ class TodoRepository : TodoRepositoryInterface {
         todoList.add(todoItem)
     }
 
-    override suspend fun updateTodo(updatedTodo: TodoItem): Unit = withContext(Dispatchers.IO) {
-        todoList.indexOfFirst { todo -> todo.id == updatedTodo.id }
-            .takeIf { result -> result != -1 }?.let { index ->
-                todoList[index] = updatedTodo
-            }
+    override suspend fun saveTodo(todoItem: TodoItem): Unit = withContext(Dispatchers.IO) {
+        val index = todoList.indexOfFirst { it.id == todoItem.id }
+        if (index == -1) {
+            val newId = System.currentTimeMillis().toString()
+
+            val newItem = todoItem.copy(id = newId)
+            todoList.add(newItem)
+        } else {
+            todoList[index] = todoItem
+        }
     }
 
     override suspend fun deleteTodo(id: String): Unit = withContext(Dispatchers.IO) {

@@ -53,6 +53,7 @@ import com.daniil.halushka.todoapp.data.repository.TodoRepository
 import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
+import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
@@ -89,7 +90,7 @@ fun ContainerWithTodo(
                 TodoInColumn(
                     todoItem = currentItem,
                     onEditClick = {
-                        navigationController.navigate("Details/${currentItem.id}")
+                        navigationController.navigate(ScreenRoutes.DetailsScreen.createRoute(currentItem.id))
                     },
                     showFinishedTodo = showFinished,
                     onCheckedChange = { todoId, isTodoDone ->
