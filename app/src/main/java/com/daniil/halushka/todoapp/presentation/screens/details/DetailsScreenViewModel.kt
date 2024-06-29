@@ -3,6 +3,7 @@ package com.daniil.halushka.todoapp.presentation.screens.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniil.halushka.todoapp.data.models.TodoItem
+import com.daniil.halushka.todoapp.domain.usecases.details.DeleteTodo
 import com.daniil.halushka.todoapp.domain.usecases.details.GetUniqueTodo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsScreenViewModel @Inject constructor(
-    private val getUniqueTodo: GetUniqueTodo
+    private val getUniqueTodo: GetUniqueTodo,
+    private val deleteTodo: DeleteTodo
 ) : ViewModel() {
     private val _uniqueTodo = MutableStateFlow<TodoItem?>(null)
     val uniqueTodo: StateFlow<TodoItem?> get() = _uniqueTodo
@@ -24,5 +26,9 @@ class DetailsScreenViewModel @Inject constructor(
         }
     }
 
-
+    fun deleteTodo(id: String){
+        viewModelScope.launch {
+            deleteTodo.deleteTodo(id)
+        }
+    }
 }

@@ -39,7 +39,6 @@ fun DetailsScreen(
     viewModel: DetailsScreenViewModel = hiltViewModel(),
     todoId: String? = null
 ) {
-    //TODO add viewmodel in future
     if (navigationController.previousBackStackEntry?.destination?.route == ScreenRoutes.HomeScreen.screenType) {
         todoId?.let {
             viewModel.getUniqueTodo(it)
@@ -104,7 +103,9 @@ fun DetailsScreen(
             DetailsSeparator()
 
             DetailsDeleteButton(
-                clickOnNavigationItem = {
+                todoId = todoId ?: "",
+                onDeleteClick = { id ->
+                    viewModel.deleteTodo(id)
                     navigationController.popBackStack()
                 }
             )

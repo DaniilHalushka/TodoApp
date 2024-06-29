@@ -21,13 +21,14 @@ import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun DetailsDeleteButton(
-    clickOnNavigationItem: () -> Unit = {}
+    todoId: String,
+    onDeleteClick: (String) -> Unit
 ) {
     val redColor = Color.Red
 
     val activeButtonModifier = Modifier
         .padding(16.dp)
-        .clickable(onClick = clickOnNavigationItem)
+        .clickable(onClick = { onDeleteClick(todoId) })
 
     Row(
         modifier = activeButtonModifier,
@@ -52,12 +53,12 @@ fun DetailsDeleteButton(
 @Preview(name = "Light version", showBackground = true)
 fun DetailsDeleteButtonPreview() {
     TodoAppTheme {
-        DetailsDeleteButton()
+        DetailsDeleteButton("") {}
     }
 }
 
 @Composable
 @Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun DetailsDeleteButtonPreviewDark() {
-    DetailsDeleteButton()
+    DetailsDeleteButton("") {}
 }
