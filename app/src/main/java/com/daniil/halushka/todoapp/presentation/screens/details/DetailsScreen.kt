@@ -46,14 +46,11 @@ fun DetailsScreen(
     }
 
     val uniqueTodo by viewModel.uniqueTodo.collectAsState()
-    val todoItem: TodoItem = uniqueTodo ?: NullableTodo.nullableTodo
+    val todoItem: TodoItem = if (todoId == null) NullableTodo.nullableTodo else uniqueTodo ?: NullableTodo.nullableTodo
 
     var todoText by remember { mutableStateOf(todoItem.text) }
-
     var dropdownClick by remember { mutableStateOf(false) }
-
     var selectedPriority by remember { mutableStateOf(todoItem.priority) }
-
     var selectedDate by remember { mutableStateOf(todoItem.deadline) }
 
     LaunchedEffect(todoItem) {

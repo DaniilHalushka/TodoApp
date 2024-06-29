@@ -28,8 +28,9 @@ fun NavigationGraph(
             ScreenRoutes.DetailsScreen.screenType
         ) { screen ->
             val arguments = requireNotNull(screen.arguments)
+            val todoId = arguments.getString("id")
             DetailsScreen(
-                todoId = arguments.getString("id"),
+                todoId = if (todoId == "new") null else todoId,
                 navigationController = navController
             )
         }
