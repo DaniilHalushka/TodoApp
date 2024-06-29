@@ -1,21 +1,26 @@
 package com.daniil.halushka.todoapp.presentation.screens.details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.daniil.halushka.todoapp.constants.Priority
+import androidx.navigation.compose.rememberNavController
+import com.daniil.halushka.todoapp.constants.NullableTodo
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
@@ -25,32 +30,55 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsSeparator
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
+import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
+import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
 fun DetailsScreen(
     navigationController: NavController,
-    todoItem: TodoItem? = null
+    viewModel: DetailsScreenViewModel = hiltViewModel(),
+    todoId: String? = null
 ) {
-    //TODO add viewmodel in future
-    when (navigationController.previousBackStackEntry?.destination?.route) {
-        ScreenRoutes.HomeScreen.screenType -> {}
-        ScreenRoutes.DetailsScreen.screenType -> {}
+    if (navigationController.previousBackStackEntry?.destination?.route == ScreenRoutes.HomeScreen.screenType) {
+        todoId?.let {
+            viewModel.getUniqueTodo(it)
+        }
     }
 
-    var dropdownClick: Boolean by remember { mutableStateOf(false) }
-    var todoText by remember { mutableStateOf(todoItem?.text ?: "") }
-    var selectedPriority by remember { mutableStateOf(todoItem?.priority ?: Priority.USUAL_PRIORITY) }
-    var selectedDate by remember { mutableStateOf(todoItem?.deadline) }
+    val uniqueTodo by viewModel.uniqueTodo.collectAsState()
+    val todoItem: TodoItem = if (todoId == null) NullableTodo.nullableTodo else uniqueTodo ?: NullableTodo.nullableTodo
+
+    var todoText by remember { mutableStateOf(todoItem.text) }
+    var dropdownClick by remember { mutableStateOf(false) }
+    var selectedPriority by remember { mutableStateOf(todoItem.priority) }
+    var selectedDate by remember { mutableStateOf(todoItem.deadline) }
+
+    LaunchedEffect(todoItem) {
+        todoText = todoItem.text
+        selectedPriority = todoItem.priority
+        selectedDate = todoItem.deadline
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(AppTheme.colorScheme.backPrimaryColor)
             .padding(end = 4.dp),
         horizontalAlignment = Alignment.Start
     ) {
         DetailsTopBar(
             clickOnNavigationItem = {
+                navigationController.popBackStack()
+            },
+            onSaveClick = {
+                viewModel.saveTodo(
+                    todoItem.copy(
+                        text = todoText,
+                        priority = selectedPriority,
+                        deadline = selectedDate
+                    )
+                )
                 navigationController.popBackStack()
             }
         )
@@ -69,7 +97,10 @@ fun DetailsScreen(
                 DetailsExpandedDropdown(
                     expanded = dropdownClick,
                     clickToExpand = { click -> dropdownClick = click },
-                    onPrioritySelect = { newPriority -> selectedPriority = newPriority }
+                    onPrioritySelect = { newPriority ->
+                        selectedPriority = newPriority
+                        viewModel.updateTodoPriority(todoId ?: "", newPriority)
+                    }
                 )
             }
 
@@ -77,16 +108,41 @@ fun DetailsScreen(
 
             DetailsDeadlineBlock(
                 getDeadlineDate = { selectedDate },
-                onDateSelect = { date -> selectedDate = date }
+                onDateSelect = { date ->
+                    selectedDate = date
+                    if (todoId != null && date != null) {
+                        viewModel.updateTodoDeadline(todoId, date.asTime())
+                    }
+                }
             )
 
             DetailsSeparator()
 
             DetailsDeleteButton(
-                clickOnNavigationItem = {
+                todoId = todoId ?: "",
+                onDeleteClick = { id ->
+                    viewModel.deleteTodo(id)
                     navigationController.popBackStack()
                 }
             )
         }
+    }
+}
+
+@Composable
+@Preview(name = "Light version")
+fun DetailsScreenPreview() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        DetailsScreen(navigationController = navigationController)
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun DetailsScreenPreviewDark() {
+    TodoAppTheme {
+        val navigationController = rememberNavController()
+        DetailsScreen(navigationController = navigationController)
     }
 }

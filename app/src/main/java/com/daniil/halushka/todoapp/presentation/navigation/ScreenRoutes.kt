@@ -7,7 +7,13 @@ sealed class ScreenRoutes(
         screenType = "Home"
     )
 
-    data object DetailsScreen : ScreenRoutes(
-        screenType = "Details"
-    )
+    data object DetailsScreen : ScreenRoutes(screenType = "Details/{id}") {
+        fun createRoute(id: String? = null): String {
+            return if (id.isNullOrEmpty()) {
+                "Details/new"
+            } else {
+                "Details/$id"
+            }
+        }
+    }
 }

@@ -19,4 +19,6 @@
     <string name="delete">Delete</string>
     <string name="hide_completed_tasks">Hide completed tasks</string>
     <string name="show_completed_tasks">Show completed tasks</string>
+    <string name="visibility_icon">Visibility icon</string>
+    <string name="toolbar">Toolbar height</string>
 </resources>
