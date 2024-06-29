@@ -152,11 +152,20 @@ class TodoRepository : TodoRepositoryInterface {
         }
     }
 
-    override suspend fun updateTodoPriority(todoId: String, newPriority: String) =
+    override suspend fun updateTodoPriority(id: String, newPriority: String) =
         withContext(Dispatchers.IO) {
-            val index = todoList.indexOfFirst { it.id == todoId }
+            val index = todoList.indexOfFirst { it.id == id }
             if (index != -1) {
                 val updatedTodo = todoList[index].copy(priority = newPriority)
+                todoList[index] = updatedTodo
+            }
+        }
+
+    override suspend fun updateTodoDeadline(id: String, newDeadline: Long) =
+        withContext(Dispatchers.IO) {
+            val index = todoList.indexOfFirst { it.id == id }
+            if (index != -1) {
+                val updatedTodo = todoList[index].copy(deadline = newDeadline)
                 todoList[index] = updatedTodo
             }
         }

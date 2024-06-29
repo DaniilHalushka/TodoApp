@@ -32,6 +32,7 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
+import com.daniil.halushka.todoapp.util.asTime
 
 @Composable
 fun DetailsScreen(
@@ -107,7 +108,12 @@ fun DetailsScreen(
 
             DetailsDeadlineBlock(
                 getDeadlineDate = { selectedDate },
-                onDateSelect = { date -> selectedDate = date }
+                onDateSelect = { date ->
+                    selectedDate = date
+                    if (todoId != null && date != null) {
+                        viewModel.updateTodoDeadline(todoId, date.asTime())
+                    }
+                }
             )
 
             DetailsSeparator()
