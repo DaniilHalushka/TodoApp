@@ -152,6 +152,15 @@ class TodoRepository : TodoRepositoryInterface {
         }
     }
 
+    override suspend fun updateTodoPriority(todoId: String, newPriority: String) =
+        withContext(Dispatchers.IO) {
+            val index = todoList.indexOfFirst { it.id == todoId }
+            if (index != -1) {
+                val updatedTodo = todoList[index].copy(priority = newPriority)
+                todoList[index] = updatedTodo
+            }
+        }
+
     override suspend fun deleteTodo(id: String): Unit = withContext(Dispatchers.IO) {
         todoList.removeAll { todo -> todo.id == id }
     }
