@@ -1,48 +1,75 @@
 package com.daniil.halushka.todoapp.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import com.daniil.halushka.todoapp.ui.theme.custom.ColorPaletteScheme
+import com.daniil.halushka.todoapp.ui.theme.custom.FontTypography
+import com.daniil.halushka.todoapp.ui.theme.custom.LocalAppTypography
+import com.daniil.halushka.todoapp.ui.theme.custom.LocalColorPaletteScheme
 
-private val DarkColorScheme = darkColorScheme(
-    primary = nightBackPrimaryColor,
-    secondary = nightBackSecondaryColor,
-    tertiary = blueColor,
-    background = nightBackPrimaryColor,
-    surface = nightBackElevatedColor,
-    onPrimary = nightLabelPrimaryColor,
-    onSecondary = nightLabelSecondaryColor,
-    onTertiary = nightLabelTertiaryColor,
-    onBackground = nightLabelPrimaryColor,
-    onSurface = nightLabelPrimaryColor,
+object AppTheme {
+    val colorScheme: ColorPaletteScheme
+        @Composable get() = LocalColorPaletteScheme.current
 
-    primaryContainer = nightSeparatorColor,
-    secondaryContainer = nightOverlayColor,
-    onPrimaryContainer = nightLabelDisableColor
+    val typographyScheme: FontTypography
+        @Composable get() = LocalAppTypography.current
+}
+
+private val DarkColorScheme = ColorPaletteScheme(
+    redColor = redColor,
+    greenColor = greenColor,
+    blueColor = blueColor,
+    grayColor = grayColor,
+    lightGrayColor = lightGrayColor,
+    whiteColor = whiteColor,
+
+    separatorColor = nightSeparatorColor,
+    overlayColor = nightOverlayColor,
+
+    labelPrimaryColor = nightLabelPrimaryColor,
+    labelSecondaryColor = nightLabelSecondaryColor,
+    labelTertiaryColor = nightLabelTertiaryColor,
+    labelDisableColor = nightLabelDisableColor,
+
+    backPrimaryColor = nightBackPrimaryColor,
+    backSecondaryColor = nightBackSecondaryColor,
+    backElevatedColor = nightBackElevatedColor
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = backPrimaryColor,
-    secondary = backSecondaryColor,
-    tertiary = blueColor,
-    background = backPrimaryColor,
-    surface = backElevatedColor,
-    onPrimary = labelPrimaryColor,
-    onSecondary = labelSecondaryColor,
-    onTertiary = labelTertiaryColor,
-    onBackground = labelPrimaryColor,
-    onSurface = labelPrimaryColor,
+private val LightColorScheme = ColorPaletteScheme(
+    redColor = redColor,
+    greenColor = greenColor,
+    blueColor = blueColor,
+    grayColor = grayColor,
+    lightGrayColor = lightGrayColor,
+    whiteColor = whiteColor,
 
-    primaryContainer = separatorColor,
-    secondaryContainer = overlayColor,
-    onPrimaryContainer = labelDisableColor
+    separatorColor = separatorColor,
+    overlayColor = overlayColor,
+
+    labelPrimaryColor = labelPrimaryColor,
+    labelSecondaryColor = labelSecondaryColor,
+    labelTertiaryColor = labelTertiaryColor,
+    labelDisableColor = labelDisableColor,
+
+    backPrimaryColor = backPrimaryColor,
+    backSecondaryColor = backSecondaryColor,
+    backElevatedColor = backElevatedColor
 )
 
 @Composable
@@ -56,15 +83,183 @@ fun TodoAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
-            window.navigationBarColor = colorScheme.background.toArgb()
+            window.statusBarColor = colorScheme.backPrimaryColor.toArgb()
+            window.navigationBarColor = colorScheme.backPrimaryColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+    CompositionLocalProvider(
+        LocalColorPaletteScheme provides colorScheme,
+        LocalAppTypography provides typographyScheme,
         content = content
     )
+}
+
+@Composable
+fun PreviewTodoAppTheme() {
+    Column {
+        Text(
+            "redColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.redColor)
+                .padding(8.dp)
+        )
+        Text(
+            "greenColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.greenColor)
+                .padding(8.dp)
+        )
+        Text(
+            "blueColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.blueColor)
+                .padding(8.dp)
+        )
+        Text(
+            "grayColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.grayColor)
+                .padding(8.dp)
+        )
+        Text(
+            "lightGrayColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.lightGrayColor)
+                .padding(8.dp)
+        )
+        Text(
+            "White",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.whiteColor)
+                .padding(8.dp)
+        )
+        Text(
+            "separatorColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.separatorColor)
+                .padding(8.dp)
+        )
+        Text(
+            "overlayColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.overlayColor)
+                .padding(8.dp)
+        )
+        Text(
+            "labelPrimaryColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.labelPrimaryColor)
+                .padding(8.dp),
+            color = AppTheme.colorScheme.redColor
+        )
+        Text(
+            "labelSecondaryColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.labelSecondaryColor)
+                .padding(8.dp)
+        )
+        Text(
+            "labelTertiaryColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.labelTertiaryColor)
+                .padding(8.dp)
+        )
+        Text(
+            "labelDisableColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.labelDisableColor)
+                .padding(8.dp)
+        )
+        Text(
+            "backPrimaryColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.backPrimaryColor)
+                .padding(8.dp),
+        )
+        Text(
+            "backSecondaryColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.backSecondaryColor)
+                .padding(8.dp),
+        )
+        Text(
+            "backElevatedColor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colorScheme.backElevatedColor)
+                .padding(8.dp),
+        )
+    }
+}
+
+@Composable
+fun TypographyPreview() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text("Title", style = AppTheme.typographyScheme.title)
+        Text("Large Title", style = AppTheme.typographyScheme.largeTitle)
+        Text("Button Text", style = AppTheme.typographyScheme.buttonText)
+        Text("Body Text", style = AppTheme.typographyScheme.bodyText)
+        Text("Header Text", style = AppTheme.typographyScheme.headerText)
+    }
+}
+
+
+@Composable
+@Preview(name = "Light version")
+fun ThemePreviewLight() {
+    TodoAppTheme {
+        Column {
+            Text(
+                "Color palette",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            PreviewTodoAppTheme()
+
+            Text(
+                "Typography",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            TypographyPreview()
+        }
+    }
+}
+
+@Composable
+@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun ThemePreviewDark() {
+    TodoAppTheme {
+        Column {
+            Text(
+                "Color palette",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            PreviewTodoAppTheme()
+
+            Text(
+                "Typography",
+                style = AppTheme.typographyScheme.title,
+                modifier = Modifier.padding(16.dp)
+            )
+            TypographyPreview()
+        }
+    }
 }
