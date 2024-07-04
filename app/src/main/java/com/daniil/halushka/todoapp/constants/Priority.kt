@@ -5,8 +5,8 @@ object Priority {
     const val USUAL_PRIORITY = "Usual"
     const val URGENT_PRIORITY = "!! Urgent"
 
-    fun convertPriorityToImportance(priority: Priority): String {
-        return when (priority.toString()) {
+    fun convertPriorityToImportance(priority: String): String {
+        return when (priority) {
             LOW_PRIORITY -> {
                 "low"
             }
@@ -19,7 +19,28 @@ object Priority {
                 "important"
             }
 
-            else -> {""}
+            else -> {
+                ""
+            }
         }
+    }
+
+    fun convertImportanceToPriority(importance: String): String {
+        var priority = ""
+        when (importance) {
+            "low" -> {
+                priority = LOW_PRIORITY
+            }
+
+            "basic" -> {
+                priority = USUAL_PRIORITY
+            }
+
+            "important" -> {
+                priority = URGENT_PRIORITY
+            }
+
+        }
+        return priority
     }
 }
