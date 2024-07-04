@@ -47,7 +47,8 @@ fun DetailsScreen(
     }
 
     val uniqueTodo by viewModel.uniqueTodo.collectAsState()
-    val todoItem: TodoItem = if (todoId == null) NullableTodo.nullableTodo else uniqueTodo ?: NullableTodo.nullableTodo
+    val todoItem: TodoItem =
+        if (todoId == null) NullableTodo.nullableModel else uniqueTodo ?: NullableTodo.nullableModel
 
     var todoText by remember { mutableStateOf(todoItem.text) }
     var dropdownClick by remember { mutableStateOf(false) }

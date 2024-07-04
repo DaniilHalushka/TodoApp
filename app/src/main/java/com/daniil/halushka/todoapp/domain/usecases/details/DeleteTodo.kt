@@ -6,7 +6,7 @@ import javax.inject.Inject
 class DeleteTodo @Inject constructor(
     private val todoRepository: TodoRepositoryInterface
 ) {
-    suspend fun deleteTodo(id: String) {
+    suspend fun deleteTodoInList(id: String) {
         todoRepository.deleteTodo(id)
     }
 }

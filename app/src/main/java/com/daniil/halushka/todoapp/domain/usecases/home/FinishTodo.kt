@@ -6,7 +6,7 @@ import javax.inject.Inject
 class FinishTodo @Inject constructor(
     private val todoRepository: TodoRepositoryInterface
 ) {
-    suspend fun finishTodo(todoId: String, isTodoDone: Boolean) {
+    suspend fun finishTodoFromList(todoId: String, isTodoDone: Boolean) {
         todoRepository.finishTodo(todoId, isTodoDone)
     }
 }

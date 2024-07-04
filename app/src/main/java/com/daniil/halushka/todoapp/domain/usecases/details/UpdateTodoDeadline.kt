@@ -6,7 +6,7 @@ import javax.inject.Inject
 class UpdateTodoDeadline @Inject constructor(
     private val todoRepository: TodoRepositoryInterface
 ) {
-    suspend fun updateTodoDeadline(todoId: String, newDeadline: String) {
+    suspend fun updateDeadlineInTodo(todoId: String, newDeadline: String) {
         todoRepository.updateTodoPriority(todoId, newDeadline)
     }
 }

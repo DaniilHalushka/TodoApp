@@ -7,7 +7,7 @@ import javax.inject.Inject
 class SaveTodo @Inject constructor(
     private val todoRepository: TodoRepositoryInterface
 ) {
-    suspend fun saveTodo(todoItem: TodoItem) {
+    suspend fun saveTodoInList(todoItem: TodoItem) {
         todoRepository.saveTodo(todoItem)
     }
 }

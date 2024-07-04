@@ -88,15 +88,25 @@ fun rememberToolbarHeight(listState: LazyListState): State<Dp> {
 fun createNestedScrollConnection(listState: LazyListState): NestedScrollConnection {
     return object : NestedScrollConnection {
         override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-            return if (available.y > 0 && listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0) {
+            return if (available.y > 0
+                && listState.firstVisibleItemIndex == 0
+                && listState.firstVisibleItemScrollOffset == 0
+            ) {
                 Offset.Zero
             } else {
                 Offset(available.x, 0f)
             }
         }
 
-        override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
-            return if (available.y < 0 && listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0) {
+        override fun onPostScroll(
+            consumed: Offset,
+            available: Offset,
+            source: NestedScrollSource
+        ): Offset {
+            return if (available.y < 0
+                && listState.firstVisibleItemIndex == 0
+                && listState.firstVisibleItemScrollOffset == 0
+            ) {
                 Offset.Zero
             } else {
                 Offset(available.x, 0f)
@@ -116,7 +126,6 @@ fun BottomEndFAB(navigationController: NavController) {
         CustomFAB(navigationController = navigationController)
     }
 }
-
 
 
 @Composable

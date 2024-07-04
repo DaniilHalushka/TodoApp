@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ReceiveTodoList @Inject constructor(
     private val todoRepository: TodoRepositoryInterface
 ) {
-    suspend fun receiveTodoList(): List<TodoItem> {
+    suspend fun receiveTodoListFromList(): List<TodoItem> {
         return todoRepository.getTodoList()
     }
 }
