@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +45,11 @@ fun DetailsDeadlineBlock(
     var date by remember { mutableStateOf(getDeadlineDate()) }
     var dateDialogController by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(initialSelectedDateMillis = date)
+
+    LaunchedEffect(getDeadlineDate()) {
+        isDeadlineActive = getDeadlineDate() != null
+        date = getDeadlineDate()
+    }
 
     DeadlineRow(
         isDeadlineActive = isDeadlineActive,
@@ -74,6 +80,7 @@ fun DetailsDeadlineBlock(
         )
     }
 }
+
 
 @Composable
 private fun DeadlineRow(
