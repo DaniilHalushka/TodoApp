@@ -2,7 +2,6 @@ package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -27,13 +26,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -42,7 +39,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -63,23 +59,15 @@ import com.daniil.halushka.todoapp.util.asTime
 fun ContainerWithTodo(
     navigationController: NavController,
     viewModel: HomeScreenViewModel,
-    listState: LazyListState,
-    toolbarHeight: Dp
+    listState: LazyListState
 ) {
     val todoList by viewModel.todoList.collectAsState()
     val showFinished by viewModel.showFinishedTodo.collectAsState()
-    val completedItemsCount by viewModel.quantityOfFinishedTodo.collectAsState()
 
     Column(
         modifier = Modifier
             .background(AppTheme.colorScheme.backPrimaryColor)
     ) {
-        HomeTopBar(
-            completedItemsCount = completedItemsCount,
-            onEyeIconClick = { showTask -> viewModel.showFinishedTodo(showTask) },
-            showFinished = showFinished,
-            height = toolbarHeight
-        )
         LazyColumn(
             state = listState,
             modifier = Modifier
@@ -233,24 +221,10 @@ fun ContainerWithTodoPreview() {
         )
         val listState = rememberLazyListState()
 
-        var toolbarHeight by remember { mutableStateOf(0.dp) }
-
-        LaunchedEffect(listState) {
-            snapshotFlow { listState.firstVisibleItemScrollOffset }
-                .collect { scrollOffset ->
-                    toolbarHeight = if (scrollOffset > 0) 64.dp else 100.dp
-                }
-        }
-
-        val animatedHeight by animateDpAsState(
-            targetValue = toolbarHeight, label = stringResource(id = R.string.toolbar)
-        )
-
         ContainerWithTodo(
             navigationController = navigationController,
             viewModel = fakeViewModel,
-            listState = listState,
-            toolbarHeight = animatedHeight
+            listState = listState
         )
     }
 }
@@ -267,24 +241,10 @@ fun ContainerWithTodoPreviewDark() {
         )
         val listState = rememberLazyListState()
 
-        var toolbarHeight by remember { mutableStateOf(0.dp) }
-
-        LaunchedEffect(listState) {
-            snapshotFlow { listState.firstVisibleItemScrollOffset }
-                .collect { scrollOffset ->
-                    toolbarHeight = if (scrollOffset > 0) 64.dp else 100.dp
-                }
-        }
-
-        val animatedHeight by animateDpAsState(
-            targetValue = toolbarHeight, label = stringResource(id = R.string.toolbar)
-        )
-
         ContainerWithTodo(
             navigationController = navigationController,
             viewModel = fakeViewModel,
-            listState = listState,
-            toolbarHeight = animatedHeight
+            listState = listState
         )
     }
 }
