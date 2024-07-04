@@ -90,6 +90,8 @@ fun HomeTopBar(
 }
 
 
+private const val DURATION = 200
+
 @Composable
 fun EyeIcon(
     onIconClick: () -> Unit,
@@ -99,7 +101,7 @@ fun EyeIcon(
         modifier = Modifier
             .size(24.dp),
         targetState = isDone,
-        animationSpec = tween(200),
+        animationSpec = tween(DURATION),
         label = stringResource(R.string.visibility_icon)
     ) { iconState ->
         Icon(

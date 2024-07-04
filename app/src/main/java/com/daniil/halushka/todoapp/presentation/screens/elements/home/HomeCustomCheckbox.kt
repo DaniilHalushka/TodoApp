@@ -35,6 +35,10 @@ import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+private const val DURATION = 200
+
+private const val SIZE_MULTIPLIER = -0.5
+
 @Composable
 fun CustomCheckbox(
     isChecked: Boolean,
@@ -51,13 +55,13 @@ fun CustomCheckbox(
 
     val checkboxColor: Color by animateColorAsState(
         targetValue = if (isChecked) Color.Green else Color.White,
-        animationSpec = tween(durationMillis = 200),
+        animationSpec = tween(durationMillis = DURATION),
         label = ""
     )
 
     val interactionSource = remember { MutableInteractionSource() }
     val density = LocalDensity.current
-    val duration = 200
+    val duration = DURATION
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -85,7 +89,7 @@ fun CustomCheckbox(
             androidx.compose.animation.AnimatedVisibility(
                 visible = isChecked,
                 enter = slideInHorizontally(animationSpec = tween(durationMillis = duration)) {
-                    with(density) { (size * -0.5).dp.roundToPx() }
+                    with(density) { (size * SIZE_MULTIPLIER).dp.roundToPx() }
                 } + expandHorizontally(
                     expandFrom = Alignment.Start,
                     animationSpec = tween(durationMillis = duration)

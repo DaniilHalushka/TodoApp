@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.constants.NullableTodo
@@ -30,10 +30,17 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsSeparator
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
+import com.daniil.halushka.todoapp.presentation.viewmodels.DetailsScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
+/**
+ * Composable function representing the Details screen of the application.
+ * @param navigationController NavController used for navigation.
+ * @param viewModel ViewModel for managing Details screen state.
+ * @param todoId Optional todoItem id to load details.
+ */
 @Composable
 fun DetailsScreen(
     navigationController: NavController,
@@ -46,7 +53,7 @@ fun DetailsScreen(
         }
     }
 
-    val uniqueTodo by viewModel.uniqueTodo.collectAsState()
+    val uniqueTodo by viewModel.uniqueTodo.collectAsStateWithLifecycle()
     val todoItem: TodoItem =
         if (todoId == null) NullableTodo.nullableModel else uniqueTodo ?: NullableTodo.nullableModel
 

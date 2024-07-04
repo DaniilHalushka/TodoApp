@@ -50,7 +50,7 @@ import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
-import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreenViewModel
+import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import com.daniil.halushka.todoapp.util.asTime

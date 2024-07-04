@@ -7,7 +7,12 @@ import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Repository for managing the list of [TodoItem] tasks.
+ * Responsible for storing, adding, deleting, and updating tasks.
+ */
 class TodoRepository : TodoRepositoryInterface {
+
     private val todoList = initializeList()
 
     override suspend fun getTodoList(): List<TodoItem> = withContext(Dispatchers.Default) {
@@ -15,60 +20,12 @@ class TodoRepository : TodoRepositoryInterface {
     }
 
     override suspend fun getUniqueTodo(id: String) = withContext(Dispatchers.Default) {
-        todoList.first { todoItem -> todoItem.id == id }
-    }
-
-    override suspend fun addTodoInList(todoItem: TodoItem): Unit =
-        withContext(Dispatchers.Default) {
-            todoList.add(todoItem)
-        }
-
-    override suspend fun saveTodo(todoItem: TodoItem): Unit = withContext(Dispatchers.Default) {
-        val index = todoList.indexOfFirst { it.id == todoItem.id }
-        if (index == -1) {
-            val newId = System.currentTimeMillis().toString()
-
-            val newItem = todoItem.copy(id = newId)
-            todoList.add(newItem)
-        } else {
-            todoList[index] = todoItem
-        }
-    }
-
-    override suspend fun updateTodoPriority(id: String, newPriority: String) =
-        withContext(Dispatchers.Default) {
-            val index = todoList.indexOfFirst { it.id == id }
-            if (index != -1) {
-                val updatedTodo = todoList[index].copy(priority = newPriority)
-                todoList[index] = updatedTodo
-            }
-        }
-
-    override suspend fun updateTodoDeadline(id: String, newDeadline: Long) =
-        withContext(Dispatchers.Default) {
-            val index = todoList.indexOfFirst { it.id == id }
-            if (index != -1) {
-                val updatedTodo = todoList[index].copy(deadline = newDeadline)
-                todoList[index] = updatedTodo
-            }
-        }
-
-    override suspend fun deleteTodo(id: String): Unit = withContext(Dispatchers.Default) {
-        todoList.removeAll { todo -> todo.id == id }
+        todoList.first { it.id == id }
     }
 
     override suspend fun countFinishedTodo(): Int = withContext(Dispatchers.Default) {
         todoList.count { it.isDone }
     }
-
-    override suspend fun finishTodo(todoId: String, isTodoDone: Boolean): Unit =
-        withContext(Dispatchers.Default) {
-            todoList.indexOfFirst { todo -> todo.id == todoId }
-                .takeIf { result -> result != -1 }?.let { index ->
-                    val updatedTodo = todoList[index].copy(isDone = isTodoDone)
-                    todoList[index] = updatedTodo
-                }
-        }
 
     private fun initializeList(): MutableList<TodoItem> {
         return mutableStateListOf(
@@ -190,5 +147,92 @@ class TodoRepository : TodoRepositoryInterface {
                 isDone = false
             )
         )
+    }
+
+    private val todoOperations = TodoOperations(todoList)
+
+    override suspend fun addTodoInList(todoItem: TodoItem) {
+        todoOperations.addTodoInList(todoItem)
+    }
+
+    override suspend fun saveTodo(todoItem: TodoItem) {
+        todoOperations.saveTodo(todoItem)
+    }
+
+    override suspend fun updateTodoPriority(id: String, newPriority: String) {
+        todoOperations.updateTodoPriority(id, newPriority)
+    }
+
+    override suspend fun updateTodoDeadline(id: String, newDeadline: Long) {
+        todoOperations.updateTodoDeadline(id, newDeadline)
+    }
+
+    override suspend fun deleteTodo(id: String) {
+        todoOperations.deleteTodo(id)
+    }
+
+    override suspend fun finishTodo(todoId: String, isTodoDone: Boolean) {
+        todoOperations.finishTodo(todoId, isTodoDone)
+    }
+}
+private class TodoOperations(private val todoList: MutableList<TodoItem>) {
+
+    suspend fun addTodoInList(todoItem: TodoItem) {
+        withContext(Dispatchers.Default) {
+            todoList.add(todoItem)
+        }
+    }
+
+    suspend fun saveTodo(todoItem: TodoItem) {
+        withContext(Dispatchers.Default) {
+            updateOrAddTodo(todoItem)
+        }
+    }
+
+    suspend fun updateTodoPriority(id: String, newPriority: String) {
+        withContext(Dispatchers.Default) {
+            updateField(id) { it.copy(priority = newPriority) }
+        }
+    }
+
+    suspend fun updateTodoDeadline(id: String, newDeadline: Long) {
+        withContext(Dispatchers.Default) {
+            updateField(id) { it.copy(deadline = newDeadline) }
+        }
+    }
+
+    private fun updateOrAddTodo(todoItem: TodoItem) {
+        val index = todoList.indexOfFirst { it.id == todoItem.id }
+        if (index == -1) {
+            val newId = System.currentTimeMillis().toString()
+            val newItem = todoItem.copy(id = newId)
+            todoList.add(newItem)
+        } else {
+            todoList[index] = todoItem
+        }
+    }
+
+    private inline fun updateField(id: String, updateFunction: (TodoItem) -> TodoItem) {
+        val index = todoList.indexOfFirst { it.id == id }
+        if (index != -1) {
+            val updatedTodo = updateFunction(todoList[index])
+            todoList[index] = updatedTodo
+        }
+    }
+
+    suspend fun deleteTodo(id: String) {
+        withContext(Dispatchers.Default) {
+            todoList.removeAll { it.id == id }
+        }
+    }
+
+    suspend fun finishTodo(todoId: String, isTodoDone: Boolean) {
+        withContext(Dispatchers.Default) {
+            todoList.indexOfFirst { it.id == todoId }
+                .takeIf { result -> result != -1 }?.let { index ->
+                    val updatedTodo = todoList[index].copy(isDone = isTodoDone)
+                    todoList[index] = updatedTodo
+                }
+        }
     }
 }

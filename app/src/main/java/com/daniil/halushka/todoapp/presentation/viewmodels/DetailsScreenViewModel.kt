@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.presentation.screens.details
+package com.daniil.halushka.todoapp.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

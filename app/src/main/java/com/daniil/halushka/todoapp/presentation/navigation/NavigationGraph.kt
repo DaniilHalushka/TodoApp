@@ -9,6 +9,11 @@ import androidx.navigation.navArgument
 import com.daniil.halushka.todoapp.presentation.screens.details.DetailsScreen
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreen
 
+/**
+ * Composable function representing the navigation graph of the application.
+ * @param navController NavHostController used for navigating between screens.
+ * @param startDestination Start destination of the navigation graph.
+ */
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
