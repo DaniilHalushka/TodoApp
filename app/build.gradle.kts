@@ -73,6 +73,10 @@ dependencies {
     //Lifecycle
     implementation(libs.androidx.lifecycle.runtime.compose)
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
