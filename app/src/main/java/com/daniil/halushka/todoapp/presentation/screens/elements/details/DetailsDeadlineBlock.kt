@@ -136,11 +136,25 @@ private fun DeadlineDatePickerDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
+    val currentDate = System.currentTimeMillis()
+    var showInvalidDateError by remember { mutableStateOf(false) }
+
     DatePickerDialog(
         colors = datePickerDialogColors(),
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            showInvalidDateError = false
+            onDismiss()
+        },
         confirmButton = {
-            TextButton(onClick = onConfirm) {
+            TextButton(onClick = {
+                val selectedDate = datePickerState.selectedDateMillis
+                if (selectedDate != null && selectedDate >= currentDate) {
+                    showInvalidDateError = false
+                    onConfirm()
+                } else {
+                    showInvalidDateError = true
+                }
+            }) {
                 Text(
                     text = stringResource(R.string.done),
                     color = AppTheme.colorScheme.blueColor,
@@ -149,7 +163,10 @@ private fun DeadlineDatePickerDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = {
+                showInvalidDateError = false
+                onDismiss()
+            }) {
                 Text(
                     text = stringResource(R.string.cancel),
                     color = AppTheme.colorScheme.blueColor,
@@ -158,12 +175,24 @@ private fun DeadlineDatePickerDialog(
             }
         }
     ) {
-        DatePicker(
-            state = datePickerState,
-            colors = datePickerColors()
-        )
+        Column {
+            DatePicker(
+                state = datePickerState,
+                colors = datePickerColors()
+            )
+            if (showInvalidDateError) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    text = stringResource(R.string.invalid_date_error),
+                    color = AppTheme.colorScheme.redColor,
+                    style = AppTheme.typographyScheme.bodyText,
+                )
+            }
+        }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

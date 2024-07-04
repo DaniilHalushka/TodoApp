@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,14 +37,17 @@ fun DetailsTopBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Icon(
+        IconButton(
             modifier = Modifier
-                .size(24.dp)
-                .clickable(onClick = clickOnNavigationItem),
-            imageVector = Icons.Default.Close,
-            contentDescription = stringResource(R.string.close_details_screen),
-            tint = AppTheme.colorScheme.labelPrimaryColor
-        )
+                .size(24.dp),
+            onClick = clickOnNavigationItem
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = stringResource(R.string.close_details_screen),
+                tint = AppTheme.colorScheme.labelPrimaryColor
+            )
+        }
         Text(
             modifier = Modifier
                 .clickable(onClick = onSaveClick),
