@@ -1,5 +1,6 @@
-package com.daniil.halushka.todoapp.data.network.server.models.item
+package com.daniil.halushka.todoapp.data.network.api.models.item
 
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
 data class TodoItemNetworkModel(
@@ -11,5 +12,9 @@ data class TodoItemNetworkModel(
     @SerializedName("deadline") val deadline: Long?,
     @SerializedName("changed_at") val changedAt: Long?,
     @SerializedName("color") val color: String? = "#FFFFFF",
-    @SerializedName("last_updated_by") val device: String = "this"
-)
+    @SerializedName("last_updated_by") val lastUpdatedBy: String = "this"
+) {
+    fun toJson(): String {
+        return Gson().toJson(this)
+    }
+}

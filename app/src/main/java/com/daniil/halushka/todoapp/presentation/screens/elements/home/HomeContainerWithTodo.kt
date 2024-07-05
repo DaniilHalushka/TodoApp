@@ -45,7 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.data.repository.TodoRepositoryImpl
 import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
@@ -215,9 +215,9 @@ fun ContainerWithTodoPreview() {
     TodoAppTheme {
         val navigationController = rememberNavController()
         val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepository()),
-            CountFinishedTodo(TodoRepository()),
-            FinishTodo(TodoRepository())
+            ReceiveTodoList(TodoRepositoryImpl()),
+            CountFinishedTodo(TodoRepositoryImpl()),
+            FinishTodo(TodoRepositoryImpl())
         )
         val listState = rememberLazyListState()
 
@@ -235,9 +235,9 @@ fun ContainerWithTodoPreviewDark() {
     TodoAppTheme {
         val navigationController = rememberNavController()
         val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepository()),
-            CountFinishedTodo(TodoRepository()),
-            FinishTodo(TodoRepository())
+            ReceiveTodoList(TodoRepositoryImpl()),
+            CountFinishedTodo(TodoRepositoryImpl()),
+            FinishTodo(TodoRepositoryImpl())
         )
         val listState = rememberLazyListState()
 

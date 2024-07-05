@@ -3,7 +3,7 @@ package com.daniil.halushka.todoapp.data.repository
 import androidx.compose.runtime.mutableStateListOf
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
  * Repository for managing the list of [TodoItem] tasks.
  * Responsible for storing, adding, deleting, and updating tasks.
  */
-class TodoRepository : TodoRepositoryInterface {
+class TodoRepositoryImpl : TodoRepository {
 
     private val todoList = initializeList()
 

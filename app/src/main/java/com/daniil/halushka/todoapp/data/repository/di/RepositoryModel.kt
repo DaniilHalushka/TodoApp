@@ -1,7 +1,7 @@
 package com.daniil.halushka.todoapp.data.repository.di
 
-import com.daniil.halushka.todoapp.data.repository.TodoRepository
-import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
+import com.daniil.halushka.todoapp.data.repository.TodoRepositoryImpl
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 object RepositoryModel {
     @Provides
     @Singleton
-    fun provideTodoRepository(): TodoRepositoryInterface {
-        return TodoRepository()
+    fun provideTodoRepository(): TodoRepository {
+        return TodoRepositoryImpl()
     }
 }

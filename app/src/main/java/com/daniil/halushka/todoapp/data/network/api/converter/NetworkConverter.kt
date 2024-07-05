@@ -1,8 +1,8 @@
-package com.daniil.halushka.todoapp.data.network.server.converter
+package com.daniil.halushka.todoapp.data.network.api.converter
 
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.network.server.models.item.TodoItemNetworkModel
+import com.daniil.halushka.todoapp.data.network.api.models.item.TodoItemNetworkModel
 
 object NetworkConverter {
     fun convertModelToEntity(todoItem: TodoItem): TodoItemNetworkModel {

@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.data.repository.TodoRepository
+import com.daniil.halushka.todoapp.data.repository.TodoRepositoryImpl
 import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
 import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
@@ -140,9 +140,9 @@ fun HomeScreenPreview() {
     TodoAppTheme {
         val navigationController = rememberNavController()
         val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepository()),
-            CountFinishedTodo(TodoRepository()),
-            FinishTodo(TodoRepository())
+            ReceiveTodoList(TodoRepositoryImpl()),
+            CountFinishedTodo(TodoRepositoryImpl()),
+            FinishTodo(TodoRepositoryImpl())
         )
 
         HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
@@ -155,9 +155,9 @@ fun HomeScreenPreviewDark() {
     TodoAppTheme {
         val navigationController = rememberNavController()
         val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepository()),
-            CountFinishedTodo(TodoRepository()),
-            FinishTodo(TodoRepository())
+            ReceiveTodoList(TodoRepositoryImpl()),
+            CountFinishedTodo(TodoRepositoryImpl()),
+            FinishTodo(TodoRepositoryImpl())
         )
 
         HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
