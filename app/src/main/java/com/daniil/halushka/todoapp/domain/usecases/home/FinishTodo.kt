@@ -1,12 +1,12 @@
 package com.daniil.halushka.todoapp.domain.usecases.home
 
-import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 import javax.inject.Inject
 
 class FinishTodo @Inject constructor(
-    private val todoRepository: TodoRepositoryInterface
+    private val todoRepository: TodoRepository
 ) {
-    suspend fun finishTodo(todoId: String, isTodoDone: Boolean) {
+    suspend fun finishTodoFromList(todoId: String, isTodoDone: Boolean) {
         todoRepository.finishTodo(todoId, isTodoDone)
     }
 }

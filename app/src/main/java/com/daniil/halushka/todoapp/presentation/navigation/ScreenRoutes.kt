@@ -1,5 +1,8 @@
 package com.daniil.halushka.todoapp.presentation.navigation
 
+/**
+ * Sealed class representing the screen routes of the application.
+ */
 sealed class ScreenRoutes(
     val screenType: String
 ) {

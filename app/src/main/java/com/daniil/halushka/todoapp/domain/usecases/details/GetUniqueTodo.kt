@@ -1,11 +1,11 @@
 package com.daniil.halushka.todoapp.domain.usecases.details
 
-import com.daniil.halushka.todoapp.domain.repository.TodoRepositoryInterface
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 import javax.inject.Inject
 
 class GetUniqueTodo @Inject constructor(
-    private val todoRepository: TodoRepositoryInterface
+    private val todoRepository: TodoRepository
 ) {
-    suspend fun getUniqueTodo(id: String) = todoRepository.getUniqueTodo(id)
+    suspend fun getUniqueTodoFromList(id: String) = todoRepository.getUniqueTodo(id)
 
 }

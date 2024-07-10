@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.presentation.screens.details
+package com.daniil.halushka.todoapp.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,32 +27,32 @@ class DetailsScreenViewModel @Inject constructor(
 
     fun getUniqueTodo(id: String) {
         viewModelScope.launch {
-            val todoItem = getUniqueTodo.getUniqueTodo(id)
+            val todoItem = getUniqueTodo.getUniqueTodoFromList(id)
             _uniqueTodo.value = todoItem
         }
     }
 
     fun saveTodo(todoItem: TodoItem) {
         viewModelScope.launch {
-            saveTodo.saveTodo(todoItem)
+            saveTodo.saveTodoInList(todoItem)
         }
     }
 
     fun updateTodoPriority(todoId: String, newPriority: String) {
         viewModelScope.launch {
-            updateTodoPriority.updateTodoPriority(todoId, newPriority)
+            updateTodoPriority.updatePriorityInTodo(todoId, newPriority)
         }
     }
 
     fun updateTodoDeadline(todoId: String, newDeadline: String) {
         viewModelScope.launch {
-            updateTodoDeadline.updateTodoDeadline(todoId, newDeadline)
+            updateTodoDeadline.updateDeadlineInTodo(todoId, newDeadline)
         }
     }
 
     fun deleteTodo(id: String){
         viewModelScope.launch {
-            deleteTodo.deleteTodo(id)
+            deleteTodo.deleteTodoInList(id)
         }
     }
 }

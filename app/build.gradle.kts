@@ -1,3 +1,9 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -8,7 +14,6 @@ plugins {
 android {
     namespace = "com.daniil.halushka.todoapp"
     compileSdk = 34
-
     defaultConfig {
         applicationId = "com.daniil.halushka.todoapp"
         minSdk = 24
@@ -20,6 +25,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = "0d0970774e284fa8ba9ff70b6b06479a"
     }
 
     buildTypes {
@@ -69,6 +76,18 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
+
+    //Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+
+    //Auth
+    implementation(libs.android.authsdk)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

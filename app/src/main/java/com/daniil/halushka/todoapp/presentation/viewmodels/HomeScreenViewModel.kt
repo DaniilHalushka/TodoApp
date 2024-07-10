@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.presentation.screens.home
+package com.daniil.halushka.todoapp.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,7 +33,7 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun getTodoList() {
         viewModelScope.launch {
-            _todoList.value = receiveTodoList.receiveTodoList()
+            _todoList.value = receiveTodoList.receiveTodoListFromList()
             _quantityOfFinishedTodo.value = countFinishedTasks.countTasks()
         }
     }
@@ -44,7 +44,7 @@ class HomeScreenViewModel @Inject constructor(
 
     fun finishTodo(todoId: String, isTodoDone: Boolean) {
         viewModelScope.launch {
-            finishTodo.finishTodo(todoId, isTodoDone)
+            finishTodo.finishTodoFromList(todoId, isTodoDone)
             getTodoList()
         }
     }

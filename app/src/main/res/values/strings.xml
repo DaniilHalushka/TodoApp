@@ -21,4 +21,6 @@
     <string name="show_completed_tasks">Show completed tasks</string>
     <string name="visibility_icon">Visibility icon</string>
     <string name="toolbar">Toolbar height</string>
+    <string name="invalid_date_error">You can\'t pick date before today</string>
+
 </resources>
