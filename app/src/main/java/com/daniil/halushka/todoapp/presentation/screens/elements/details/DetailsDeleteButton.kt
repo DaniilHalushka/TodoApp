@@ -3,6 +3,7 @@ package com.daniil.halushka.todoapp.presentation.screens.elements.details
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -35,6 +36,7 @@ fun DetailsDeleteButton(
 
     val activeButtonModifier = Modifier
         .padding(16.dp)
+        .fillMaxWidth()
         .clickable(onClick = { onDeleteClick(todoId) })
 
     Row(

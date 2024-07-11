@@ -100,12 +100,12 @@ private fun DeadlineRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clickable(onClick = onDateClick)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.clickable(onClick = onDateClick),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
