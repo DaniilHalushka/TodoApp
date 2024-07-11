@@ -124,34 +124,3 @@ fun BottomEndFAB(navigationController: NavController) {
         CustomFAB(navigationController = navigationController)
     }
 }
-
-
-//@Composable
-//@Preview(name = "Light version", showBackground = true)
-//fun HomeScreenPreview() {
-//    TodoAppTheme {
-//        val navigationController = rememberNavController()
-//        val fakeViewModel = HomeScreenViewModel(
-//            ReceiveTodoList(TodoRepositoryImpl()),
-//            CountFinishedTodo(TodoRepositoryImpl()),
-//            FinishTodo(TodoRepositoryImpl())
-//        )
-//
-//        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
-//    }
-//}
-//
-//@Composable
-//@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
-//fun HomeScreenPreviewDark() {
-//    TodoAppTheme {
-//        val navigationController = rememberNavController()
-//        val fakeViewModel = HomeScreenViewModel(
-//            ReceiveTodoList(TodoRepositoryImpl()),
-//            CountFinishedTodo(TodoRepositoryImpl()),
-//            FinishTodo(TodoRepositoryImpl())
-//        )
-//
-//        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
-//    }
-//}
