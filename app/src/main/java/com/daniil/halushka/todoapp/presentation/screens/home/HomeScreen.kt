@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -32,6 +33,8 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.home.ContainerW
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.CustomFAB
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.HomeTopBar
 import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
+import com.daniil.halushka.todoapp.util.events.EventManager
+import com.daniil.halushka.todoapp.util.events.TodoEvent
 
 @Composable
 fun HomeScreen(
@@ -45,6 +48,14 @@ fun HomeScreen(
     val completedItemsCount by viewModel.quantityOfFinishedTodo.collectAsStateWithLifecycle()
 
     val nestedScrollConnection = createNestedScrollConnection(listState)
+
+    LaunchedEffect(Unit) {
+        EventManager.events.collect { event ->
+            when (event) {
+                is TodoEvent.TodoListUpdated -> viewModel.getTodoList()
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -67,6 +78,7 @@ fun HomeScreen(
         BottomEndFAB(navigationController)
     }
 }
+
 
 @Composable
 fun rememberToolbarHeight(listState: LazyListState): State<Dp> {

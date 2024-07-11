@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.domain.repository.TodoRepository
+import com.daniil.halushka.todoapp.util.events.EventManager
+import com.daniil.halushka.todoapp.util.events.TodoEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,9 +27,10 @@ class HomeScreenViewModel @Inject constructor(
 
     init {
         getTodoList()
+        observeEvents()
     }
 
-    private fun getTodoList() {
+    fun getTodoList() {
         viewModelScope.launch {
             _todoList.value = repository.getTodoList()
             _quantityOfFinishedTodo.value = repository.countFinishedTodo()
@@ -44,4 +47,15 @@ class HomeScreenViewModel @Inject constructor(
             getTodoList()
         }
     }
+
+    private fun observeEvents() {
+        viewModelScope.launch {
+            EventManager.events.collect { event ->
+                when (event) {
+                    is TodoEvent.TodoListUpdated -> getTodoList()
+                }
+            }
+        }
+    }
 }
+

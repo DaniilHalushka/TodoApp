@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.domain.repository.TodoRepository
+import com.daniil.halushka.todoapp.util.events.EventManager
+import com.daniil.halushka.todoapp.util.events.TodoEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,13 +33,15 @@ class DetailsScreenViewModel @Inject constructor(
             } else {
                 repository.updateTodoItem(todoItem)
             }
+            EventManager.sendEvent(TodoEvent.TodoListUpdated)
         }
     }
 
-
-    fun deleteTodo(id: String){
+    fun deleteTodo(id: String) {
         viewModelScope.launch {
             repository.deleteTodo(id)
+            EventManager.sendEvent(TodoEvent.TodoListUpdated)
         }
     }
 }
+
