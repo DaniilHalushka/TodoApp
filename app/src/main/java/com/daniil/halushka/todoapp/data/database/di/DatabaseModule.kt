@@ -3,6 +3,8 @@ package com.daniil.halushka.todoapp.data.database.di
 import android.app.Application
 import androidx.room.Room
 import com.daniil.halushka.todoapp.data.database.TodoDatabase
+import com.daniil.halushka.todoapp.data.repository.TodoRepositoryImpl
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +24,13 @@ object DatabaseModule {
             TodoDatabase::class.java,
             "todo_database.db"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepository(
+        database: TodoDatabase
+    ): TodoRepository {
+        return TodoRepositoryImpl(database)
     }
 }

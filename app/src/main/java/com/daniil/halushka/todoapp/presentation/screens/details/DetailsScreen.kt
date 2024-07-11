@@ -33,7 +33,6 @@ import com.daniil.halushka.todoapp.presentation.screens.elements.details.Details
 import com.daniil.halushka.todoapp.presentation.viewmodels.DetailsScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
-import com.daniil.halushka.todoapp.util.asTime
 
 /**
  * Composable function representing the Details screen of the application.
@@ -80,7 +79,7 @@ fun DetailsScreen(
                 navigationController.popBackStack()
             },
             onSaveClick = {
-                viewModel.saveTodo(
+                viewModel.saveOrUpdateTodo(
                     todoItem.copy(
                         text = todoText,
                         priority = selectedPriority,
@@ -107,7 +106,6 @@ fun DetailsScreen(
                     clickToExpand = { click -> dropdownClick = click },
                     onPrioritySelect = { newPriority ->
                         selectedPriority = newPriority
-                        viewModel.updateTodoPriority(todoId ?: "", newPriority)
                     }
                 )
             }
@@ -118,9 +116,6 @@ fun DetailsScreen(
                 getDeadlineDate = { selectedDate },
                 onDateSelect = { date ->
                     selectedDate = date
-                    if (todoId != null && date != null) {
-                        viewModel.updateTodoDeadline(todoId, date.asTime())
-                    }
                 }
             )
 

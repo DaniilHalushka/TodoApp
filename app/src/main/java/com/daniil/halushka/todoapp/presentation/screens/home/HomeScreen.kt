@@ -1,6 +1,5 @@
 package com.daniil.halushka.todoapp.presentation.screens.home
 
-import android.content.res.Configuration
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,23 +22,16 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.data.repository.TodoRepositoryImpl
-import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
-import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
-import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.ContainerWithTodo
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.CustomFAB
 import com.daniil.halushka.todoapp.presentation.screens.elements.home.HomeTopBar
 import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
-import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 @Composable
 fun HomeScreen(
@@ -134,32 +126,32 @@ fun BottomEndFAB(navigationController: NavController) {
 }
 
 
-@Composable
-@Preview(name = "Light version", showBackground = true)
-fun HomeScreenPreview() {
-    TodoAppTheme {
-        val navigationController = rememberNavController()
-        val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepositoryImpl()),
-            CountFinishedTodo(TodoRepositoryImpl()),
-            FinishTodo(TodoRepositoryImpl())
-        )
-
-        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
-    }
-}
-
-@Composable
-@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun HomeScreenPreviewDark() {
-    TodoAppTheme {
-        val navigationController = rememberNavController()
-        val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepositoryImpl()),
-            CountFinishedTodo(TodoRepositoryImpl()),
-            FinishTodo(TodoRepositoryImpl())
-        )
-
-        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
-    }
-}
+//@Composable
+//@Preview(name = "Light version", showBackground = true)
+//fun HomeScreenPreview() {
+//    TodoAppTheme {
+//        val navigationController = rememberNavController()
+//        val fakeViewModel = HomeScreenViewModel(
+//            ReceiveTodoList(TodoRepositoryImpl()),
+//            CountFinishedTodo(TodoRepositoryImpl()),
+//            FinishTodo(TodoRepositoryImpl())
+//        )
+//
+//        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
+//    }
+//}
+//
+//@Composable
+//@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+//fun HomeScreenPreviewDark() {
+//    TodoAppTheme {
+//        val navigationController = rememberNavController()
+//        val fakeViewModel = HomeScreenViewModel(
+//            ReceiveTodoList(TodoRepositoryImpl()),
+//            CountFinishedTodo(TodoRepositoryImpl()),
+//            FinishTodo(TodoRepositoryImpl())
+//        )
+//
+//        HomeScreen(navigationController = navigationController, viewModel = fakeViewModel)
+//    }
+//}

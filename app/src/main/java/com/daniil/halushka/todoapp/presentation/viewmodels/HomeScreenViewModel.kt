@@ -3,9 +3,7 @@ package com.daniil.halushka.todoapp.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
-import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
-import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,9 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val receiveTodoList: ReceiveTodoList,
-    private val countFinishedTasks: CountFinishedTodo,
-    private val finishTodo: FinishTodo
+    private val repository: TodoRepository
 ) : ViewModel() {
     private val _todoList = MutableStateFlow<List<TodoItem>>(emptyList())
     val todoList: StateFlow<List<TodoItem>> get() = _todoList
@@ -33,8 +29,8 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun getTodoList() {
         viewModelScope.launch {
-            _todoList.value = receiveTodoList.receiveTodoListFromList()
-            _quantityOfFinishedTodo.value = countFinishedTasks.countTasks()
+            _todoList.value = repository.getTodoList()
+            _quantityOfFinishedTodo.value = repository.countFinishedTodo()
         }
     }
 
@@ -44,7 +40,7 @@ class HomeScreenViewModel @Inject constructor(
 
     fun finishTodo(todoId: String, isTodoDone: Boolean) {
         viewModelScope.launch {
-            finishTodo.finishTodoFromList(todoId, isTodoDone)
+            repository.finishTodo(todoId, isTodoDone)
             getTodoList()
         }
     }

@@ -23,14 +23,8 @@ interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTodoInList(todoItem: TodoItemDatabase)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateTodoItem(todoItem: TodoItemDatabase)
-
-    @Query("UPDATE todo_items SET priority = :newPriority WHERE id = :id")
-    suspend fun updateTodoPriority(id: String, newPriority: String)
-
-    @Query("UPDATE todo_items SET deadline = :newDeadline WHERE id = :id")
-    suspend fun updateTodoDeadline(id: String, newDeadline: Long)
 
     @Delete
     suspend fun deleteTodo(todoItem: TodoItemDatabase)
@@ -38,3 +32,4 @@ interface TodoDao {
     @Query("UPDATE todo_items SET isDone = :isTodoDone WHERE id = :id")
     suspend fun finishTodo(id: String, isTodoDone: Boolean)
 }
+
