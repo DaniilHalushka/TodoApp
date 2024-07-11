@@ -25,6 +25,12 @@ import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+/**
+ * Composable function to display a custom top bar for details screen.
+ *
+ * @param clickOnNavigationItem Callback function for handling navigation icon click.
+ * @param onSaveClick Callback function for handling save button click.
+ */
 @Composable
 fun DetailsTopBar(
     clickOnNavigationItem: () -> Unit = {},

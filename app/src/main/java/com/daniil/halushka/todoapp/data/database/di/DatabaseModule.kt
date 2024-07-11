@@ -11,6 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Dagger Hilt module for providing dependencies related to Room database.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {

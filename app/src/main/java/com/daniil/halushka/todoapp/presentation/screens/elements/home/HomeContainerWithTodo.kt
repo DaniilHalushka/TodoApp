@@ -46,6 +46,13 @@ import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
+/**
+ * Composable function to display a container with a list of todo items.
+ *
+ * @param navigationController NavController instance for navigating to details screen.
+ * @param viewModel HomeScreenViewModel instance for managing todo list state.
+ * @param listState LazyListState for managing scroll state.
+ */
 @Composable
 fun ContainerWithTodo(
     navigationController: NavController,

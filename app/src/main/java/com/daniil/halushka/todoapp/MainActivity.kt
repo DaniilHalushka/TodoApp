@@ -19,6 +19,9 @@ import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Main activity of the application that sets up Jetpack Compose and Dagger Hilt.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +36,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Root Composable function for the TodoApp, setting up navigation and UI structure.
+ */
 @Composable
 fun TodoApp() {
     val navigationController = rememberNavController()

@@ -8,6 +8,9 @@ import androidx.room.Query
 import androidx.room.Update
 import com.daniil.halushka.todoapp.data.database.model.TodoItemDatabase
 
+/**
+ * Data Access Object (DAO) for interacting with TodoItemDatabase entities in Room database.
+ */
 @Dao
 interface TodoDao {
 

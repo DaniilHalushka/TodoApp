@@ -35,6 +35,13 @@ import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
+
+/**
+ * Composable function to display a deadline block with date picker and switch.
+ *
+ * @param getDeadlineDate Function to get the current deadline date.
+ * @param onDateSelect Callback function to handle date selection.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsDeadlineBlock(

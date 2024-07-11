@@ -36,6 +36,12 @@ import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
 import com.daniil.halushka.todoapp.util.events.EventManager
 import com.daniil.halushka.todoapp.util.events.TodoEvent
 
+/**
+ * Composable function for displaying the Home screen of the TodoApp.
+ *
+ * @param navigationController NavController instance for navigating between screens.
+ * @param viewModel ViewModel for managing data related to the Home screen.
+ */
 @Composable
 fun HomeScreen(
     navigationController: NavController,

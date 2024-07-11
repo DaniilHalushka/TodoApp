@@ -2,6 +2,9 @@ package com.daniil.halushka.todoapp.domain.repository
 
 import com.daniil.halushka.todoapp.data.models.TodoItem
 
+/**
+ * Repository interface for managing todoItems.
+ */
 interface TodoRepository {
     suspend fun getTodoList(): List<TodoItem>
     suspend fun getUniqueTodo(id: String): TodoItem

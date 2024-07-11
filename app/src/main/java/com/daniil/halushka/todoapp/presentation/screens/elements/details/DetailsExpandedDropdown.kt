@@ -29,6 +29,13 @@ import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+/**
+ * Composable function to display an expanded dropdown menu for selecting priority.
+ *
+ * @param expanded Whether the dropdown menu is expanded or not.
+ * @param clickToExpand Callback function to toggle the dropdown menu.
+ * @param onPrioritySelect Callback function when a priority item is selected.
+ */
 @Composable
 fun DetailsExpandedDropdown(
     expanded: Boolean,

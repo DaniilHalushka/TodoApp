@@ -10,6 +10,11 @@ import com.daniil.halushka.todoapp.util.generateUniqueId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Implementation of [TodoRepository] interface for managing todo items.
+ *
+ * @property database Instance of [TodoDatabase] used for data operations.
+ */
 class TodoRepositoryImpl(private val database: TodoDatabase) : TodoRepository {
 
     override suspend fun getTodoList(): List<TodoItem> = withContext(Dispatchers.IO) {

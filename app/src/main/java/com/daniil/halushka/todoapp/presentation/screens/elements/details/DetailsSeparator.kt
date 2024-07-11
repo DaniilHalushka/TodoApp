@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+/**
+ * Composable function to display a horizontal separator line with specified padding and background color.
+ */
 @Composable
 fun DetailsSeparator() {
     Box(

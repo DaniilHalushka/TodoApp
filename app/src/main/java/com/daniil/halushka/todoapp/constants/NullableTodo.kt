@@ -2,6 +2,9 @@ package com.daniil.halushka.todoapp.constants
 
 import com.daniil.halushka.todoapp.data.models.TodoItem
 
+/**
+ * Object providing a default nullable [TodoItem] instance.
+ */
 object NullableTodo {
     val nullableModel = TodoItem(
         id = "",
