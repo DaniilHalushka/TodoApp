@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.daniil.halushka.todoapp.presentation.screens.details.DetailsScreen
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreen
+import com.daniil.halushka.todoapp.presentation.screens.settings.SettingsScreen
 
 private const val SLIDE_HORIZONTALLY_DURATION = 1500
 
@@ -68,6 +69,26 @@ fun NavigationGraph(
             val todoId = arguments.getString("id")
             DetailsScreen(
                 todoId = if (todoId == "new") null else todoId,
+                navigationController = navController
+            )
+        }
+
+        composable(
+            ScreenRoutes.SettingsScreen.screenType,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            }
+        ) {
+            SettingsScreen(
                 navigationController = navController
             )
         }

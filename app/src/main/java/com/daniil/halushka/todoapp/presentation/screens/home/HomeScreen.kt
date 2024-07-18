@@ -70,6 +70,7 @@ fun HomeScreen(
     ) {
         Column {
             HomeTopBar(
+                navigationController = navigationController,
                 completedItemsCount = completedItemsCount,
                 onEyeIconClick = { showTask -> viewModel.showFinishedTodo(showTask) },
                 showFinished = showFinished,

@@ -1,10 +1,12 @@
 package com.daniil.halushka.todoapp.presentation.screens.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,16 +22,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.presentation.viewmodels.SettingsScreenViewModel
 import com.daniil.halushka.todoapp.presentation.viewmodels.ThemeSetting
+import com.daniil.halushka.todoapp.ui.theme.AppTheme
 
 @Composable
-fun SettingsScreen(settingsViewModel: SettingsScreenViewModel = hiltViewModel()) {
+fun SettingsScreen(
+    navigationController: NavController,
+    settingsViewModel: SettingsScreenViewModel = hiltViewModel()
+) {
     val themeSetting by settingsViewModel.themeSetting.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(stringResource(R.string.select_theme), style = MaterialTheme.typography.headlineMedium)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppTheme.colorScheme.backPrimaryColor)
+            .padding(16.dp)
+    ) {
+        Text(
+            stringResource(R.string.select_theme),
+            color = AppTheme.colorScheme.labelPrimaryColor,
+            style = AppTheme.typographyScheme.largeTitle
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -62,7 +78,11 @@ fun ThemeOption(text: String, selected: Boolean, onClick: () -> Unit) {
             .clickable { onClick() },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text, style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = text,
+            color = AppTheme.colorScheme.labelPrimaryColor,
+            style = AppTheme.typographyScheme.bodyText
+        )
         if (selected) {
             Icon(
                 imageVector = Icons.Default.Check,

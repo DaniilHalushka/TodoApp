@@ -1,6 +1,5 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
-import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -14,7 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,12 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
-import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
 /**
  * Composable function that represents the top bar of the home screen.
@@ -43,6 +45,7 @@ import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
  */
 @Composable
 fun HomeTopBar(
+    navigationController: NavController,
     completedItemsCount: Int,
     onEyeIconClick: (Boolean) -> Unit,
     showFinished: Boolean,
@@ -85,6 +88,13 @@ fun HomeTopBar(
                         style = AppTheme.typographyScheme.bodyText
                     )
                 }
+                SettingsIcon(
+                    onIconClick = {
+                        navigationController.navigate(
+                            ScreenRoutes.SettingsScreen.screenType
+                        )
+                    }
+                )
                 EyeIcon(
                     onIconClick = {
                         localShowState = !localShowState
@@ -94,6 +104,24 @@ fun HomeTopBar(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun SettingsIcon(
+    onIconClick: () -> Unit
+) {
+    IconButton(
+        modifier = Modifier
+            .padding(8.dp)
+            .size(24.dp),
+        onClick =  onIconClick
+    ) {
+        Icon(
+            imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.button_to_go_on_settings_screen),
+            tint = AppTheme.colorScheme.blueColor
+        )
     }
 }
 
@@ -139,28 +167,28 @@ fun EyeIcon(
     }
 }
 
-@Composable
-@Preview(name = "Light version", showBackground = true)
-fun HomeTopBarPreview() {
-    TodoAppTheme {
-        HomeTopBar(
-            completedItemsCount = 10,
-            onEyeIconClick = {},
-            showFinished = true,
-            height = 100.dp
-        )
-    }
-}
-
-@Composable
-@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun HomeTopBarPreviewDark() {
-    TodoAppTheme {
-        HomeTopBar(
-            completedItemsCount = 10,
-            onEyeIconClick = {},
-            showFinished = true,
-            height = 100.dp
-        )
-    }
-}
+//@Composable
+//@Preview(name = "Light version", showBackground = true)
+//fun HomeTopBarPreview() {
+//    TodoAppTheme {
+//        HomeTopBar(
+//            completedItemsCount = 10,
+//            onEyeIconClick = {},
+//            showFinished = true,
+//            height = 100.dp
+//        )
+//    }
+//}
+//
+//@Composable
+//@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
+//fun HomeTopBarPreviewDark() {
+//    TodoAppTheme {
+//        HomeTopBar(
+//            completedItemsCount = 10,
+//            onEyeIconClick = {},
+//            showFinished = true,
+//            height = 100.dp
+//        )
+//    }
+//}

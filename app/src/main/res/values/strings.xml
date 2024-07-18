@@ -26,5 +26,6 @@
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="system_theme">System theme</string>
+    <string name="button_to_go_on_settings_screen">Button to go on Settings Screen</string>
 
 </resources>
