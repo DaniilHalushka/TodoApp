@@ -1,6 +1,6 @@
 package com.daniil.halushka.todoapp.data.repository
 
-import com.daniil.halushka.todoapp.constants.NullableTodo
+import com.daniil.halushka.todoapp.util.constants.NullableTodo
 import com.daniil.halushka.todoapp.data.database.TodoDatabase
 import com.daniil.halushka.todoapp.data.database.model.toTodoItem
 import com.daniil.halushka.todoapp.data.models.TodoItem

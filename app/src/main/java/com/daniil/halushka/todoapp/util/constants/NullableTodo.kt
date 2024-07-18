@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.constants
+package com.daniil.halushka.todoapp.util.constants
 
 import com.daniil.halushka.todoapp.data.models.TodoItem
 
