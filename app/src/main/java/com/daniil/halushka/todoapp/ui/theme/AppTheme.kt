@@ -11,12 +11,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.daniil.halushka.todoapp.presentation.viewmodels.SettingsScreenViewModel
+import com.daniil.halushka.todoapp.presentation.viewmodels.ThemeSetting
 import com.daniil.halushka.todoapp.ui.theme.custom.ColorPaletteScheme
 import com.daniil.halushka.todoapp.ui.theme.custom.FontTypography
 import com.daniil.halushka.todoapp.ui.theme.custom.LocalAppTypography
@@ -77,7 +82,17 @@ fun TodoAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+
+    val settingsViewModel: SettingsScreenViewModel = hiltViewModel()
+    val themeSetting by settingsViewModel.themeSetting.collectAsStateWithLifecycle()
+
+    val isDarkTheme = when (themeSetting) {
+        ThemeSetting.LIGHT -> false
+        ThemeSetting.DARK -> true
+        ThemeSetting.SYSTEM -> darkTheme
+    }
+
+    val colorScheme = if (isDarkTheme) DarkColorScheme else LightColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
