@@ -1,5 +1,8 @@
 package com.daniil.halushka.todoapp.presentation.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.daniil.halushka.todoapp.presentation.screens.details.DetailsScreen
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreen
+
+private const val SLIDE_HORIZONTALLY_DURATION = 1500
 
 /**
  * Composable function representing the navigation graph of the application.
@@ -24,7 +29,19 @@ fun NavigationGraph(
         startDestination = startDestination
     ) {
         composable(
-            ScreenRoutes.HomeScreen.screenType
+            ScreenRoutes.HomeScreen.screenType,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { -it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { -it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            }
         ) {
             HomeScreen(
                 navigationController = navController
@@ -33,6 +50,18 @@ fun NavigationGraph(
 
         composable(
             route = ScreenRoutes.DetailsScreen.screenType,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            },
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { screen ->
             val arguments = requireNotNull(screen.arguments)
