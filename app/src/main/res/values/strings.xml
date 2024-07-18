@@ -22,10 +22,11 @@
     <string name="visibility_icon">Visibility icon</string>
     <string name="toolbar">Toolbar height</string>
     <string name="invalid_date_error">You can\'t pick date before today</string>
-    <string name="select_theme">Select theme:</string>
+    <string name="select_theme">Select theme</string>
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="system_theme">System theme</string>
     <string name="button_to_go_on_settings_screen">Button to go on Settings Screen</string>
+    <string name="close_settings_screen">Close Settings screen</string>
 
 </resources>

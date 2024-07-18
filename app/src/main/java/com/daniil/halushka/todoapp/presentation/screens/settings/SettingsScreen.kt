@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -17,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,6 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
+import com.daniil.halushka.todoapp.presentation.screens.elements.settings.SettingsTopBar
 import com.daniil.halushka.todoapp.presentation.viewmodels.SettingsScreenViewModel
 import com.daniil.halushka.todoapp.presentation.viewmodels.ThemeSetting
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
@@ -41,10 +45,12 @@ fun SettingsScreen(
             .background(AppTheme.colorScheme.backPrimaryColor)
             .padding(16.dp)
     ) {
-        Text(
-            stringResource(R.string.select_theme),
-            color = AppTheme.colorScheme.labelPrimaryColor,
-            style = AppTheme.typographyScheme.largeTitle
+        SettingsTopBar(
+            onClick = {
+                navigationController.navigate(
+                    ScreenRoutes.HomeScreen.screenType
+                )
+            }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -74,8 +80,10 @@ fun ThemeOption(text: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .size(64.dp)
             .padding(vertical = 8.dp)
             .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
