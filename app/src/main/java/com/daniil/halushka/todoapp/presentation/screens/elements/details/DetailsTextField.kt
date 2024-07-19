@@ -26,6 +26,12 @@ import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+/**
+ * Composable function to display a custom TextField with specific styling and behavior.
+ *
+ * @param text Initial text to display in the TextField.
+ * @param onTextChange Callback invoked when the text in the TextField changes.
+ */
 @Composable
 fun DetailsTextField(
     text: String,

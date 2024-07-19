@@ -39,6 +39,15 @@ private const val DURATION = 200
 
 private const val SIZE_MULTIPLIER = -0.5
 
+/**
+ * Composable function to display a custom checkbox with animations.
+ *
+ * @param isChecked Boolean indicating whether the checkbox is checked.
+ * @param priority String representing the priority of the checkbox (used for color).
+ * @param modifier Modifier for customizing the checkbox's layout.
+ * @param size Float representing the size of the checkbox.
+ * @param onValueChange Callback function for handling checkbox state change.
+ */
 @Composable
 fun CustomCheckbox(
     isChecked: Boolean,

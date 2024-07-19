@@ -1,9 +1,11 @@
-package com.daniil.halushka.todoapp.data.models
+package com.daniil.halushka.todoapp.data.database.model
 
-import com.daniil.halushka.todoapp.data.database.model.TodoItemDatabase
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.daniil.halushka.todoapp.data.models.TodoItem
 
 /**
- * Data class representing a todoItem in the domain layer of the application.
+ * Entity class representing a todoItem in the Room database.
  *
  * @property id Unique identifier of the todoItem.
  * @property text Text content of the todoItem.
@@ -13,8 +15,9 @@ import com.daniil.halushka.todoapp.data.database.model.TodoItemDatabase
  * @property deadline Optional deadline timestamp for the todoItem.
  * @property changeDate Optional timestamp indicating the last modification of the todoItem.
  */
-data class TodoItem(
-    val id: String,
+@Entity(tableName = "todo_items")
+data class TodoItemDatabase(
+    @PrimaryKey val id: String,
     val text: String,
     val priority: String,
     val isDone: Boolean,
@@ -24,12 +27,12 @@ data class TodoItem(
 )
 
 /**
- * Extension function to convert a [TodoItem] domain model to a [TodoItemDatabase] entity.
+ * Extension function to convert a [TodoItemDatabase] entity to a [TodoItem] domain model.
  */
-fun TodoItem.toTodoItemDatabase(): TodoItemDatabase {
+fun TodoItemDatabase.toTodoItem(): TodoItem {
     val (id, text, priority, isDone, startDate, deadline, changeDate) = this
 
-    return TodoItemDatabase(
+    return TodoItem(
         id = id,
         text = text,
         priority = priority,

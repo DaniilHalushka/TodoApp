@@ -3,6 +3,7 @@ package com.daniil.halushka.todoapp.presentation.screens.elements.details
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -19,6 +20,13 @@ import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+
+/**
+ * Composable function to display a delete button with an icon and text.
+ *
+ * @param todoId The ID of the todoItem associated with the delete button.
+ * @param onDeleteClick Callback function when the delete button is clicked.
+ */
 @Composable
 fun DetailsDeleteButton(
     todoId: String,
@@ -28,6 +36,7 @@ fun DetailsDeleteButton(
 
     val activeButtonModifier = Modifier
         .padding(16.dp)
+        .fillMaxWidth()
         .clickable(onClick = { onDeleteClick(todoId) })
 
     Row(

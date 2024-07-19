@@ -18,6 +18,12 @@ import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+
+/**
+ * Composable function to display a custom FloatingActionButton (FAB).
+ *
+ * @param navigationController NavController to handle navigation actions.
+ */
 @Composable
 fun CustomFAB(
     navigationController: NavController

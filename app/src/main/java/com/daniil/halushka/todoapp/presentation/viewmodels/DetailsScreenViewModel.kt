@@ -3,56 +3,67 @@ package com.daniil.halushka.todoapp.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.domain.usecases.details.DeleteTodo
-import com.daniil.halushka.todoapp.domain.usecases.details.GetUniqueTodo
-import com.daniil.halushka.todoapp.domain.usecases.details.SaveTodo
-import com.daniil.halushka.todoapp.domain.usecases.details.UpdateTodoDeadline
-import com.daniil.halushka.todoapp.domain.usecases.details.UpdateTodoPriority
+import com.daniil.halushka.todoapp.domain.repository.TodoRepository
+import com.daniil.halushka.todoapp.util.events.EventManager
+import com.daniil.halushka.todoapp.util.events.TodoEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for managing the details screen of a TodoItem.
+ *
+ * @property repository The repository providing access to TodoItem data.
+ */
 @HiltViewModel
 class DetailsScreenViewModel @Inject constructor(
-    private val getUniqueTodo: GetUniqueTodo,
-    private val saveTodo: SaveTodo,
-    private val updateTodoPriority: UpdateTodoPriority,
-    private val updateTodoDeadline: UpdateTodoDeadline,
-    private val deleteTodo: DeleteTodo
+    private val repository: TodoRepository
 ) : ViewModel() {
+
     private val _uniqueTodo = MutableStateFlow<TodoItem?>(null)
     val uniqueTodo: StateFlow<TodoItem?> get() = _uniqueTodo
 
+    /**
+     * Retrieves a unique TodoItem from the repository based on its [id] and updates [_uniqueTodo].
+     *
+     * @param id The ID of the TodoItem to retrieve.
+     */
     fun getUniqueTodo(id: String) {
         viewModelScope.launch {
-            val todoItem = getUniqueTodo.getUniqueTodoFromList(id)
+            val todoItem = repository.getUniqueTodo(id)
             _uniqueTodo.value = todoItem
         }
     }
 
-    fun saveTodo(todoItem: TodoItem) {
+    /**
+     * Saves or updates the provided [todoItem] in the repository.
+     * Sends a [TodoEvent.TodoListUpdated] event after the operation.
+     *
+     * @param todoItem The TodoItem to save or update.
+     */
+    fun saveOrUpdateTodo(todoItem: TodoItem) {
         viewModelScope.launch {
-            saveTodo.saveTodoInList(todoItem)
+            if (todoItem.id.isBlank()) {
+                repository.addTodoInList(todoItem)
+            } else {
+                repository.updateTodoItem(todoItem)
+            }
+            EventManager.sendEvent(TodoEvent.TodoListUpdated)
         }
     }
 
-    fun updateTodoPriority(todoId: String, newPriority: String) {
+    /**
+     * Deletes the TodoItem with the specified [id] from the repository.
+     * Sends a [TodoEvent.TodoListUpdated] event after the operation.
+     *
+     * @param id The ID of the TodoItem to delete.
+     */
+    fun deleteTodo(id: String) {
         viewModelScope.launch {
-            updateTodoPriority.updatePriorityInTodo(todoId, newPriority)
-        }
-    }
-
-    fun updateTodoDeadline(todoId: String, newDeadline: String) {
-        viewModelScope.launch {
-            updateTodoDeadline.updateDeadlineInTodo(todoId, newDeadline)
-        }
-    }
-
-    fun deleteTodo(id: String){
-        viewModelScope.launch {
-            deleteTodo.deleteTodoInList(id)
+            repository.deleteTodo(id)
+            EventManager.sendEvent(TodoEvent.TodoListUpdated)
         }
     }
 }

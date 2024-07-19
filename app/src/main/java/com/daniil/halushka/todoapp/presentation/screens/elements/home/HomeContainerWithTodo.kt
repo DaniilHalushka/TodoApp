@@ -1,6 +1,5 @@
 package com.daniil.halushka.todoapp.presentation.screens.elements.home
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
@@ -37,24 +35,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
-import com.daniil.halushka.todoapp.data.repository.TodoRepositoryImpl
-import com.daniil.halushka.todoapp.domain.usecases.home.CountFinishedTodo
-import com.daniil.halushka.todoapp.domain.usecases.home.FinishTodo
-import com.daniil.halushka.todoapp.domain.usecases.home.ReceiveTodoList
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
-import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import com.daniil.halushka.todoapp.util.asTime
 
+/**
+ * Composable function to display a container with a list of todo items.
+ *
+ * @param navigationController NavController instance for navigating to details screen.
+ * @param viewModel HomeScreenViewModel instance for managing todo list state.
+ * @param listState LazyListState for managing scroll state.
+ */
 @Composable
 fun ContainerWithTodo(
     navigationController: NavController,
@@ -121,7 +119,7 @@ fun TodoInColumn(
                     todoItem = todoItem,
                     checked = checked,
                     textStyle = textStyle,
-                    onCheckedChange = { checked = it; onCheckedChange(todoItem.id, it) },
+                    onCheckedChange = { checked = it; todoItem.id?.let { id -> onCheckedChange(id, it) } },
                     onEditClick = onEditClick
                 )
             }
@@ -205,46 +203,6 @@ fun EditIconButton(onEditClick: () -> Unit) {
             imageVector = Icons.Default.Info,
             contentDescription = stringResource(R.string.information_about_task),
             tint = AppTheme.colorScheme.labelTertiaryColor
-        )
-    }
-}
-
-@Composable
-@Preview(name = "Light version", showBackground = true)
-fun ContainerWithTodoPreview() {
-    TodoAppTheme {
-        val navigationController = rememberNavController()
-        val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepositoryImpl()),
-            CountFinishedTodo(TodoRepositoryImpl()),
-            FinishTodo(TodoRepositoryImpl())
-        )
-        val listState = rememberLazyListState()
-
-        ContainerWithTodo(
-            navigationController = navigationController,
-            viewModel = fakeViewModel,
-            listState = listState
-        )
-    }
-}
-
-@Composable
-@Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun ContainerWithTodoPreviewDark() {
-    TodoAppTheme {
-        val navigationController = rememberNavController()
-        val fakeViewModel = HomeScreenViewModel(
-            ReceiveTodoList(TodoRepositoryImpl()),
-            CountFinishedTodo(TodoRepositoryImpl()),
-            FinishTodo(TodoRepositoryImpl())
-        )
-        val listState = rememberLazyListState()
-
-        ContainerWithTodo(
-            navigationController = navigationController,
-            viewModel = fakeViewModel,
-            listState = listState
         )
     }
 }

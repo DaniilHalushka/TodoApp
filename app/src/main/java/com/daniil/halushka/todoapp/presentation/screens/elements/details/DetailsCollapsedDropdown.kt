@@ -16,6 +16,12 @@ import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+/**
+ * Composable function to display a collapsed dropdown item showing priority details.
+ *
+ * @param priority Priority value to display.
+ * @param isClicked Callback function to handle click events.
+ */
 @Composable
 fun DetailsCollapsedDropdown(
     priority: String,

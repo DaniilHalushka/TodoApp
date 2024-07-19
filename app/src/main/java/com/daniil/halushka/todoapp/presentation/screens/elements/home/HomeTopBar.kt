@@ -33,6 +33,14 @@ import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
+/**
+ * Composable function that represents the top bar of the home screen.
+ *
+ * @param completedItemsCount The number of completed items to display in the top bar.
+ * @param onEyeIconClick Callback invoked when the eye icon is clicked to toggle visibility of completed tasks.
+ * @param showFinished Boolean state indicating whether completed tasks are currently shown or hidden.
+ * @param height Height of the top bar.
+ */
 @Composable
 fun HomeTopBar(
     completedItemsCount: Int,
@@ -92,6 +100,12 @@ fun HomeTopBar(
 
 private const val DURATION = 200
 
+/**
+ * Composable function that displays an icon to toggle visibility of completed tasks.
+ *
+ * @param onIconClick Callback invoked when the eye icon is clicked to toggle visibility.
+ * @param isDone Boolean state indicating whether completed tasks are currently shown or hidden.
+ */
 @Composable
 fun EyeIcon(
     onIconClick: () -> Unit,
