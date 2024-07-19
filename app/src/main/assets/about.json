@@ -16,7 +16,7 @@
           "items": [
             {
               "type": "image",
-              "image_url": "https://w7.pngwing.com/pngs/227/848/png-transparent-arrow-computer-icons-encapsulated-postscript-button-back-icon-angle-logo-left-arrow.png?raw=true",
+              "image_url": "https://png.pngtree.com/png-vector/20190826/ourlarge/pngtree-arrow-png-image_1696686.jpg?raw=true",
               "width":{
                 "type": "fixed",
                 "value": 48
@@ -36,7 +36,7 @@
             {
               "type": "text",
               "text": "TodoApp",
-              "text_color": "#000",
+              "text_color": "#ff4f00",
               "font_size": 30,
               "font_weight": "bold",
               "text_alignment_horizontal": "center"
@@ -87,7 +87,7 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "Click on text to see information",
+                            "text": "Click on text to hide information",
                             "margins": {
                               "start": 25
                             },
@@ -103,7 +103,7 @@
                           {
                             "type": "text",
                             "text": "Yandex",
-                            "text_color": "#000",
+                            "text_color": "#cb137f",
                             "font_size": 20,
                             "font_weight": "bold",
                             "text_alignment_horizontal": "center",
@@ -116,7 +116,7 @@
                           {
                             "type": "text",
                             "text": "This app created by Daniil Halushka",
-                            "text_color": "#000",
+                            "text_color": "#7273d3",
                             "font_size": 18,
                             "margins": {
                               "start": 20,
@@ -138,7 +138,7 @@
                             "margins": {
                               "start": 25
                             },
-                            "text_color": "#000000",
+                            "text_color": "#421ae1",
                             "font_size": 20,
                             "actions": [
                               {
