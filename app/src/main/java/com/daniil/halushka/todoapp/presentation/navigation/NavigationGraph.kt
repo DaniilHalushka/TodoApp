@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.daniil.halushka.todoapp.presentation.screens.about.AboutScreen
 import com.daniil.halushka.todoapp.presentation.screens.details.DetailsScreen
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreen
 import com.daniil.halushka.todoapp.presentation.screens.settings.SettingsScreen
@@ -89,6 +90,26 @@ fun NavigationGraph(
             }
         ) {
             SettingsScreen(
+                navigationController = navController
+            )
+        }
+
+        composable(
+            ScreenRoutes.AboutScreen.screenType,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(SLIDE_HORIZONTALLY_DURATION)
+                )
+            }
+        ) {
+            AboutScreen(
                 navigationController = navController
             )
         }

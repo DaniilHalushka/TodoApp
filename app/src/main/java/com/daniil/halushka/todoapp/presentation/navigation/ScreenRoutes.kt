@@ -19,4 +19,5 @@ sealed class ScreenRoutes(
     }
 
     data object SettingsScreen : ScreenRoutes(screenType = "Settings")
+    data object AboutScreen : ScreenRoutes(screenType = "About")
 }

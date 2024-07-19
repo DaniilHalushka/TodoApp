@@ -2,6 +2,7 @@
 agp = "8.4.2"
 authsdkVersion = "3.1.0"
 converterGson = "2.9.0"
+divCore = "30.9.0"
 gson = "2.10.1"
 hiltAndroid = "2.49"
 hiltAndroidCompiler = "2.48"
@@ -29,6 +30,10 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+div = { module = "com.yandex.div:div", version.ref = "divCore" }
+div-core = { module = "com.yandex.div:div-core", version.ref = "divCore" }
+div-json = { module = "com.yandex.div:div-json", version.ref = "divCore" }
+glide = { module = "com.yandex.div:glide", version.ref = "divCore" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
@@ -45,6 +50,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+picasso = { module = "com.yandex.div:picasso", version.ref = "divCore" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]

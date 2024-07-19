@@ -147,7 +147,6 @@ fun DetailsScreen(
     }
 }
 
-
 @Composable
 @Preview(name = "Light version")
 fun DetailsScreenPreview() {

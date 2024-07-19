@@ -30,5 +30,6 @@
     <string name="close_settings_screen">Close Settings screen</string>
     <string name="to_apply_the_changes_restart_the_application">To apply the changes, restart the application</string>
     <string name="animated_alpha">Animated alpha</string>
+    <string name="button_to_go_on_about_screen">Button to go on About Screen</string>
 
 </resources>

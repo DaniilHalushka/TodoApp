@@ -1,0 +1,162 @@
+{
+  "card": {
+    "log_id": "mytodo",
+    "variables": [
+      {
+        "name": "isVisible",
+        "type": "integer",
+        "value": 0
+      }
+    ],
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "items": [
+            {
+              "type": "image",
+              "image_url": "https://w7.pngwing.com/pngs/227/848/png-transparent-arrow-computer-icons-encapsulated-postscript-button-back-icon-angle-logo-left-arrow.png?raw=true",
+              "width":{
+                "type": "fixed",
+                "value": 48
+              },
+              "margins": {
+                "top": 50,
+                "end": 50,
+                "start": 20
+              },
+              "actions": [
+                {
+                  "log_id": "navigate_to_back",
+                  "url": "navigation-action://navigate?"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "TodoApp",
+              "text_color": "#000",
+              "font_size": 30,
+              "font_weight": "bold",
+              "text_alignment_horizontal": "center"
+            },
+            {
+              "type": "image",
+              "image_url": "https://cdn-aicin.nitrocdn.com/HIAjYmsdLpRQdKpIMJLXFmZsSAYnEnkl/assets/images/optimized/rev-86c0feb/www.amitree.com/wp-content/uploads/2021/08/the-pros-and-cons-of-paper-to-do-lists.jpeg?raw=true",
+              "margins": {
+                "top": 20,
+                "bottom": 20,
+                "end": 20,
+                "start": 20
+              },
+              "border": {
+                "corner_radius": 10,
+                "stroke": {
+                  "color": "#ebebeb"
+                },
+                "has_shadow":true,
+                "shadow": {
+                  "offset": {
+                    "x": {
+                      "value": 4
+                    },
+                    "y": {
+                      "value": 4
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "container",
+              "margins": {
+                "start": 15,
+                "end": 15
+              },
+              "items": [
+                {
+                  "type": "state",
+                  "id": "clicktext",
+                  "default_state_id": "invisible",
+                  "states": [
+                    {
+                      "state_id": "visible",
+                      "div":{
+                        "type": "container",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "Click on text to see information",
+                            "margins": {
+                              "start": 25
+                            },
+                            "text_color": "#FF0000",
+                            "font_size": 20,
+                            "actions": [
+                              {
+                                "log_id": "set_visible",
+                                "url": "div-action://set_state?state_id=0/clicktext/invisible"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "text": "Yandex",
+                            "text_color": "#000",
+                            "font_size": 20,
+                            "font_weight": "bold",
+                            "text_alignment_horizontal": "center",
+                            "margins": {
+                              "start": 20,
+                              "top": 10,
+                              "end": 10
+                            }
+                          },
+                          {
+                            "type": "text",
+                            "text": "This app created by Daniil Halushka",
+                            "text_color": "#000",
+                            "font_size": 18,
+                            "margins": {
+                              "start": 20,
+                              "top": 10,
+                              "end": 10
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "state_id": "invisible",
+                      "div":{
+                        "type": "container",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "Click on text to see information",
+                            "margins": {
+                              "start": 25
+                            },
+                            "text_color": "#000000",
+                            "font_size": 20,
+                            "actions": [
+                              {
+                                "log_id": "set_visible",
+                                "url": "div-action://set_state?state_id=0/clicktext/visible"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
