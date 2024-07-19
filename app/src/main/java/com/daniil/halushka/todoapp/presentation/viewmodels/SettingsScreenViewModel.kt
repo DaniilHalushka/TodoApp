@@ -27,8 +27,8 @@ class SettingsScreenViewModel @Inject constructor(
     }
 
     fun setThemeSetting(themeSetting: ThemeSetting) {
-        _themeSetting.value = themeSetting
         viewModelScope.launch {
+            _themeSetting.value = themeSetting
             sharedPreferences.edit().putInt("theme_setting", themeSetting.ordinal).apply()
         }
     }

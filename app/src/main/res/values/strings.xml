@@ -28,5 +28,6 @@
     <string name="system_theme">System theme</string>
     <string name="button_to_go_on_settings_screen">Button to go on Settings Screen</string>
     <string name="close_settings_screen">Close Settings screen</string>
+    <string name="to_apply_the_changes_restart_the_application">To apply the changes, restart the application</string>
 
 </resources>
