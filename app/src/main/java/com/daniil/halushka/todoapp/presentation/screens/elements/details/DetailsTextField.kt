@@ -55,6 +55,7 @@ fun DetailsTextField(
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 selectionColors = customSelectedColor,
+                unfocusedTextColor = AppTheme.colorScheme.labelPrimaryColor,
                 focusedTextColor = AppTheme.colorScheme.labelPrimaryColor,
                 cursorColor = AppTheme.colorScheme.blueColor,
                 disabledIndicatorColor = AppTheme.colorScheme.backPrimaryColor,
