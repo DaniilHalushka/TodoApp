@@ -1,4 +1,4 @@
-package com.daniil.halushka.todoapp.constants
+package com.daniil.halushka.todoapp.util.constants
 
 /**
  * Object containing constants for different priority levels.

@@ -6,9 +6,7 @@ package com.daniil.halushka.todoapp.presentation.navigation
 sealed class ScreenRoutes(
     val screenType: String
 ) {
-    data object HomeScreen : ScreenRoutes(
-        screenType = "Home"
-    )
+    data object HomeScreen : ScreenRoutes(screenType = "Home")
 
     data object DetailsScreen : ScreenRoutes(screenType = "Details/{id}") {
         fun createRoute(id: String? = null): String {
@@ -19,4 +17,7 @@ sealed class ScreenRoutes(
             }
         }
     }
+
+    data object SettingsScreen : ScreenRoutes(screenType = "Settings")
+    data object AboutScreen : ScreenRoutes(screenType = "About")
 }

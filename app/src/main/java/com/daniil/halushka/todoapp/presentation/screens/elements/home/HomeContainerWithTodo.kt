@@ -39,12 +39,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.daniil.halushka.todoapp.R
-import com.daniil.halushka.todoapp.constants.Priority
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.viewmodels.HomeScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.util.asTime
+import com.daniil.halushka.todoapp.util.constants.Priority
 
 /**
  * Composable function to display a container with a list of todo items.
@@ -119,7 +119,7 @@ fun TodoInColumn(
                     todoItem = todoItem,
                     checked = checked,
                     textStyle = textStyle,
-                    onCheckedChange = { checked = it; todoItem.id?.let { id -> onCheckedChange(id, it) } },
+                    onCheckedChange = { checked = it; onCheckedChange(todoItem.id, it) },
                     onEditClick = onEditClick
                 )
             }

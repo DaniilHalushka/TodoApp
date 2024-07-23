@@ -95,6 +95,12 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.androidx.room.compiler)
 
+    implementation(libs.div)
+    implementation(libs.div.core)
+    implementation(libs.div.json)
+    implementation(libs.picasso)
+    implementation(libs.glide)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

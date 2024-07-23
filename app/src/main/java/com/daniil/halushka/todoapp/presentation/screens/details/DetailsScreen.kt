@@ -2,6 +2,7 @@ package com.daniil.halushka.todoapp.presentation.screens.details
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,19 +22,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.daniil.halushka.todoapp.constants.NullableTodo
 import com.daniil.halushka.todoapp.data.models.TodoItem
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsCollapsedDropdown
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsDeadlineBlock
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsDeleteButton
-import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsExpandedDropdown
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsSeparator
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTextField
 import com.daniil.halushka.todoapp.presentation.screens.elements.details.DetailsTopBar
+import com.daniil.halushka.todoapp.presentation.screens.elements.details.PriorityBottomSheet
 import com.daniil.halushka.todoapp.presentation.viewmodels.DetailsScreenViewModel
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
+import com.daniil.halushka.todoapp.util.constants.NullableTodo
+import kotlinx.coroutines.launch
 
 /**
  * Composable function representing the Details screen of the application.
@@ -40,6 +43,7 @@ import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
  * @param viewModel ViewModel for managing Details screen state.
  * @param todoId Optional todoItem id to load details.
  */
+
 @Composable
 fun DetailsScreen(
     navigationController: NavController,
@@ -57,7 +61,7 @@ fun DetailsScreen(
         if (todoId == null) NullableTodo.nullableModel else uniqueTodo ?: NullableTodo.nullableModel
 
     var todoText by remember { mutableStateOf(todoItem.text) }
-    var dropdownClick by remember { mutableStateOf(false) }
+    var showBottomSheet by remember { mutableStateOf(false) }
     var selectedPriority by remember { mutableStateOf(todoItem.priority) }
     var selectedDate by remember { mutableStateOf(todoItem.deadline) }
 
@@ -67,67 +71,78 @@ fun DetailsScreen(
         selectedDate = todoItem.deadline
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(AppTheme.colorScheme.backPrimaryColor)
-            .padding(end = 4.dp),
-        horizontalAlignment = Alignment.Start
-    ) {
-        DetailsTopBar(
-            clickOnNavigationItem = {
-                navigationController.popBackStack()
-            },
-            onSaveClick = {
-                viewModel.saveOrUpdateTodo(
-                    todoItem.copy(
-                        text = todoText,
-                        priority = selectedPriority,
-                        deadline = selectedDate
-                    )
-                )
-                navigationController.popBackStack()
-            }
-        )
+    val scope = rememberCoroutineScope()
 
-        Column {
-            DetailsTextField(
-                text = todoText,
-                onTextChange = { newText -> todoText = newText }
-            )
-
-            Row {
-                DetailsCollapsedDropdown(
-                    priority = selectedPriority,
-                    isClicked = { click -> dropdownClick = click }
-                )
-                DetailsExpandedDropdown(
-                    expanded = dropdownClick,
-                    clickToExpand = { click -> dropdownClick = click },
-                    onPrioritySelect = { newPriority ->
-                        selectedPriority = newPriority
-                    }
-                )
-            }
-
-            DetailsSeparator()
-
-            DetailsDeadlineBlock(
-                getDeadlineDate = { selectedDate },
-                onDateSelect = { date ->
-                    selectedDate = date
+    Box {
+        if (showBottomSheet) {
+            PriorityBottomSheet(
+                showBottomSheet = true,
+                onDismissRequest = { showBottomSheet = false },
+                selectedPriority = selectedPriority,
+                onPrioritySelect = {
+                    selectedPriority = it
+                    scope.launch { showBottomSheet = false }
                 }
             )
+        }
 
-            DetailsSeparator()
-
-            DetailsDeleteButton(
-                todoId = todoId ?: "",
-                onDeleteClick = { id ->
-                    viewModel.deleteTodo(id)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppTheme.colorScheme.backPrimaryColor)
+                .padding(end = 4.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            DetailsTopBar(
+                clickOnNavigationItem = {
+                    navigationController.popBackStack()
+                },
+                onSaveClick = {
+                    viewModel.saveOrUpdateTodo(
+                        todoItem.copy(
+                            text = todoText,
+                            priority = selectedPriority,
+                            deadline = selectedDate
+                        )
+                    )
                     navigationController.popBackStack()
                 }
             )
+
+            Column {
+                DetailsTextField(
+                    text = todoText,
+                    onTextChange = { newText -> todoText = newText }
+                )
+
+                Row {
+                    DetailsCollapsedDropdown(
+                        priority = selectedPriority,
+                        isClicked = {
+                            scope.launch { showBottomSheet = true }
+                        }
+                    )
+                }
+
+                DetailsSeparator()
+
+                DetailsDeadlineBlock(
+                    getDeadlineDate = { selectedDate },
+                    onDateSelect = { date ->
+                        selectedDate = date
+                    }
+                )
+
+                DetailsSeparator()
+
+                DetailsDeleteButton(
+                    todoId = todoId ?: "",
+                    onDeleteClick = { id ->
+                        viewModel.deleteTodo(id)
+                        navigationController.popBackStack()
+                    }
+                )
+            }
         }
     }
 }

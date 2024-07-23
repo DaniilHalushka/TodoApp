@@ -14,7 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +33,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.daniil.halushka.todoapp.R
+import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 
@@ -43,6 +50,7 @@ import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
  */
 @Composable
 fun HomeTopBar(
+    navigationController: NavController,
     completedItemsCount: Int,
     onEyeIconClick: (Boolean) -> Unit,
     showFinished: Boolean,
@@ -85,6 +93,20 @@ fun HomeTopBar(
                         style = AppTheme.typographyScheme.bodyText
                     )
                 }
+                SettingsIcon(
+                    onIconClick = {
+                        navigationController.navigate(
+                            ScreenRoutes.SettingsScreen.screenType
+                        )
+                    }
+                )
+                AboutIcon(
+                    onIconClick = {
+                        navigationController.navigate(
+                            ScreenRoutes.AboutScreen.screenType
+                        )
+                    }
+                )
                 EyeIcon(
                     onIconClick = {
                         localShowState = !localShowState
@@ -94,6 +116,41 @@ fun HomeTopBar(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun AboutIcon(
+    onIconClick: () -> Unit
+) {
+    IconButton(
+        modifier = Modifier
+            .padding(8.dp)
+            .size(24.dp),
+        onClick =  onIconClick
+    ) {
+        Icon(
+            imageVector = Icons.Default.Info,
+            contentDescription = stringResource(R.string.button_to_go_on_about_screen),
+            tint = AppTheme.colorScheme.blueColor
+        )
+    }
+}
+
+@Composable
+fun SettingsIcon(
+    onIconClick: () -> Unit
+) {
+    IconButton(
+        modifier = Modifier
+            .size(24.dp),
+        onClick =  onIconClick
+    ) {
+        Icon(
+            imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.button_to_go_on_settings_screen),
+            tint = AppTheme.colorScheme.blueColor
+        )
     }
 }
 
@@ -143,7 +200,9 @@ fun EyeIcon(
 @Preview(name = "Light version", showBackground = true)
 fun HomeTopBarPreview() {
     TodoAppTheme {
+        val navigationController = rememberNavController()
         HomeTopBar(
+            navigationController = navigationController,
             completedItemsCount = 10,
             onEyeIconClick = {},
             showFinished = true,
@@ -156,7 +215,9 @@ fun HomeTopBarPreview() {
 @Preview(name = "Dark version", uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun HomeTopBarPreviewDark() {
     TodoAppTheme {
+        val navigationController = rememberNavController()
         HomeTopBar(
+            navigationController = navigationController,
             completedItemsCount = 10,
             onEyeIconClick = {},
             showFinished = true,
