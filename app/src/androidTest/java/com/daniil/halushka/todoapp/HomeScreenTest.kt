@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import com.daniil.halushka.todoapp.presentation.screens.home.HomeScreen
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
 import dagger.hilt.android.HiltAndroidApp
@@ -20,14 +20,13 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.UUID
 
 @HiltAndroidApp
 class TodoTestApplication : Application()
 
 @HiltAndroidTest
-@RunWith(AndroidJUnit4::class)
+@LargeTest
 class HomeScreenTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)

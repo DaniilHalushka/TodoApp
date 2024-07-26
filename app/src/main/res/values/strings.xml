@@ -16,7 +16,7 @@
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
     <string name="date_of_deadline">Date of deadline</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete task</string>
     <string name="hide_completed_tasks">Hide completed tasks</string>
     <string name="show_completed_tasks">Show completed tasks</string>
     <string name="visibility_icon">Visibility icon</string>
@@ -32,5 +32,6 @@
     <string name="animated_alpha">Animated alpha</string>
     <string name="button_to_go_on_about_screen">Button to go on About Screen</string>
     <string name="add_new_task">Add new task</string>
+    <string name="field_to_text_of_todo">Field to text of Todo</string>
 
 </resources>
