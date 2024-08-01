@@ -10,10 +10,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.daniil.halushka.todoapp.R
 import com.daniil.halushka.todoapp.presentation.navigation.ScreenRoutes
 import com.daniil.halushka.todoapp.ui.theme.AppTheme
 import com.daniil.halushka.todoapp.ui.theme.TodoAppTheme
@@ -42,7 +44,7 @@ fun CustomFAB(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.add_new_task),
         )
     }
 }

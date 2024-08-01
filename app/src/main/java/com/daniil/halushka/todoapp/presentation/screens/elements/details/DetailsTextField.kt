@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,7 +48,8 @@ fun DetailsTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
-                .heightIn(min = 128.dp, max = 256.dp),
+                .heightIn(min = 128.dp, max = 256.dp)
+                .testTag(stringResource(R.string.field_to_text_of_todo)),
             value = text,
             textStyle = AppTheme.typographyScheme.bodyText,
             onValueChange = { value -> onTextChange(value) },

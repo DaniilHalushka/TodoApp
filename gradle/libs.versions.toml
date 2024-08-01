@@ -1,24 +1,30 @@
 [versions]
 agp = "8.4.2"
 authsdkVersion = "3.1.0"
-converterGson = "2.9.0"
+converterGson = "2.11.0"
 divCore = "30.9.0"
 gson = "2.10.1"
 hiltAndroid = "2.49"
 hiltAndroidCompiler = "2.48"
+hiltAndroidTesting = "2.48"
 hiltNavigationCompose = "1.2.0"
+#noinspection GradleDependency
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeCompose = "2.8.3"
-lifecycleRuntimeKtx = "2.8.3"
-activityCompose = "1.9.0"
+lifecycleRuntimeCompose = "2.8.4"
+lifecycleRuntimeKtx = "2.8.4"
+activityCompose = "1.9.1"
 composeBom = "2024.06.00"
 navigationCompose = "2.7.7"
-retrofit = "2.9.0"
+retrofit = "2.11.0"
 roomRuntime = "2.6.1"
+uiTestJunit4 = "1.6.8"
+uiTestManifest = "1.6.8"
+junitKtx = "1.2.1"
+uiTestJunit4Android = "1.6.8"
 
 [libraries]
 android-authsdk = { module = "com.yandex.android:authsdk", version.ref = "authsdkVersion" }
@@ -37,6 +43,7 @@ glide = { module = "com.yandex.div:glide", version.ref = "divCore" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -52,6 +59,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 picasso = { module = "com.yandex.div:picasso", version.ref = "divCore" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
